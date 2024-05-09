@@ -1,3 +1,6 @@
+// States
+debugMode = global.debugMode;
+
 // Rigid body
 rbInit();
 

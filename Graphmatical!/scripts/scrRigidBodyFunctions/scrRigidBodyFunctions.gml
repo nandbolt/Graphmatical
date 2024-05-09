@@ -85,7 +85,7 @@ function rbUpdate()
 			bounceVelocity.x = -velocity.x * bounciness;
 			
 			// Set normal
-			normal.x = sign(bounceVelocity.x);
+			normal.x = -sign(velocity.x);
 			normal.y = 0;
 			
 			// Loop until close enough to tile
@@ -137,7 +137,7 @@ function rbUpdate()
 			
 			// Set normal
 			normal.x = 0;
-			normal.y = sign(bounceVelocity.y);
+			normal.y = -sign(velocity.y);
 			
 			// Land if landed
 			if (!grounded && velocity.y > 0) rbLand();
@@ -198,6 +198,50 @@ function rbUpdate()
 		}
 	}
 }
+
+/// @func	rbDraw();
+/// @desc	Draws the collision box and relevant movement vectors.
+function rbDraw()
+{
+	// Set translucent alpha
+	draw_set_alpha(0.25);
+	
+	// Collision box
+	draw_rectangle_color(bbox_left, bbox_top, bbox_right, bbox_bottom, c_lime, c_lime, c_lime, c_lime, false);
+	
+	// Set translucent alpha
+	draw_set_alpha(1);
+	
+	// Vectors
+	draw_line_color(x, y, x + velocity.x, y + velocity.y, c_aqua, c_aqua);
+	var _rx = airResistance.x, _ry = airResistance.y;
+	if (grounded)
+	{
+		_rx += groundResistance.x;
+		_ry += groundResistance.y;
+		draw_line_color(x, bbox_bottom, x + normal.x * 8, y + normal.y * 8, c_lime, c_lime);
+	}
+	draw_line_color(x, y, x + _rx, y + _ry, c_red, c_red);
+}
+
+/// @func	rbDrawGui();
+function rbDrawGui()
+{
+	// Text
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+	var _x = 16, _y = 16;
+	draw_text(_x, _y, "Velocity: " + string(velocity));
+	_y += 16;
+	draw_text(_x, _y, "Speed: " + string(spd));
+	_y += 16;
+	draw_text(_x, _y, "Air resistance: " + string(airResistance));
+	_y += 16;
+	draw_text(_x, _y, "Ground resistance: " + string(groundResistance));
+	_y += 16;
+	draw_text(_x, _y, "Normal: " + string(normal));
+}
+
 
 /// @func	rbUpdateBbox();
 /// @desc	Updates the bounding box sizes based off of current bounding box side locations.
