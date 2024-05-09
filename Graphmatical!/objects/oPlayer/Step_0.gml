@@ -4,8 +4,15 @@ inputJump = keyboard_check(vk_space);
 inputJumpPressed = keyboard_check_pressed(vk_space);
 inputCrouch = keyboard_check(ord("S"));
 
-// Apply run velocity
-velocity.x += inputRunDirection * runStrength;
+// Apply x velocity
+var _xStrength = runStrength;
+if (!grounded) _xStrength = driftStrength;
+else if (inputCrouch) _xStrength = 0;
+velocity.x += inputRunDirection * _xStrength;
+
+// Resistances
+if (inputCrouch) groundConstant = slideGroundConstant;
+else groundConstant = runGroundConstant;
 
 #region Jump
 

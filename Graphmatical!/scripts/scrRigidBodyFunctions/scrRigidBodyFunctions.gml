@@ -240,6 +240,8 @@ function rbDrawGui()
 	draw_text(_x, _y, "Ground resistance: " + string(groundResistance));
 	_y += 16;
 	draw_text(_x, _y, "Normal: " + string(normal));
+	_y += 16;
+	draw_text(_x, _y, "Grounded: " + string(grounded));
 }
 
 
