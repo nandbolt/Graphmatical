@@ -6,6 +6,9 @@ function rbInit()
 	bboxWidth = bbox_right - bbox_left;
 	bboxHeight = bbox_bottom - bbox_top;
 	
+	// States
+	grounded = false;
+	
 	// Movement
 	velocity = new Vector2();
 	
@@ -27,6 +30,9 @@ function rbCleanup()
 /// @func	rbUpdate();
 function rbUpdate()
 {
+	// Ground state
+	rbUpdateGroundedState();
+	
 	// Gravity
 	velocity.y += gravityStrength;
 	
@@ -76,6 +82,9 @@ function rbUpdate()
 		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
 		if (_tile == 1)
 		{
+			// Land if landed
+			if (!grounded && velocity.y > 0) rbLand();
+			
 			// Loop until close enough to tile
 			while (abs(velocity.y) > collisionThreshold)
 			{
@@ -107,4 +116,25 @@ function rbUpdateBbox()
 {
 	bboxWidth = bbox_right - bbox_left;
 	bboxHeight = bbox_bottom - bbox_top;
+}
+
+/// @func	rbUpdateGroundedState();
+function rbUpdateGroundedState()
+{
+	// Only update if grounded (collision functions should set ground state initially)
+	if (grounded)
+	{
+		// Reset grounded
+		grounded = false;
+		
+		// Tile check
+		if (tilemap_get_at_pixel(collisionMap, x, y+1)) grounded = true;
+	}
+}
+
+/// @func	rbLand();
+function rbLand()
+{
+	// Set grounded state
+	grounded = true;
 }
