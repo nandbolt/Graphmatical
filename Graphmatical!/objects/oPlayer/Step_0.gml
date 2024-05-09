@@ -4,11 +4,23 @@ inputJump = keyboard_check(vk_space);
 inputJumpPressed = keyboard_check_pressed(vk_space);
 inputCrouch = keyboard_check(ord("S"));
 
-// Move input
-velocity.x = inputRunDirection;
+// Apply run velocity
+velocity.x += inputRunDirection * runStrength;
 
-// Jump
-if (grounded && keyboard_check_pressed(vk_space)) velocity.y = -jumpStrength;
+#region Jump
+
+// Set coyote jump
+if (!grounded) coyoteBufferCounter = clamp(coyoteBufferCounter-1, 0, coyoteBuffer);
+else coyoteBufferCounter = coyoteBuffer;
+
+// Set jump buffer
+if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
+else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
+
+// Jump if initiated
+if (jumpBufferCounter > 0 && (grounded || coyoteBufferCounter > 0)) jump();
+
+#endregion
 
 // Rigid body
 rbUpdate();

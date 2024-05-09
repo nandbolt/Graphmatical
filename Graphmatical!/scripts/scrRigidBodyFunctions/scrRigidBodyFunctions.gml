@@ -11,13 +11,25 @@ function rbInit()
 	
 	// Movement
 	velocity = new Vector2();
+	normal = new Vector2();
+	spd = 0;
 	
 	// Gravity
 	gravityStrength = 0.1;
 	
+	// Resistances
+	airResistance = new Vector2();
+	airConstant = 0.002;
+	groundResistance = new Vector2();
+	groundConstant = 0.15;
+	
 	// Collisions
 	collisionMap = layer_tilemap_get_id("CollisionTiles");
 	collisionThreshold = 0.1;
+	
+	// Bounce
+	bounceVelocity = new Vector2();
+	bounciness = 0;
 }
 
 /// @func	rbCleanup();
@@ -25,16 +37,38 @@ function rbCleanup()
 {
 	// Vectors
 	delete velocity;
+	delete normal;
+	delete bounceVelocity;
+	delete airResistance;
+	delete groundResistance;
 }
 
 /// @func	rbUpdate();
 function rbUpdate()
-{
+{	
 	// Ground state
 	rbUpdateGroundedState();
 	
 	// Gravity
 	velocity.y += gravityStrength;
+	
+	// Air resistance
+	var _dx = sign(velocity.x), _dy = sign(velocity.y);
+	velocity.x += airResistance.x;
+	velocity.y += airResistance.y;
+	if (sign(velocity.x) != _dx) velocity.x = 0;
+	if (sign(velocity.y) != _dy) velocity.y = 0;
+	
+	// Ground resistance
+	if (grounded)
+	{
+		_dx = sign(velocity.x);
+		_dy = sign(velocity.y);
+		velocity.x += groundResistance.x;
+		velocity.y += groundResistance.y;
+		if (sign(velocity.x) != _dx) velocity.x = 0;
+		if (sign(velocity.y) != _dy) velocity.y = 0;
+	}
 	
 	#region Handle X Tile Collisions
 	
@@ -46,7 +80,14 @@ function rbUpdate()
 		var _y = bbox_top + _j * bboxHeight;
 		var _tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
 		if (_tile == 1)
-		{		
+		{
+			// Store collision velocity
+			bounceVelocity.x = -velocity.x * bounciness;
+			
+			// Set normal
+			normal.x = sign(bounceVelocity.x);
+			normal.y = 0;
+			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
 			{
@@ -67,7 +108,16 @@ function rbUpdate()
 			break;
 		}
 	}
+	
+	// Update x
 	x += velocity.x;
+	
+	// Set bounce velocity
+	if (bounceVelocity.x != 0)
+	{
+		velocity.x = bounceVelocity.x;
+		bounceVelocity.x = 0;
+	}
 	
 	#endregion
 	
@@ -82,6 +132,13 @@ function rbUpdate()
 		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
 		if (_tile == 1)
 		{
+			// Store collision velocity
+			bounceVelocity.y = -velocity.y * bounciness;
+			
+			// Set normal
+			normal.x = 0;
+			normal.y = sign(bounceVelocity.y);
+			
 			// Land if landed
 			if (!grounded && velocity.y > 0) rbLand();
 			
@@ -105,9 +162,41 @@ function rbUpdate()
 			break;
 		}
 	}
+	
+	// Update y
 	y += velocity.y;
 	
+	// Set bounce velocity
+	if (bounceVelocity.y != 0)
+	{
+		velocity.y = bounceVelocity.y;
+		bounceVelocity.y = 0;
+	}
+	
 	#endregion
+	
+	// Set speed
+	spd = velocity.getLength();
+	
+	// Calculate resistances
+	if (spd > 0)
+	{
+		// Calculate air resistance
+		airResistance.x = -velocity.x;
+		airResistance.y = -velocity.y;
+		airResistance.normalize();
+		airResistance.multiplyByScalar(airConstant * spd * spd);
+		
+		// If grounded
+		if (grounded)
+		{
+			// Calculate ground resistance
+			groundResistance.x = -velocity.x;
+			groundResistance.y = -velocity.y;
+			groundResistance.normalize();
+			groundResistance.multiplyByScalar(groundConstant);
+		}
+	}
 }
 
 /// @func	rbUpdateBbox();
@@ -128,7 +217,7 @@ function rbUpdateGroundedState()
 		grounded = false;
 		
 		// Tile check
-		if (tilemap_get_at_pixel(collisionMap, x, y+1)) grounded = true;
+		if (tilemap_get_at_pixel(collisionMap, x, bbox_bottom+1) == 1) grounded = true;
 	}
 }
 
