@@ -4,7 +4,7 @@
 
 #region Global Variables
 
-global.debugMode = true;
+global.debugMode = false;
 
 #endregion
 

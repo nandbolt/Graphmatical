@@ -36,6 +36,56 @@ rbUpdate();
 
 #region Animations
 
+// Update image xscale based on x velocity
+if (inputMove.x > 0) image_xscale = 1;
+else image_xscale = -1;
+
+// Neck
+neckPosition.x = x + velocity.x;
+neckPosition.y = y - 4 + velocity.y;
+
+// Hip
+hipPosition.x = x;
+hipPosition.y = y - 1;
+
+// Arm stride
+if (grounded) armStrideCounter += abs(velocity.x) * 4;
+if (velocity.x > 0)
+{
+	rightArm.flippedArm = false;
+	leftArm.flippedArm = false;
+	rightLeg.flippedArm = true;
+	leftLeg.flippedArm = true;
+}
+else if (velocity.x < 0)
+{
+	rightArm.flippedArm = true;
+	leftArm.flippedArm = true;
+	rightLeg.flippedArm = false;
+	leftLeg.flippedArm = false;
+}
+var _lerpAmount = clamp(abs(velocity.x), 0, 1);
+
+// Right arm
+rightArm.moveRoot(neckPosition.x, neckPosition.y);
+rightArm.moveTarget(x + lerp(0, dsin(armStrideCounter) * 4 * sign(velocity.x), _lerpAmount) + velocity.x, y - clamp(abs(velocity.x), 0, 2));
+rightArm.moveArm();
+
+// Left arm
+leftArm.moveRoot(neckPosition.x, neckPosition.y);
+leftArm.moveTarget(x + lerp(0, dsin(armStrideCounter+180) * 4 * sign(velocity.x), _lerpAmount) + velocity.x, y - clamp(abs(velocity.x), 0, 2));
+leftArm.moveArm();
+
+// Right leg
+rightLeg.moveRoot(hipPosition.x, hipPosition.y);
+rightLeg.moveTarget(x + lerp(0, dsin(armStrideCounter) * 4 * sign(velocity.x), _lerpAmount), bbox_bottom);
+rightLeg.moveArm();
+
+// Left leg
+leftLeg.moveRoot(hipPosition.x, hipPosition.y);
+leftLeg.moveTarget(x + lerp(0, dsin(armStrideCounter+180) * 4 * sign(velocity.x), _lerpAmount), bbox_bottom);
+leftLeg.moveArm();
+
 //// If airborne
 //if (!grounded)
 //{
@@ -65,9 +115,5 @@ rbUpdate();
 //	// Idle
 //	else sprite_index = sHumanIdle;
 //}
-
-//// Update image xscale based on x velocity
-//if (inputMove.x > 0) image_xscale = 1;
-//else image_xscale = -1;
 
 #endregion

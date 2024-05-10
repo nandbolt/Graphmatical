@@ -28,17 +28,14 @@ smallJumpStrength = 0.1;
 runGroundConstant = 0.15;
 slideGroundConstant = 0.02;
 
-// Human joints
-neckOffset = new Vector2(0, -4);
-hipOffset = new Vector2(0, -1);
-leftKneeOffset = new Vector2(-1, 2);
-rightKneeOffset = new Vector2(1, 2);
-leftFootOffset = new Vector2(-1, 6);
-rightFootOffset = new Vector2(1, 6);
-leftElbowOffset = new Vector2(-1, -3);
-rightElbowOffset = new Vector2(1, -3);
-leftHandOffset = new Vector2(-2, -1);
-rightHandOffset = new Vector2(2, -1);
+// Arms
+armStrideCounter = 0;
+neckPosition = new Vector2(x, y - 4);
+hipPosition = new Vector2(x, y - 1);
+rightArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, -30, 30);
+leftArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, 210, 30);
+rightLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -45, -45);
+leftLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -90, -45);
 
 #region Functions
 
