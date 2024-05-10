@@ -1,5 +1,6 @@
 // Update inputs
-inputRunDirection = keyboard_check(ord("D")) - keyboard_check(ord("A"));
+inputMove.x = keyboard_check(ord("D")) - keyboard_check(ord("A"));
+inputMove.y = keyboard_check(ord("S")) - keyboard_check(ord("W"));
 inputJump = keyboard_check(vk_space);
 inputJumpPressed = keyboard_check_pressed(vk_space);
 inputCrouch = keyboard_check(ord("S"));
@@ -8,7 +9,7 @@ inputCrouch = keyboard_check(ord("S"));
 var _xStrength = runStrength;
 if (!grounded) _xStrength = driftStrength;
 else if (inputCrouch) _xStrength = 0;
-velocity.x += inputRunDirection * _xStrength;
+velocity.x += inputMove.x * _xStrength;
 
 // Resistances
 if (inputCrouch) groundConstant = slideGroundConstant;
@@ -25,7 +26,8 @@ if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
 else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
 
 // Jump if initiated
-if (jumpBufferCounter > 0 && (grounded || coyoteBufferCounter > 0)) jump();
+if (jumpBufferCounter > 0 && (normal.x != 0 || normal.y != 0 || coyoteBufferCounter > 0)) jump();
+else if (!grounded && !inputJump && velocity.y < 0) velocity.y += smallJumpStrength;
 
 #endregion
 
@@ -59,13 +61,13 @@ else
 		else sprite_index = sHumanSlide;
 	}
 	// Run
-	else if (inputRunDirection != 0) sprite_index = sHumanRun;
+	else if (inputMove.x != 0) sprite_index = sHumanRun;
 	// Idle
 	else sprite_index = sHumanIdle;
 }
 
 // Update image xscale based on x velocity
-if (velocity.x > 0) image_xscale = 1;
+if (inputMove.x > 0) image_xscale = 1;
 else image_xscale = -1;
 
 #endregion

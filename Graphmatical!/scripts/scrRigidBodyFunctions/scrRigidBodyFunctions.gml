@@ -46,8 +46,12 @@ function rbCleanup()
 /// @func	rbUpdate();
 function rbUpdate()
 {	
-	// Ground state
-	rbUpdateGroundedState();
+	// Reset normal
+	normal.x = 0;
+	normal.y = 0;
+	
+	// Update tile normals
+	rbUpdateTileNormal();
 	
 	// Gravity
 	velocity.y += gravityStrength;
@@ -85,8 +89,8 @@ function rbUpdate()
 			bounceVelocity.x = -velocity.x * bounciness;
 			
 			// Set normal
-			normal.x = -sign(velocity.x);
-			normal.y = 0;
+			//normal.x = -sign(velocity.x);
+			//normal.y = 0;
 			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
@@ -187,8 +191,8 @@ function rbUpdate()
 		airResistance.normalize();
 		airResistance.multiplyByScalar(airConstant * spd * spd);
 		
-		// If grounded
-		if (grounded)
+		// If touching normal
+		if (normal.x != 0 || normal.y != 0)
 		{
 			// Calculate ground resistance
 			groundResistance.x = -velocity.x;
@@ -231,6 +235,8 @@ function rbDrawGui()
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 	var _x = 16, _y = 16;
+	draw_text(_x, _y, "Rigid body: " + object_get_name(object_index));
+	_y += 16;
 	draw_text(_x, _y, "Velocity: " + string(velocity));
 	_y += 16;
 	draw_text(_x, _y, "Speed: " + string(spd));
@@ -263,7 +269,45 @@ function rbUpdateGroundedState()
 		grounded = false;
 		
 		// Tile check
-		if (tilemap_get_at_pixel(collisionMap, x, bbox_bottom+1) == 1) grounded = true;
+		for (var _i = 0; _i < 2; _i++)
+		{
+			if (tilemap_get_at_pixel(collisionMap, bbox_left + _i * bboxWidth, bbox_bottom + 1) == 1)
+			{
+				grounded = true;
+				normal.x = 0;
+				normal.y = -1;
+				break;
+			}
+		}
+	}
+}
+
+/// @func	rbUpdateTileNormal();
+function rbUpdateTileNormal()
+{
+	// Update grounded state
+	rbUpdateGroundedState();
+	
+	// If not grounded
+	if (!grounded)
+	{
+		// Check walls
+		if (tilemap_get_at_pixel(collisionMap, bbox_left-1, y) == 1)
+		{
+			normal.x = 1;
+			normal.y = 0;
+		}
+		else if (tilemap_get_at_pixel(collisionMap, bbox_right+1, y) == 1)
+		{
+			normal.x = -1;
+			normal.y = 0;
+		}
+		// Check cieling
+		else if (tilemap_get_at_pixel(collisionMap, x, bbox_top-1) == 1)
+		{
+			normal.x = 0;
+			normal.y = 1;
+		}
 	}
 }
 
