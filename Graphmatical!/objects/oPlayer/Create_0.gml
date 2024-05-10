@@ -28,6 +28,18 @@ smallJumpStrength = 0.1;
 runGroundConstant = 0.15;
 slideGroundConstant = 0.02;
 
+// Human joints
+neckOffset = new Vector2(0, -4);
+hipOffset = new Vector2(0, -1);
+leftKneeOffset = new Vector2(-1, 2);
+rightKneeOffset = new Vector2(1, 2);
+leftFootOffset = new Vector2(-1, 6);
+rightFootOffset = new Vector2(1, 6);
+leftElbowOffset = new Vector2(-1, -3);
+rightElbowOffset = new Vector2(1, -3);
+leftHandOffset = new Vector2(-2, -1);
+rightHandOffset = new Vector2(2, -1);
+
 #region Functions
 
 /// @func	jump();
