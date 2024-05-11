@@ -4,10 +4,20 @@
 
 #region Global Variables
 
-global.debugMode = false;
+global.debugMode = true;
 
 #endregion
 
 #region Enums
+
+enum HumanAnimationState
+{
+	IDLE,
+	RUN,
+	CROUCH,
+	SLIDE,
+	FALL,
+	JUMP,
+}
 
 #endregion

@@ -37,11 +37,18 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 		targetPosition.y = _y;
 	}
 	
+	/// @func	lerpTarget({real} x, {real} y, {real} amount);
+	static lerpTarget = function(_x, _y, _amount)
+	{
+		moveTarget(lerp(targetPosition.x, _x, _amount), lerp(targetPosition.y, _y, _amount));
+	}
+	
 	/// @func	moveArm();
 	static moveArm = function()
 	{
 		// Calculate target distance
 		var _targetDistance = point_distance(rootJoint.x, rootJoint.y, targetPosition.x, targetPosition.y);
+		if (_targetDistance == 0) _targetDistance = 0.01;
 		var _targetAngle = point_direction(rootJoint.x, rootJoint.y, targetPosition.x, targetPosition.y);
 		
 		// Set angles as the same if target is too far
@@ -91,8 +98,23 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	/// @func	draw();
 	static draw = function()
 	{
+		//if (flippedArm)
+		//{
+		//	draw_sprite_ext(sDot, 0, rootJoint.x, rootJoint.y, rootArmLength, 1, rootAngle, c_aqua, 1);
+		//	draw_sprite_ext(sDot, 0, elbowJoint.x, elbowJoint.y, elbowArmLength, 1, rootAngle + elbowAngle, c_yellow, 1);
+		//}
+		//else
+		//{
+		//	draw_sprite_ext(sDot, 0, rootJoint.x, rootJoint.y, rootArmLength, 1, rootAngle, c_aqua, 1);
+		//	draw_sprite_ext(sDot, 0, elbowJoint.x, elbowJoint.y, elbowArmLength, 1, rootAngle + elbowAngle, c_yellow, 1);
+		//}
+		draw_set_color(c_red);
 		draw_line(rootJoint.x - 1, rootJoint.y - 1, elbowJoint.x - 1, elbowJoint.y - 1);
 		draw_line(elbowJoint.x - 1, elbowJoint.y - 1, handPosition.x - 1, handPosition.y - 1);
-		//draw_sprite(sSquare, 0, targetPosition.x, targetPosition.y);
+		draw_set_color(c_white);
+		//draw_sprite(sDot, 0, elbowJoint.x-1, elbowJoint.y-1);
+		//draw_set_color(c_lime);
+		//draw_sprite(sDot, 0, targetPosition.x-1, targetPosition.y-1);
+		//draw_set_color(c_white);
 	}
 }

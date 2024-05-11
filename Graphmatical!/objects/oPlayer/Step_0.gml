@@ -36,54 +36,355 @@ rbUpdate();
 
 #region Animations
 
-// Update image xscale based on x velocity
-if (inputMove.x > 0) image_xscale = 1;
-else image_xscale = -1;
+// Facing direction
+if (velocity.x > 0) image_xscale = 1;
+else if (velocity.x < 0) image_xscale = -1;
 
-// Neck
-neckPosition.x = x + velocity.x;
-neckPosition.y = y - 4 + velocity.y;
-
-// Hip
-hipPosition.x = x;
-hipPosition.y = y - 1;
-
-// Arm stride
-if (grounded) armStrideCounter += abs(velocity.x) * 4;
-if (velocity.x > 0)
+// Resolve animation state
+if (grounded)
 {
-	rightArm.flippedArm = false;
-	leftArm.flippedArm = false;
-	rightLeg.flippedArm = true;
-	leftLeg.flippedArm = true;
+	if (abs(velocity.x) < 0.05)
+	{
+		if (inputCrouch)
+		{
+			// Crouch
+			currentAnimationState = HumanAnimationState.CROUCH;
+		}
+		else
+		{
+			// Idle
+			currentAnimationState = HumanAnimationState.IDLE;
+			animationSpeed = 0.1;
+		}
+	}
+	else
+	{
+		if (inputCrouch)
+		{
+			// Slide
+			currentAnimationState = HumanAnimationState.SLIDE;
+		}
+		else
+		{
+			// Run
+			currentAnimationState = HumanAnimationState.RUN;
+			animationSpeed = 0.1;
+		}
+	}
 }
-else if (velocity.x < 0)
+else
 {
-	rightArm.flippedArm = true;
-	leftArm.flippedArm = true;
-	rightLeg.flippedArm = false;
-	leftLeg.flippedArm = false;
+	if (velocity.y > 0)
+	{
+		// Fall
+		currentAnimationState = HumanAnimationState.FALL;
+	}
+	else
+	{
+		// Jump
+		currentAnimationState = HumanAnimationState.JUMP;
+	}
 }
-var _lerpAmount = clamp(abs(velocity.x), 0, 1);
 
-// Right arm
+// Update animation counter
+animationCounter += animationSpeed;
+
+// Update targets
+switch (currentAnimationState)
+{
+	case HumanAnimationState.IDLE:
+		#region Idle
+		// Facing direction
+		if (image_xscale > 0)
+		{
+			// Arm targets
+			rightArm.lerpTarget(x + 4, y-1, 0.2);
+			leftArm.lerpTarget(x - 1, y, 0.2);
+			
+			// Orientation
+			rightArm.flippedArm = false;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = true;
+		}
+		else
+		{
+			// Arm targets
+			rightArm.lerpTarget(x + 1, y, 0.2);
+			leftArm.lerpTarget(x - 4, y-1, 0.2);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = true;
+			rightLeg.flippedArm = false;
+			leftLeg.flippedArm = false;
+		}
+		
+		// Leg targets
+		rightLeg.targetPosition.y = lerp(rightLeg.targetPosition.y, bbox_bottom, 0.2);
+		leftLeg.targetPosition.y = lerp(leftLeg.targetPosition.y, bbox_bottom, 0.2);
+			
+		// Neck + hip
+		var _hover = sin(animationCounter) * 0.5;
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y - 4 + _hover, 0.5);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y + _hover, 0.5);
+		break;
+		#endregion
+	case HumanAnimationState.CROUCH:
+		#region Crouch
+		// Facing direction
+		if (image_xscale > 0)
+		{
+			// Arm targets
+			rightArm.lerpTarget(x + 1, y + 3, 0.2);
+			leftArm.lerpTarget(x - 1, y + 3, 0.2);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = false;
+		}
+		else
+		{
+			// Arm targets
+			rightArm.lerpTarget(x + 1, y + 3, 0.2);
+			leftArm.lerpTarget(x - 1, y + 3, 0.2);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = false;
+		}
+		
+		// Leg targets
+		rightLeg.lerpTarget(x + 2, bbox_bottom, 0.2);
+		leftLeg.lerpTarget(x - 2, bbox_bottom, 0.2);
+			
+		// Neck + hip
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y, 0.5);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y + 4, 0.5);
+		break;
+		#endregion
+	case HumanAnimationState.RUN:
+		#region Run
+		// Orientation
+		if (image_xscale > 0)
+		{
+			rightArm.flippedArm = false;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = true;
+		}
+		else
+		{
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = true;
+			rightLeg.flippedArm = false;
+			leftLeg.flippedArm = false;
+		}
+		
+		// If right leg grounded
+		var _tx = x, _ty = bbox_bottom;
+		if (leftLeg.handPosition.y == bbox_bottom)
+		{
+			// If left leg too far
+			if (point_distance(x, y, _tx, _ty) > leftLeg.rootArmLength + leftLeg.elbowArmLength)
+			{
+				// Plant right leg
+				if (image_xscale > 0)
+				{
+					_tx = bbox_right + 2;
+					_ty = bbox_bottom;
+				}
+				else
+				{
+					_tx = bbox_left - 2;
+					_ty = bbox_bottom;
+				}
+			}
+			
+			// Move targets
+			rightLeg.moveTarget(x + x - _tx, _ty - 1);
+			leftLeg.moveTarget(_tx, _ty);
+			rightArm.moveTarget(_tx, _ty - 6);
+			leftArm.moveTarget(x + x - _tx, _ty - 7);
+		}
+		else
+		{
+			// Plant right leg
+			_tx = rightLeg.targetPosition.x;
+			_ty = bbox_bottom;
+			
+			// If right leg too far
+			if (point_distance(x, y, _tx, _ty) > rightLeg.rootArmLength + rightLeg.elbowArmLength)
+			{
+				// Plant right leg
+				if (image_xscale > 0)
+				{
+					_tx = bbox_right + 2;
+					_ty = bbox_bottom;
+				}
+				else
+				{
+					_tx = bbox_left - 2;
+					_ty = bbox_bottom;
+				}
+			}
+			
+			// Move targets
+			rightLeg.moveTarget(_tx, _ty);
+			leftLeg.moveTarget(x + x - _tx, _ty - 1);
+			rightArm.moveTarget(x + x - _tx, _ty - 7);
+			leftArm.moveTarget(_tx, _ty - 6);
+		}
+		
+		// Neck + hip
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y - 4, 0.5);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y, 0.5);
+		break;
+		#endregion
+	case HumanAnimationState.SLIDE:
+		#region Slide
+		// Facing direction
+		if (image_xscale > 0)
+		{
+			// Targets
+			rightArm.moveTarget(x + 4, y + 3);
+			leftArm.moveTarget(x - 2, y + 3);
+			rightLeg.moveTarget(x + 8, bbox_bottom);
+			leftLeg.moveTarget(x - 1, bbox_bottom);
+			
+			// Orientation
+			rightArm.flippedArm = false;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = false;
+		}
+		else
+		{
+			// Targets
+			rightArm.moveTarget(x + 2, y + 3);
+			leftArm.moveTarget(x - 4, y + 3);
+			rightLeg.moveTarget(x + 1, bbox_bottom);
+			leftLeg.moveTarget(x - 8, bbox_bottom);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = true;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = false;
+		}
+			
+		// Neck + hip
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y, 0.5);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y + 4, 0.5);
+		break;
+		#endregion
+	case HumanAnimationState.JUMP:
+		#region Jump
+		// Facing direction
+		if (image_xscale > 0)
+		{
+			// Arm targets
+			rightArm.moveTarget(x - 3, y + 1 - velocity.y);
+			leftArm.moveTarget(x - 5, y - 1 - velocity.y);
+			
+			// Orientation
+			rightArm.flippedArm = false;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = true;
+		}
+		else
+		{
+			// Arm targets
+			rightArm.moveTarget(x + 5, y - 1 - velocity.y);
+			leftArm.moveTarget(x + 3, y + 1 - velocity.y);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = true;
+			rightLeg.flippedArm = false;
+			leftLeg.flippedArm = false;
+		}
+		
+		// Leg targets
+		rightLeg.moveTarget(x - velocity.x + 2, bbox_bottom - velocity.y);
+		leftLeg.moveTarget(x - velocity.x - 2, bbox_bottom - velocity.y);
+			
+		// Neck + hip
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y - 4, 0.75);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y, 0.75);
+		break;
+		#endregion
+	case HumanAnimationState.FALL:
+		#region Fall
+		// Y drag
+		var _yDrag = clamp(velocity.y, 0, 1);
+		
+		// Facing direction
+		if (image_xscale > 0)
+		{
+			// Arm targets
+			rightArm.lerpTarget(x - 3, y + 1 - _yDrag, 0.5);
+			leftArm.lerpTarget(x - 5, y - 1 - _yDrag, 0.5);
+			
+			// Orientation
+			rightArm.flippedArm = false;
+			leftArm.flippedArm = false;
+			rightLeg.flippedArm = true;
+			leftLeg.flippedArm = true;
+		}
+		else
+		{
+			// Arm targets
+			rightArm.lerpTarget(x + 5, y - 1 - _yDrag, 0.5);
+			leftArm.lerpTarget(x + 3, y + 1 - _yDrag, 0.5);
+			
+			// Orientation
+			rightArm.flippedArm = true;
+			leftArm.flippedArm = true;
+			rightLeg.flippedArm = false;
+			leftLeg.flippedArm = false;
+		}
+		
+		// Leg targets
+		rightLeg.lerpTarget(x + velocity.x + 2, bbox_bottom - _yDrag, 0.5);
+		leftLeg.lerpTarget(x + velocity.x - 2, bbox_bottom - _yDrag, 0.5);
+			
+		// Neck + hip
+		neckPosition.x = x;
+		neckPosition.y = lerp(neckPosition.y, y - 4, 0.75);
+		hipPosition.x = x;
+		hipPosition.y = lerp(hipPosition.y, y, 0.75);
+		break;
+		#endregion
+}
+
+// Move roots
 rightArm.moveRoot(neckPosition.x, neckPosition.y);
-rightArm.moveTarget(x + lerp(0, dsin(armStrideCounter) * 4 * sign(velocity.x), _lerpAmount) + velocity.x, y - clamp(abs(velocity.x), 0, 2));
-rightArm.moveArm();
-
-// Left arm
 leftArm.moveRoot(neckPosition.x, neckPosition.y);
-leftArm.moveTarget(x + lerp(0, dsin(armStrideCounter+180) * 4 * sign(velocity.x), _lerpAmount) + velocity.x, y - clamp(abs(velocity.x), 0, 2));
-leftArm.moveArm();
-
-// Right leg
 rightLeg.moveRoot(hipPosition.x, hipPosition.y);
-rightLeg.moveTarget(x + lerp(0, dsin(armStrideCounter) * 4 * sign(velocity.x), _lerpAmount), bbox_bottom);
-rightLeg.moveArm();
-
-// Left leg
 leftLeg.moveRoot(hipPosition.x, hipPosition.y);
-leftLeg.moveTarget(x + lerp(0, dsin(armStrideCounter+180) * 4 * sign(velocity.x), _lerpAmount), bbox_bottom);
+
+// Adjust target
+
+// Move limbs
+rightArm.moveArm();
+leftArm.moveArm();
+rightLeg.moveArm();
 leftLeg.moveArm();
 
 //// If airborne
