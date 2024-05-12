@@ -1,8 +1,12 @@
 // GUI
-guiWidth = 320;
-guiHeight = 180;
+baseGuiWidth = 640;
+baseGuiHeight = 360;
 
 // Canvas
+baseCanvasWidth = 1280;
+baseCanvasHeight = 720;
+canvasWidth = baseCanvasWidth;
+canvasHeight = baseCanvasHeight;
 
 #region Functions
 
@@ -27,3 +31,6 @@ browserScaleCanvas = function(_baseWidth, _baseHeight, _currentWidth, _currentHe
 }
 
 #endregion
+
+// Set font
+draw_set_font(fDefault);

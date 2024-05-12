@@ -29,6 +29,7 @@
     {"id":{"name":"sCross","path":"sprites/sCross/sCross.yy",},"order":0,},
     {"id":{"name":"oGameManager","path":"objects/oGameManager/oGameManager.yy",},"order":0,},
     {"id":{"name":"oWorld","path":"objects/oWorld/oWorld.yy",},"order":1,},
+    {"id":{"name":"fDefault","path":"fonts/fDefault/fDefault.yy",},"order":0,},
     {"id":{"name":"tsCollision","path":"tilesets/tsCollision/tsCollision.yy",},"order":0,},
     {"id":{"name":"sHumanCrouch","path":"sprites/sHumanCrouch/sHumanCrouch.yy",},"order":4,},
     {"id":{"name":"sWorldTiles","path":"sprites/sWorldTiles/sWorldTiles.yy",},"order":1,},
