@@ -8,6 +8,10 @@ baseCanvasHeight = 720;
 canvasWidth = baseCanvasWidth;
 canvasHeight = baseCanvasHeight;
 
+// Camera
+baseCamWidth = 320;
+baseCamHeight = 180;
+
 #region Functions
 
 /// @func	browserScaleCanvas({int} baseWidth, {int} baseHeight, {int} currentWidth, {int} currentHeight, {bool} center);

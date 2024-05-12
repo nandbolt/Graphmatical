@@ -5,28 +5,7 @@ if (keyboard_check_pressed(vk_f11))
 }
 
 // Check if not on browser
-if (os_browser == browser_not_a_browser)
-{
-	#region PC Scaling
-	
-	// Calculate aspect
-	var _aspect = display_get_width() / display_get_height();
-
-	// Adjust gui size
-	if (_aspect > 1)
-	{
-		// Landscape
-		display_set_gui_size(baseGuiHeight * _aspect, baseGuiHeight);
-	}
-	else
-	{
-		// Portrait
-		display_set_gui_size(baseGuiWidth, baseGuiWidth / _aspect);
-	}
-	
-	#endregion
-}
-else
+if (os_browser != browser_not_a_browser)
 {
 	#region Browser Scaling
 	

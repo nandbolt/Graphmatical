@@ -1,6 +1,6 @@
 // Dimensions
-camWidth = 320;
-camHeight = 180;
+camWidth = oDisplayManager.baseCamWidth;
+camHeight = oDisplayManager.baseCamHeight;
 halfCamWidth = camWidth * 0.5;
 halfCamHeight = camHeight * 0.5;
 
