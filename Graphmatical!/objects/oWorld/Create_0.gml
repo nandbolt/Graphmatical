@@ -1,2 +1,5 @@
-// Hide collision tiles
-layer_set_visible(layer_get_id("CollisionTiles"), false);
+// Layers
+collisionLayer = layer_get_id("CollisionTiles");
+
+// Hide collision layer
+layer_set_visible(collisionLayer, false);

@@ -1,2 +1,2 @@
 // Show collision tiles
-layer_set_visible(layer_get_id("CollisionTiles"), true);
+layer_set_visible(collisionLayer, true);
