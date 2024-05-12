@@ -16,7 +16,13 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	handPosition = new Vector2(elbowJoint.x + lengthdir_x(elbowArmLength, rootAngle + elbowAngle), elbowJoint.y + lengthdir_y(elbowArmLength, rootAngle + elbowAngle));
 	
 	// Target
-	targetPosition = new Vector2();
+	targetPosition = new Vector2(handPosition.x, handPosition.y);
+	
+	// Debug
+	debugMode = global.debugMode;
+	
+	// Color
+	color = c_white;
 	
 	/// @func	moveRoot({real} x, {real} y);
 	static moveRoot = function(_x, _y)
@@ -98,23 +104,22 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	/// @func	draw();
 	static draw = function()
 	{
-		//if (flippedArm)
-		//{
-		//	draw_sprite_ext(sDot, 0, rootJoint.x, rootJoint.y, rootArmLength, 1, rootAngle, c_aqua, 1);
-		//	draw_sprite_ext(sDot, 0, elbowJoint.x, elbowJoint.y, elbowArmLength, 1, rootAngle + elbowAngle, c_yellow, 1);
-		//}
-		//else
-		//{
-		//	draw_sprite_ext(sDot, 0, rootJoint.x, rootJoint.y, rootArmLength, 1, rootAngle, c_aqua, 1);
-		//	draw_sprite_ext(sDot, 0, elbowJoint.x, elbowJoint.y, elbowArmLength, 1, rootAngle + elbowAngle, c_yellow, 1);
-		//}
-		draw_set_color(c_red);
-		draw_line(rootJoint.x - 1, rootJoint.y - 1, elbowJoint.x - 1, elbowJoint.y - 1);
-		draw_line(elbowJoint.x - 1, elbowJoint.y - 1, handPosition.x - 1, handPosition.y - 1);
-		draw_set_color(c_white);
-		//draw_sprite(sDot, 0, elbowJoint.x-1, elbowJoint.y-1);
-		//draw_set_color(c_lime);
-		//draw_sprite(sDot, 0, targetPosition.x-1, targetPosition.y-1);
-		//draw_set_color(c_white);
+		// Arm 
+		draw_sprite_ext(sSquare, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.5, 0.5, rootAngle, color, 1);
+		draw_sprite_ext(sSquare, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.5, 0.5, rootAngle + elbowAngle, color, 1);
+		
+		// If debug
+		if (debugMode)
+		{
+			// Bones
+			draw_set_color(c_red);
+			draw_line(rootJoint.x - 1, rootJoint.y - 1, elbowJoint.x - 1, elbowJoint.y - 1);
+			draw_set_color(c_orange);
+			draw_line(elbowJoint.x - 1, elbowJoint.y - 1, handPosition.x - 1, handPosition.y - 1);
+		
+			// Targets
+			draw_sprite_ext(sSquareCenter, 0, targetPosition.x, targetPosition.y, 0.5, 0.5, 0, c_red, 1);
+			draw_set_color(c_white);
+		}
 	}
 }

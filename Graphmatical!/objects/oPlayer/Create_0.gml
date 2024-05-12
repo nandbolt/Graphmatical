@@ -3,8 +3,11 @@ debugMode = global.debugMode;
 
 // Rigid body
 rbInit();
-//airConstant = 0.1;
+//airConstant = 2;
 //gravityStrength = 0.001;
+
+// IKH
+ikhInit();
 
 // Inputs
 inputMove = new Vector2();
@@ -29,21 +32,6 @@ smallJumpStrength = 0.1;
 // Resistances
 runGroundConstant = 0.15;
 slideGroundConstant = 0.02;
-
-// Arms
-neckPosition = new Vector2(x, y - 4);
-hipPosition = new Vector2(x, y);
-rightArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, -30, 30);
-leftArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, 210, 30);
-rightLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -45, -45);
-leftLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -90, -45);
-rightLeg.flippedArm = true;
-leftLeg.flippedArm = true;
-
-// Animation states
-currentAnimationState = HumanAnimationState.IDLE;
-animationCounter = 0;
-animationSpeed = 0.1;
 
 #region Functions
 
