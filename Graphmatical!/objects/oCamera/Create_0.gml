@@ -1,6 +1,6 @@
 // Dimensions
-camWidth = 320 * 0.5;
-camHeight = 180 * 0.5;
+camWidth = 320;
+camHeight = 180;
 halfCamWidth = camWidth * 0.5;
 halfCamHeight = camHeight * 0.5;
 

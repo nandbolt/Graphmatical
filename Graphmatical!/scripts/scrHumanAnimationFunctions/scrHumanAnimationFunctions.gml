@@ -108,6 +108,16 @@ function ikhDraw()
 	}
 }
 
+/// @func	ikhDrawDebug();
+function ikhDrawDebug()
+{
+	// Bones
+	rightLeg.drawDebug();
+	rightArm.drawDebug();
+	leftLeg.drawDebug();
+	leftArm.drawDebug();
+}
+
 /// @func	ikhUpdateAnimState();
 /// @desc	Updates the current animation state.
 function ikhUpdateAnimState()
@@ -214,37 +224,38 @@ function ikhAnimCrouch()
 	if (image_xscale > 0)
 	{
 		// Arm targets
-		rightArm.lerpTarget(x + 1, y + 3, 0.2);
-		leftArm.lerpTarget(x - 1, y + 3, 0.2);
+		leftArm.lerpTarget(x + 4, y + 1, 0.2);
+		rightArm.lerpTarget(x - 1, y + 3, 0.2);
 			
 		// Orientation
-		rightArm.flippedArm = true;
+		rightArm.flippedArm = false;
 		leftArm.flippedArm = false;
 		rightLeg.flippedArm = true;
-		leftLeg.flippedArm = false;
+		leftLeg.flippedArm = true;
 	}
 	else
 	{
 		// Arm targets
-		rightArm.lerpTarget(x + 1, y + 3, 0.2);
-		leftArm.lerpTarget(x - 1, y + 3, 0.2);
+		leftArm.lerpTarget(x + 1, y + 3, 0.2);
+		rightArm.lerpTarget(x - 4, y + 1, 0.2);
 			
 		// Orientation
 		rightArm.flippedArm = true;
-		leftArm.flippedArm = false;
-		rightLeg.flippedArm = true;
+		leftArm.flippedArm = true;
+		rightLeg.flippedArm = false;
 		leftLeg.flippedArm = false;
 	}
 		
 	// Leg targets
-	rightLeg.lerpTarget(x + 2, bbox_bottom, 0.2);
-	leftLeg.lerpTarget(x - 2, bbox_bottom, 0.2);
+	rightLeg.targetPosition.y = lerp(rightLeg.targetPosition.y, bbox_bottom, 0.2);
+	leftLeg.targetPosition.y = lerp(leftLeg.targetPosition.y, bbox_bottom, 0.2);
 			
 	// Neck + hip
+	var _hover = sin(animationCounter) * 0.5;
 	neckPosition.x = x;
-	neckPosition.y = lerp(neckPosition.y, y, 0.5);
+	neckPosition.y = lerp(neckPosition.y, y + _hover, 0.5);
 	hipPosition.x = x;
-	hipPosition.y = lerp(hipPosition.y, y + 4, 0.5);
+	hipPosition.y = lerp(hipPosition.y, y + 4 + _hover, 0.5);
 }
 
 /// @func	ikhAnimRun();

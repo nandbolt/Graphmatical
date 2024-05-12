@@ -1,6 +1,3 @@
-// States
-debugMode = global.debugMode;
-
 // Rigid body
 rbInit();
 //airConstant = 2;
@@ -65,6 +62,13 @@ jump = function()
 	jumpBufferCounter = 0;
 	coyoteBufferCounter = 0;
 	grounded = false;
+}
+
+/// @func	onPassableFloor();
+/// @desc	Returns if on a floor that can be passed through using the jump button.
+onPassableFloor = function()
+{
+	return false;
 }
 
 #endregion

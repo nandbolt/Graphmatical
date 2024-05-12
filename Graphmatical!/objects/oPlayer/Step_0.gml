@@ -22,7 +22,7 @@ if (!grounded) coyoteBufferCounter = clamp(coyoteBufferCounter-1, 0, coyoteBuffe
 else coyoteBufferCounter = coyoteBuffer;
 
 // Set jump buffer
-if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
+if (inputJumpPressed && !(inputCrouch && onPassableFloor())) jumpBufferCounter = jumpBuffer;
 else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
 
 // Jump if initiated
