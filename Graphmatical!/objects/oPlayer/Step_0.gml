@@ -1,9 +1,36 @@
 // Update inputs
-inputMove.x = keyboard_check(ord("D")) - keyboard_check(ord("A"));
-inputMove.y = keyboard_check(ord("S")) - keyboard_check(ord("W"));
-inputJump = keyboard_check(vk_space);
-inputJumpPressed = keyboard_check_pressed(vk_space);
-inputCrouch = keyboard_check(ord("S"));
+if (canMove)
+{
+	// Move inputs
+	inputMove.x = keyboard_check(ord("D")) - keyboard_check(ord("A"));
+	inputMove.y = keyboard_check(ord("S")) - keyboard_check(ord("W"));
+	inputJump = keyboard_check(vk_space);
+	inputJumpPressed = keyboard_check_pressed(vk_space);
+	inputCrouch = keyboard_check(ord("S"));
+}
+inputEditorPressed = keyboard_check_pressed(vk_tab);
+
+// Editor
+if (inputEditorPressed)
+{
+	if (instance_exists(oGrapher))
+	{
+		// Destroy grapher
+		instance_destroy(oGrapher);
+		
+		// Allow movement
+		canMove = true;
+	}
+	else
+	{
+		// Create grapher
+		instance_create_layer(x, y, "Instances", oGrapher);
+		
+		// Stop move inputs
+		canMove = false;
+		resetMoveInputs();
+	}
+}
 
 // Apply x velocity
 var _xStrength = runStrength;

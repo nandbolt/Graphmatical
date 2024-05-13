@@ -18,3 +18,9 @@ if (instance_exists(oPlayer))
 		_y += 16;
 	}
 }
+
+// Grapher
+if (instance_exists(oGrapher))
+{
+	draw_sprite_ext(sSquare, 0, display_get_gui_width() * 0.5, display_get_gui_height() * 0.5, 1, 1, 0, c_red, 1);
+}

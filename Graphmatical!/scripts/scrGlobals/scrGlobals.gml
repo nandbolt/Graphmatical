@@ -18,4 +18,11 @@ enum HumanAnimationState
 	JUMP,
 }
 
+enum GrapherState
+{
+	INIT,
+	CHOOSE,
+	EDIT,
+}
+
 #endregion

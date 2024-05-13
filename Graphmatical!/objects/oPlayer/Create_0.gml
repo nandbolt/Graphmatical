@@ -1,3 +1,6 @@
+// States
+canMove = true;
+
 // Rigid body
 rbInit();
 //airConstant = 2;
@@ -11,6 +14,7 @@ inputMove = new Vector2();
 inputJump = false;
 inputJumpPressed = false;
 inputCrouch = false;
+inputEditorPressed = false;
 
 // Movement
 runStrength = 0.2;
@@ -69,6 +73,16 @@ jump = function()
 onPassableFloor = function()
 {
 	return false;
+}
+
+/// @func	resetMoveInputs();
+resetMoveInputs = function()
+{
+	inputMove.x = 0;
+	inputMove.y = 0;
+	inputJump = false;
+	inputJumpPressed = false;
+	inputCrouch = false;
 }
 
 #endregion
