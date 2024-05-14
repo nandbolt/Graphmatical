@@ -49,6 +49,9 @@ function GuiElement() constructor
 			guiController.canClick = false;
 			click();
 		}
+		
+		// If element has focus, listen for input
+		if (hasFocus()) listen();
 	}
 	
 	/// @func	click();

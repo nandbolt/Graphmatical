@@ -16,7 +16,7 @@ function GuiController() constructor
 	static update = function()
 	{
 		// Reset click
-		elementInFocus = undefined;
+		clickedAnyElement = false;
 		canClick = true;
 		
 		// Loop through elements

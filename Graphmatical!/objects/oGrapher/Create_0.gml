@@ -138,8 +138,7 @@ selectAxes = function()
 /// @func	editAxes();
 editAxes = function()
 {
-	show_debug_message("Editing existing axes!");
-	changeMenu();
+	changeMenu(GrapherEditMenu);
 }
 
 #endregion
