@@ -24,7 +24,10 @@ if (inputEditorPressed)
 	else
 	{
 		// Create grapher
-		instance_create_layer(x, y, "Instances", oGrapher);
+		var _x = camera_get_view_x(view_camera[0]) + oCamera.halfCamWidth, _y = camera_get_view_y(view_camera[0]) + oCamera.halfCamHeight;
+		_x -= _x mod TILE_SIZE;
+		_y -= _y mod TILE_SIZE;
+		instance_create_layer(_x, _y, "Instances", oGrapher);
 		
 		// Stop move inputs
 		canMove = false;
