@@ -229,9 +229,9 @@ function rbDraw()
 function rbDrawGui()
 {
 	// Text
-	draw_set_halign(fa_left);
+	draw_set_halign(fa_right);
 	draw_set_valign(fa_top);
-	var _x = 16, _y = 16;
+	var _x = display_get_gui_width() - 16, _y = 16;
 	draw_text(_x, _y, "Rigid body: " + object_get_name(object_index));
 	_y += 16;
 	draw_text(_x, _y, "Velocity: " + string(velocity));

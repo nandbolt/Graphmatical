@@ -1,5 +1,5 @@
-/// @func	GuiTextfield({string} name, {real} x, {real} y, {string} value, {string} placeholder);
-function GuiTextfield(_name, _x, _y, _value, _placeholder) : GuiElement() constructor
+/// @func	GuiTextfield({string} name, {real} x, {real} y, {string} value, {string} placeholder, {func} onEnter);
+function GuiTextfield(_name, _x, _y, _value, _placeholder, _onEnter=function(){}) : GuiElement() constructor
 {
 	// Inner padding
 	static padding = 8;
@@ -8,6 +8,7 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder) : GuiElement() constr
 	name = _name;
 	x = _x;
 	y = _y;
+	onEnter = _onEnter;
 	
 	// Draw
 	placeholder = _placeholder;
@@ -49,7 +50,11 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder) : GuiElement() constr
 		set(keyboard_string);
 		
 		// Remove focus on enter
-		if (keyboard_check_pressed(vk_enter)) removeFocus();
+		if (keyboard_check_pressed(vk_enter))
+		{
+			onEnter();
+			removeFocus();
+		}
 	}
 	
 	/// @func	drawGui();

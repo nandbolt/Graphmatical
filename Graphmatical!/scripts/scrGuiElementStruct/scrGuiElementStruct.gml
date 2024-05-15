@@ -17,7 +17,22 @@ function GuiElement() constructor
 	array_push(guiController.elements, self);
 	
 	/// @func	cleanup();
-	static cleanup = function(){}
+	static cleanup = function()
+	{
+		// Loop through elements
+		for (var _i = 0; _i < array_length(guiController.elements); _i++)
+		{
+			// If found self in elements
+			if (guiController.elements[_i] == self)
+			{
+				// Remove self from elements
+				array_delete(guiController.elements, _i, 1);
+				
+				// Exit loop
+				break;
+			}
+		}
+	}
 	
 	/// @func	hasFocus();
 	static hasFocus = function(){ return guiController.elementInFocus == self; }

@@ -7,7 +7,7 @@ if (instance_exists(oPlayer))
 		rbDrawGui();
 	
 		// Player stats
-		var _x = 16, _y = display_get_gui_height() * 0.5;
+		var _x = display_get_gui_width() - 16, _y = display_get_gui_height() * 0.5;
 		draw_text(_x, _y, "More player info: ");
 		_y += 16;
 		draw_text(_x, _y, "Move input: " + string(inputMove));

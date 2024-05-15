@@ -7,6 +7,9 @@ currentMenu = undefined;
 // Axes
 currentAxes = noone;
 
+// Graphing
+precedenceMap = ds_map_create();
+
 #region Functions
 
 /// @func	changeAxes({id} axes);
@@ -141,6 +144,88 @@ editAxes = function()
 	changeMenu(GrapherEditMenu);
 }
 
+/// @func	addEquation();
+addEquation = function()
+{
+	// If there is less than 8 equations
+	if (array_length(oAxes.equations) < 8)
+	{
+		// Add equation to axes
+		with (oAxes)
+		{
+			array_push(equations, new Equation());
+		}
+	
+		// Add equation textfield to menu
+		with (currentMenu)
+		{
+			addEquationTextfield();
+		}
+	}
+}
+
+/// @func	removeEquation();
+removeEquation = function()
+{
+	// If there is more than 1 equation
+	if (array_length(oAxes.equations) > 1)
+	{
+		// Remove equation from axes
+		with (oAxes)
+		{
+			// Pop equation
+			var _equation = array_pop(equations);
+		
+			// Remove graph
+			if (_equation.graph != noone) instance_destroy(oGraph);
+		}
+	
+		// Remove equation textfield from menu
+		with (currentMenu)
+		{
+			removeEquationTextfield();
+		}
+	}
+}
+
+/// @func	enterEquation();
+enterEquation = function()
+{
+	// Init equation index
+	var _eqIdx = 0, _eqString = "";
+	
+	// Menu scope
+	with (currentMenu)
+	{
+		// Loop through textfield equations
+		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
+		{
+			// If textfield has focus
+			if (textfieldEquations[_i].hasFocus())
+			{
+				// Found index
+				_eqIdx = _i;
+				_eqString = textfieldEquations[_i].get();
+				break;
+			}
+		}
+	}
+	
+	// Axes scope
+	with (currentAxes)
+	{
+		// Get equation
+		with (equations[_eqIdx])
+		{
+			// Set equation
+			set(_eqString);
+			
+			// Graph equation
+			graphEquation();
+		}
+	}
+}
+
 #endregion
 
 // Set position to grid
@@ -149,3 +234,16 @@ y -= y mod TILE_SIZE;
 
 // Init first menu
 currentMenu = new GrapherInitMenu();
+
+// Init precedence map
+ds_map_add(precedenceMap, "(", 1);
+ds_map_add(precedenceMap, "+", 2);
+ds_map_add(precedenceMap, "-", 2);
+ds_map_add(precedenceMap, "*", 3);
+ds_map_add(precedenceMap, "/", 3);
+ds_map_add(precedenceMap, "s", 3);
+ds_map_add(precedenceMap, "c", 3);
+ds_map_add(precedenceMap, "t", 3);
+ds_map_add(precedenceMap, "^", 4);
+ds_map_add(precedenceMap, "l", 5);
+ds_map_add(precedenceMap, "r", 5);
