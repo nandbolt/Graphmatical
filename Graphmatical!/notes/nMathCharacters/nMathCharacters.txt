@@ -1,0 +1,6 @@
+I plan to use several math characters in the graphing gui. As I tried to remember the characters I might need,
+I realized there weren't very many of them and I can probably do without. But I'll drop them here just in case.
+
+π : pi
+√ : square root
+∫ : integral

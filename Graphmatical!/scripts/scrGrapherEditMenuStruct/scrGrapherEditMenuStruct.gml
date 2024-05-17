@@ -34,7 +34,8 @@ function GrapherEditMenu() : Menu() constructor
 		
 		// Add textfield to array
 		var _i = array_length(textfieldEquations);
-		array_push(textfieldEquations, new GuiTextfield("Equation " + string(_i+1), _x, _y, "", "", other.enterEquation));
+		var _equation = other.currentAxes.equations[_i];
+		array_push(textfieldEquations, new GuiTextfield("Equation " + string(_i+1), _x, _y, _equation.equationString, "", other.enterEquation));
 		textfieldEquations[_i].width = textfieldEquationWidth;
 		textfieldEquations[_i].height = textfieldEquationHeight;
 	}
@@ -64,23 +65,24 @@ function GrapherEditMenu() : Menu() constructor
 		guiController.drawGui();
 		
 		// Equations
+		var _x = 16, _y = 16;
 		draw_set_halign(fa_left);
 		draw_set_valign(fa_top);
-		draw_text(16, 16, "Equations");
+		draw_text(_x, _y, "Equations");
+		
+		// Error messages
+		_x += textfieldEquationWidth + 8;
+		_y += 32;
+		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
+		{
+			draw_text_ext(_x, _y, other.currentAxes.equations[_i].errorMessage, 16, 200);
+			_y += textfieldEquationHeight + textfieldEquationVspacing;
+		}
 	}
 	
 	// Load equations
-	addEquationTextfield();
-	//_width = 100;
-	//_height = 32;
-	//_x = 16;
-	//_y += buttonAddEquation.height + _vspacing;
-	//var _equations = other.currentAxes.equations;
-	//for (var _i = 0; _i < array_length(_equations); _i++)
-	//{
-	//	array_push(textfieldEquations, new GuiTextfield("Equation " + string(_i+1), _x, _y, _equations[_i].equationString, ""));
-	//	textfieldEquations[_i].width = _width;
-	//	textfieldEquations[_i].height = _height;
-	//	_y += _height + _vspacing;
-	//}
+	for (var _i = 0; _i < array_length(other.currentAxes.equations); _i++)
+	{
+		addEquationTextfield();
+	}
 }

@@ -1,4 +1,11 @@
-/// @func	Arm({real} rootx, {real} rooty, {real} rootArmLength, {real} elbowArmLength, {real} rootAngle, {real} elbowAngle);
+/// @func	Arm(rootx, rooty, rootArmLength, elbowArmLength, rootAngle, elbowAngle);
+/// @arg	{Real}	rootx			The root x position.
+/// @arg	{Real}	rooty			The root y position.
+/// @arg	{Real}	rootArmLength	The length from the root to the elbow.
+/// @arg	{Real}	elbowArmLength	The length from the elbow to the hand.
+/// @arg	{Real}	rootAngle		The angle from the root to the elbow.
+/// @arg	{Real}	elbowAngle		The angle from the elbow to the hand (relative).
+/// @desc	An inverse kinematic arm. The root == shoulder. The elbow angle is relative to the root's angle.
 function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbowAngle) constructor
 {
 	// Arms

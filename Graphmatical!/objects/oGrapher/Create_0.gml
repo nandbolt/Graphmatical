@@ -84,6 +84,22 @@ calculateAxesSelection = function()
 	}
 }
 
+/// @func	getFocusedEquationIndex();
+getFocusedEquationIndex = function()
+{
+	// Menu scope
+	with (currentMenu)
+	{
+		// Loop through textfield equations
+		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
+		{
+			// If textfield has focus
+			if (textfieldEquations[_i].hasFocus()) return _i;
+		}
+	}
+	return -1;
+}
+
 #endregion
 
 #region Button Functions
@@ -192,24 +208,8 @@ removeEquation = function()
 enterEquation = function()
 {
 	// Init equation index
-	var _eqIdx = 0, _eqString = "";
-	
-	// Menu scope
-	with (currentMenu)
-	{
-		// Loop through textfield equations
-		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
-		{
-			// If textfield has focus
-			if (textfieldEquations[_i].hasFocus())
-			{
-				// Found index
-				_eqIdx = _i;
-				_eqString = textfieldEquations[_i].get();
-				break;
-			}
-		}
-	}
+	var _eqIdx = getFocusedEquationIndex();
+	var _eqString = currentMenu.textfieldEquations[_eqIdx].get();
 	
 	// Axes scope
 	with (currentAxes)
@@ -228,13 +228,6 @@ enterEquation = function()
 
 #endregion
 
-// Set position to grid
-x -= x mod TILE_SIZE;
-y -= y mod TILE_SIZE;
-
-// Init first menu
-currentMenu = new GrapherInitMenu();
-
 // Init precedence map
 ds_map_add(precedenceMap, "(", 1);
 ds_map_add(precedenceMap, "+", 2);
@@ -247,3 +240,10 @@ ds_map_add(precedenceMap, "t", 3);
 ds_map_add(precedenceMap, "^", 4);
 ds_map_add(precedenceMap, "l", 5);
 ds_map_add(precedenceMap, "r", 5);
+
+// Set position to grid
+x -= x mod TILE_SIZE;
+y -= y mod TILE_SIZE;
+
+// Init first menu
+currentMenu = new GrapherInitMenu();

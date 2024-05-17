@@ -28,4 +28,15 @@ enum GrapherState
 	EDIT,
 }
 
+enum GraphingError
+{
+	NONE,
+	EMPTY,
+	LONE_DECIMAL,
+	MULTI_DECIMAL,
+	UNKNOWN_SYMBOL,
+	LONE_OPERATOR,
+	LONE_PARENTHESIS,
+}
+
 #endregion

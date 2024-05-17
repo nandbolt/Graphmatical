@@ -36,11 +36,11 @@ function rbInit()
 function rbCleanup()
 {
 	// Vectors
-	delete velocity;
-	delete normal;
-	delete bounceVelocity;
-	delete airResistance;
-	delete groundResistance;
+	if (is_struct(velocity)) delete velocity;
+	if (is_struct(normal)) delete normal;
+	if (is_struct(bounceVelocity)) delete bounceVelocity;
+	if (is_struct(airResistance)) delete airResistance;
+	if (is_struct(groundResistance)) delete groundResistance;
 }
 
 /// @func	rbUpdate();

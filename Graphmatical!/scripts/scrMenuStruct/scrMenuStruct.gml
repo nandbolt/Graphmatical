@@ -22,7 +22,10 @@ function Menu() constructor
 	static cleanup = function()
 	{
 		// Gui controller
-		guiController.cleanup();
-		delete guiController;
+		if (is_struct(guiController))
+		{
+			guiController.cleanup();
+			delete guiController;
+		}
 	}
 }

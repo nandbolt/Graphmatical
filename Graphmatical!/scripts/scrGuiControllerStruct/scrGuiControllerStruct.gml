@@ -55,8 +55,11 @@ function GuiController() constructor
 		for (var _i = array_length(elements) - 1; _i >= 0; _i--)
 		{
 			// Cleanup element
-			elements[_i].cleanup();
-			delete elements[_i];
+			if (is_struct(elements[_i]))
+			{
+				elements[_i].cleanup();
+				delete elements[_i];
+			}
 		}
 		
 		// Cleanup elements array
@@ -66,13 +69,14 @@ function GuiController() constructor
 		for (var _i = array_length(radioGroups) - 1; _i >= 0; _i--)
 		{
 			// Cleanup element
-			radioGroups[_i].cleanup();
-			delete radioGroups[_i];
+			if (is_struct(radioGroups[_i]))
+			{
+				radioGroups[_i].cleanup();
+				delete radioGroups[_i];
+			}
 		}
 		
 		// Cleanup radio groups array
 		radioGroups = -1;
-		
-		
 	}
 }

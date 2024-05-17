@@ -10,3 +10,9 @@ if (axesVisible)
 	// Origin
 	draw_sprite(sDot, 0, x, y);
 }
+
+// Graphs
+for (var _i = 0; _i < array_length(equations); _i++)
+{
+	equations[_i].drawGraph();
+}
