@@ -35,7 +35,7 @@ function GrapherEditMenu() : Menu() constructor
 		// Add textfield to array
 		var _i = array_length(textfieldEquations);
 		var _equation = other.currentAxes.equations[_i];
-		array_push(textfieldEquations, new GuiTextfield("Equation " + string(_i+1), _x, _y, _equation.equationString, "", other.enterEquation));
+		array_push(textfieldEquations, new GuiTextfield("Equation " + string(_i+1), _x, _y, _equation.expressionString, "", other.enterEquation));
 		textfieldEquations[_i].width = textfieldEquationWidth;
 		textfieldEquations[_i].height = textfieldEquationHeight;
 	}

@@ -4,6 +4,12 @@ function BinaryTree() constructor
 	// Init tree
 	root = noone;
 	
+	/// @func	cleanup();
+	static cleanup = function()
+	{
+		destroyTree(root);
+	}
+	
 	/// @func	destroyTree({BinaryTreeNode} node);
 	static destroyTree = function(_node)
 	{
