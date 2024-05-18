@@ -64,19 +64,6 @@ function Equation() constructor
 		}
 	}
 	
-	/// @func	charIsOperator({char} char);
-	static charIsOperator = function(_char)
-	{
-		return _char == "+" || _char == "-" || _char == "*" || _char == "/" || _char == "^" ||
-		   _char == "s" || _char == "c" || _char == "t" || _char == "l" || _char == "r";
-	}
-	
-	/// @func	charIsConstant({char} char);
-	static charIsConstant = function(_char)
-	{
-		return _char == "p" || _char == "e";
-	}
-	
 	/// @func	drawGraph();
 	static drawGraph = function()
 	{
@@ -413,7 +400,7 @@ function Equation() constructor
 			{
 				// Remove any operators already in stack that have higher or equal precedence and append them to output list, then push token to stack
 				while (array_length(_operatorStack) > 0 && 
-					  (other.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= other.precedenceMap[? _token]))
+					  (oGrapher.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= oGrapher.precedenceMap[? _token]))
 				{
 					array_push(postfixExpressionTokens, array_pop(_operatorStack));
 				}

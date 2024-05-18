@@ -1,5 +1,8 @@
-/// @func	BinaryTreeNode({any} data, {BinaryTreeNode} leftChild, {BinaryTreeNode} rightChild);
-function BinaryTreeNode(_data=noone, _leftChild=noone, _rightChild=noone) constructor
+/// @func	BinaryTreeNode(data, leftChild, rightChild);
+/// @arg	{Any}					data
+/// @arg	{Struct.BinaryTreeNode}	leftChild
+/// @arg	{Struct.BinaryTreeNode}	rightChild
+function BinaryTreeNode(_data=undefined, _leftChild=noone, _rightChild=noone) constructor
 {
 	// Init node
 	data = _data;
