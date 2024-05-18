@@ -53,17 +53,6 @@ function Equation() constructor
 			// Set graph path
 			setGraphPath();
 		}
-		else
-		{
-			// Print error
-			show_debug_message("GRAPHING ERROR: CODE " + string(errorCode));
-			show_debug_message(errorMessage);
-		}
-		
-		// Debug print
-		show_debug_message("EQ string: " + expressionString);
-		show_debug_message("EQ tokens: " + string(expressionTokens));
-		show_debug_message("EQ postfix tokens: " + string(postfixExpressionTokens));
 	}
 	
 	/// @func	drawGraph();

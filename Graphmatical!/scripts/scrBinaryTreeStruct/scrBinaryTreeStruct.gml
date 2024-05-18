@@ -23,7 +23,6 @@ function BinaryTree() constructor
 			destroyTree(_node.children[1]);
 			
 			// Self
-			show_debug_message("Node " + string(_node) + " destroyed.");
 			_node.cleanup();
 			delete _node;
 		}
@@ -37,7 +36,7 @@ function BinaryTree() constructor
 		{
 			// Use recursion to print tree nodes
 			printTree(_node.children[0]);
-			show_debug_message(string(_node));
+			print(string(_node));
 			printTree(_node.children[1]);
 		}
 	}

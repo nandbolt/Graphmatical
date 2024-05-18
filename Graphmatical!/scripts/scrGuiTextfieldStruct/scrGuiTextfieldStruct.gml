@@ -30,9 +30,6 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder, _onEnter=function(){}
 		{
 			drawValue = string_delete(drawValue, 1, 1);
 		}
-		
-		// Debug message
-		show_debug_message("You set the Textfield named `" + string(name) + "` to the value `" + string(value) + "`");
 	}
 	
 	/// @func	click();

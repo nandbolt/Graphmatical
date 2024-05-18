@@ -12,9 +12,6 @@ function GuiButton(_name, _x, _y, _onClick=function(){}) : GuiElement() construc
 	{
 		setFocus();
 		onClick();
-		
-		// Print click
-		show_debug_message("You clicked the " + string(name) + " button!");
 	}
 	
 	/// @func	drawGui();
