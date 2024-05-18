@@ -12,6 +12,8 @@ function Equation() constructor
 	// Graphing
 	errorCode = GraphingError.EMPTY;
 	errorMessage = "";
+	static drawResolution = 0.1;	// The lower the value, the finer the graphs
+	graphPath = path_add();
 	
 	/// @func	cleanup();
 	static cleanup = function()
@@ -22,59 +24,68 @@ function Equation() constructor
 			expressionTree.cleanup();
 			delete expressionTree;
 		}
+		
+		// Graph
+		path_delete(graphPath);
 	}
 	
 	/// @func	set({string} expressionString);
 	static set = function(_expressionString="")
 	{
-		// If different value
-		if (_expressionString != expressionString)
-		{
-			// Set literal string
-			expressionString = _expressionString;
+		// Set literal string
+		expressionString = _expressionString;
 		
-			// Update tokens + validate expression
-			updateExpressionTokens();
+		// Update tokens + validate expression
+		updateExpressionTokens();
 			
-			// If no graphing error
-			if (errorCode == GraphingError.NONE)
-			{
-				// Update postfix expression
-				updatePostfixExpression();
+		// If no graphing error
+		if (errorCode == GraphingError.NONE)
+		{
+			// Update postfix expression
+			updatePostfixExpression();
 				
-				// Cleanup expression tree
-				expressionTree.cleanup();
+			// Cleanup expression tree
+			expressionTree.cleanup();
 				
-				// Set expression tree
-				expressionTree.set(expressionTokens);
+			// Set expression tree
+			expressionTree.set(postfixExpressionTokens);
 				
-				// Create graph path
-			}
-			else
-			{
-				// Print error
-				show_debug_message("GRAPHING ERROR: CODE " + string(errorCode));
-				show_debug_message(errorMessage);
-			}
-		
-			// Debug print
-			show_debug_message("EQ Set");
-			show_debug_message("EQ string: " + expressionString);
-			show_debug_message("EQ tokens: " + string(expressionTokens));
+			// Set graph path
+			setGraphPath();
 		}
+		else
+		{
+			// Print error
+			show_debug_message("GRAPHING ERROR: CODE " + string(errorCode));
+			show_debug_message(errorMessage);
+		}
+		
+		// Debug print
+		show_debug_message("EQ string: " + expressionString);
+		show_debug_message("EQ tokens: " + string(expressionTokens));
+		show_debug_message("EQ postfix tokens: " + string(postfixExpressionTokens));
 	}
 	
 	/// @func	drawGraph();
 	static drawGraph = function()
 	{
-		draw_circle(other.x, other.y, 32, true);
-	}
-	
-	/// @func	graphEquation();
-	static graphEquation = function()
-	{
-		// Debug message
-		show_debug_message("Equation graphed!");
+		// Draw params
+		var _color = c_yellow;
+		
+		// Loop through path points
+		var _pointCount = path_get_number(graphPath);
+		for (var _i = 0; _i < _pointCount - 1; _i++)
+		{
+			// Get point position
+			var _x = path_get_point_x(graphPath, _i), _y = path_get_point_y(graphPath, _i);
+			var _xNext =path_get_point_x(graphPath, _i + 1), _yNext = path_get_point_y(graphPath, _i + 1);
+			var _dx = _xNext - _x, _dy = _yNext - _y;
+			var _dir = point_direction(0, 0, _dx, _dy);
+			var _len = point_distance(0, 0, _dx, _dy);
+			
+			// Draw line
+			draw_sprite_ext(sDot, 0, _x, _y, _len, 1, _dir, _color, 1);
+		}
 	}
 	
 	/// @func	updateExpressionTokens();
@@ -98,14 +109,14 @@ function Equation() constructor
 		_expressionString = string_lower(_expressionString);
 		
 		// Replace word operators
-		_expressionString = string_replace(_expressionString, "sin", "s");
-		_expressionString = string_replace(_expressionString, "cos", "c");
-		_expressionString = string_replace(_expressionString, "tan", "t");
-		_expressionString = string_replace(_expressionString, "log", "l");
-		_expressionString = string_replace(_expressionString, "root", "r");
+		_expressionString = string_replace_all(_expressionString, "sin", "s");
+		_expressionString = string_replace_all(_expressionString, "cos", "c");
+		_expressionString = string_replace_all(_expressionString, "tan", "t");
+		_expressionString = string_replace_all(_expressionString, "log", "l");
+		_expressionString = string_replace_all(_expressionString, "root", "r");
 		
 		// Replace word constants
-		_expressionString = string_replace(_expressionString, "pi", "p");
+		_expressionString = string_replace_all(_expressionString, "pi", "p");
 		
 		// Loop through characters
 		var _expressionStringLength = string_length(_expressionString)
@@ -113,15 +124,11 @@ function Equation() constructor
 		{
 			// Get character
 			var _char = string_char_at(_expressionString, _i);
-			var _isDigit = false;
 			
 			// Number + decimal check
 			if (charIsDigit(_char) || _char == ".")
 			{
 				#region Construct Number
-				
-				// Set digit bool (for constant check)
-				_isDigit = true;
 				
 				// Scan upcoming characters
 				var _j = 1, _decimalUsed = false;
@@ -181,36 +188,31 @@ function Equation() constructor
 			// Valid character
 			else if (charIsOperator(_char) || charIsConstant(_char) || _char == "x" || _char == "(" || _char == ")")
 			{
+				// Get info
+				var _len = array_length(expressionTokens);
+				var _prevChar = "";
+				if (_len > 0) _prevChar = expressionTokens[_len - 1];
+				
 				// Trig
-				if ((_char == "s" || _char == "c" || _char == "t") &&	// Trig operator
-					(array_length(expressionTokens) == 0 ||				// 1st token					
-					 charIsOperator(expressionTokens[_i-2]) ||			// Previous token was an operator
-					 expressionTokens[_i-2] == "("))						// Previous token was an open parenthesis
+				if ((_char == "s" || _char == "c" || _char == "t") && (_len == 0 || charIsOperator(_prevChar) || _prevChar == "("))
 				{
 					// Add implied 1 to operator
 					array_push(expressionTokens, "1");
 				}
 				// Log
-				else if (_char == "l" &&								// Log operator
-						(array_length(expressionTokens) == 0 ||			// 1st token	
-						 charIsOperator(expressionTokens[_i-2])))			// Previous token was an operator
+				else if (_char == "l" && (_len == 0 || charIsOperator(_prevChar)))
 				{
 					// Add implied log base 10
 					array_push(expressionTokens, "10");
 				}
 				// Root
-				else if (_char == "r" &&								// Root operator
-						(array_length(expressionTokens) == 0 ||			// 1st token	
-						 charIsOperator(expressionTokens[_i-2])))			// Previous token was an operator
+				else if (_char == "r" && (_len == 0 || charIsOperator(_prevChar)))
 				{
 					// Add square root
 					array_push(expressionTokens, "2");
 				}
 				// Negative
-				else if (_char == "-" &&								// Minus operator
-					(array_length(expressionTokens) == 0 ||				// 1st token					
-					 charIsOperator(expressionTokens[_i-2]) ||			// Previous token was an operator
-					 expressionTokens[_i-2] == "("))						// Previous token was an open parenthesis
+				else if (_char == "-" && (_len == 0 || charIsOperator(_prevChar) || _prevChar == "("))
 				{
 					// Add implied 0
 					array_push(expressionTokens, "0");
@@ -232,13 +234,13 @@ function Equation() constructor
 			}
 			
 			// If constant value and not last character in string
-			if ((charIsConstant(_char) || _isDigit || _char == ".") && _i < _expressionStringLength)
+			if ((charIsConstant(_char) || _char == ".") && _i < _expressionStringLength)
 			{
 				// Get next character
 				var _nextChar = string_char_at(_expressionString, _i + 1);
 				
 				// If next character is x, a constant, or an open parenthesis
-				if (_nextChar == "x" || _nextChar == "(" || charIsConstant(_char))
+				if (_nextChar == "x" || _nextChar == "p" || _nextChar == "e" || _nextChar == "(")
 				{
 					// Add implied multiplication
 					array_push(expressionTokens, "*");
@@ -418,6 +420,27 @@ function Equation() constructor
 	/// @func	setGraphPath();
 	static setGraphPath = function()
 	{
+		// Clear points
+		path_clear_points(graphPath);
+		
 		// Loop through domain
+		for (var _ax = other.lowerDomain; _ax <= other.upperDomain; _ax += drawResolution)
+		{
+			// Get equation output
+			var _ay = evaluate(_ax);
+			
+			// If axis y value is within range
+			if (_ay >= other.lowerRange && _ay <= other.upperRange)
+			{
+				// Convert axes values to world coordinates and add to path
+				path_add_point(graphPath, axisXtoX(other, _ax), axisYtoY(other, _ay), 100);
+			}
+		}
+	}
+	
+	/// @func	evaluate({real} input);
+	static evaluate = function(_input)
+	{
+		return expressionTree.evaluate(_input, expressionTree.root);
 	}
 }

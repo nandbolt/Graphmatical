@@ -44,6 +44,7 @@
     {"id":{"name":"oWorld","path":"objects/oWorld/oWorld.yy",},"order":1,},
     {"id":{"name":"scrGuiButtonStruct","path":"scripts/scrGuiButtonStruct/scrGuiButtonStruct.yy",},"order":0,},
     {"id":{"name":"fDefault","path":"fonts/fDefault/fDefault.yy",},"order":0,},
+    {"id":{"name":"scrCoordinateFunctions","path":"scripts/scrCoordinateFunctions/scrCoordinateFunctions.yy",},"order":2,},
     {"id":{"name":"tsCollision","path":"tilesets/tsCollision/tsCollision.yy",},"order":0,},
     {"id":{"name":"sHumanCrouch","path":"sprites/sHumanCrouch/sHumanCrouch.yy",},"order":4,},
     {"id":{"name":"scrGrapherInitMenuStruct","path":"scripts/scrGrapherInitMenuStruct/scrGrapherInitMenuStruct.yy",},"order":2,},

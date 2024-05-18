@@ -192,8 +192,9 @@ removeEquation = function()
 			// Pop equation
 			var _equation = array_pop(equations);
 		
-			// Remove graph
-			if (_equation.graph != noone) instance_destroy(oGraph);
+			// Cleanup equation
+			_equation.cleanup();
+			delete _equation;
 		}
 	
 		// Remove equation textfield from menu
@@ -219,9 +220,6 @@ enterEquation = function()
 		{
 			// Set equation
 			set(_eqString);
-			
-			// Graph equation
-			graphEquation();
 		}
 	}
 }

@@ -1,3 +1,9 @@
+/// @func	print({Any} value);
+function print(_value="")
+{
+	show_debug_message(_value);
+}
+
 /// @func	charIsDigit({char} char);
 /// @desc	Returns if the given character is a digit (0-9).
 function charIsDigit(_char)

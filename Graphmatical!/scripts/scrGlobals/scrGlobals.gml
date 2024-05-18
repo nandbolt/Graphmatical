@@ -2,6 +2,7 @@
 
 #macro TILE_SIZE 16
 #macro HALF_TILE_SIZE 8
+#macro INVERSE_TILE_SIZE .0625
 
 #endregion
 
