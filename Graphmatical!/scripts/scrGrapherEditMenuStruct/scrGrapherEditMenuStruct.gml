@@ -22,6 +22,15 @@ function GrapherEditMenu() : Menu() constructor
 	buttonRemoveEquation.width = _width;
 	buttonRemoveEquation.height = _height;
 	
+	// Remove axes button
+	_x += 24;
+	buttonRemoveAxes = new GuiButton("T", _x, _y, other.removeAxes);
+	buttonRemoveAxes.width = _width;
+	buttonRemoveAxes.height = _height;
+	
+	// Width
+	
+	
 	/// @func	addEquationTextfield();
 	static addEquationTextfield = function()
 	{

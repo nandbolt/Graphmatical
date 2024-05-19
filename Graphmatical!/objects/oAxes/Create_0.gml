@@ -1,5 +1,5 @@
 // Equations
-equations = [new Equation()];
+equations = [new Equation(self)];
 
 // Visibility
 bboxVisible = true;
@@ -16,15 +16,31 @@ upperRange = 5;
 /// @func	setAxesSize({int} tileWidth, {int} tileHeight);
 setAxesSize = function(_tileWidth=18, _tileHeight=10)
 {
-	// Dimensions
-	image_xscale = _tileWidth * TILE_SIZE * 0.5;
-	image_yscale = _tileHeight * TILE_SIZE * 0.5;
+	// If big enough dimensions
+	if (_tileWidth > 0 && _tileHeight > 0)
+	{
+		// Dimensions
+		image_xscale = _tileWidth * TILE_SIZE * 0.5;
+		image_yscale = _tileHeight * TILE_SIZE * 0.5;
 	
-	// Domain + range
-	lowerDomain = -_tileWidth * 0.5;
-	upperDomain = _tileWidth * 0.5;
-	lowerRange = -_tileHeight * 0.5;
-	upperRange = _tileHeight * 0.5;
+		// Domain + range
+		lowerDomain = -_tileWidth * 0.5;
+		upperDomain = _tileWidth * 0.5;
+		lowerRange = -_tileHeight * 0.5;
+		upperRange = _tileHeight * 0.5;
+	}
+}
+
+/// @func	regraphEquations();
+regraphEquations = function()
+{
+	for (var _i = 0; _i < array_length(equations); _i++)
+	{
+		with (equations[_i])
+		{
+			set(expressionString);
+		}
+	}
 }
 
 #endregion

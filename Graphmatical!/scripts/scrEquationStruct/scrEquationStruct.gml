@@ -1,5 +1,5 @@
-/// @func	Equation();
-function Equation() constructor
+/// @func	Equation({Id.Instance} axes);
+function Equation(_axes) constructor
 {
 	// Equation
 	expressionString = "";
@@ -10,6 +10,7 @@ function Equation() constructor
 	postfixExpressionTokens = [];
 	
 	// Graphing
+	axes = _axes;
 	errorCode = GraphingError.EMPTY;
 	errorMessage = "";
 	static drawResolution = 0.1;	// The lower the value, the finer the graphs
@@ -413,16 +414,16 @@ function Equation() constructor
 		path_clear_points(graphPath);
 		
 		// Loop through domain
-		for (var _ax = other.lowerDomain; _ax <= other.upperDomain; _ax += drawResolution)
+		for (var _ax = axes.lowerDomain; _ax <= axes.upperDomain; _ax += drawResolution)
 		{
 			// Get equation output
 			var _ay = evaluate(_ax);
 			
 			// If axis y value is within range
-			if (_ay >= other.lowerRange && _ay <= other.upperRange)
+			if (_ay >= axes.lowerRange && _ay <= axes.upperRange)
 			{
 				// Convert axes values to world coordinates and add to path
-				path_add_point(graphPath, axisXtoX(other, _ax), axisYtoY(other, _ay), 100);
+				path_add_point(graphPath, axisXtoX(axes, _ax), axisYtoY(axes, _ay), 100);
 			}
 		}
 	}

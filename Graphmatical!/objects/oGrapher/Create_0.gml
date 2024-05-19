@@ -24,6 +24,17 @@ changeAxes = function(_axes)
 	calculateAxesSelection();
 }
 
+/// @func	destroyAxes({id} axes);
+destroyAxes = function(_axes)
+{
+	// If axes exists
+	if (_axes)
+	{
+		// Destroy it
+		instance_destroy(_axes);
+	}
+}
+
 /// @func	calculateAxesSelection();
 calculateAxesSelection = function()
 {
@@ -100,6 +111,45 @@ getFocusedEquationIndex = function()
 	return -1;
 }
 
+/// @func	moveAxes({int} dx, {int} dy);
+moveAxes = function(_dx, _dy)
+{
+	// If axes exist
+	if (instance_exists(currentAxes))
+	{
+		with (currentAxes)
+		{
+			// Move axes
+			x = clamp(x + _dx * TILE_SIZE, 0, room_width);
+			y = clamp(y + _dy * TILE_SIZE, 0, room_height);
+			
+			// Regraph
+			regraphEquations();
+		}
+		
+		// Move grapher
+		x = currentAxes.x;
+		y = currentAxes.y;
+	}
+}
+
+/// @func	scaleAxes({int} dx, {int} dy);
+scaleAxes = function(_dx, _dy)
+{
+	// If axes exist
+	if (instance_exists(currentAxes))
+	{
+		with (currentAxes)
+		{
+			// Scale axes
+			setAxesSize(upperDomain * 2 + 2 * _dx, upperRange * 2 + 2 * _dy);
+			
+			// Regraph
+			regraphEquations();
+		}
+	}
+}
+
 #endregion
 
 #region Button Functions
@@ -128,6 +178,16 @@ createAxes = function()
 	
 	// Recalculate options
 	calculateAxesSelection();
+}
+
+/// @func	removeAxes();
+removeAxes = function()
+{
+	// Destroy axes
+	destroyAxes(currentAxes);
+	
+	// Exit menu
+	changeMenu(GrapherInitMenu);
 }
 
 /// @func	selectAxes();
@@ -223,6 +283,8 @@ enterEquation = function()
 		}
 	}
 }
+
+/// @func	
 
 #endregion
 
