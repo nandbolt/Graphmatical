@@ -25,7 +25,7 @@ setAxesSize = function(_tileWidth=18, _tileHeight=10)
 	
 		// Domain + range
 		lowerDomain = -_tileWidth * 0.5;
-		upperDomain = _tileWidth * 0.5;
+		upperDomain = _tileWidth * 0.5;  
 		lowerRange = -_tileHeight * 0.5;
 		upperRange = _tileHeight * 0.5;
 	}

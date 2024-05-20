@@ -14,5 +14,5 @@ if (axesVisible)
 // Graphs
 for (var _i = 0; _i < array_length(equations); _i++)
 {
-	equations[_i].drawGraph();
+	equations[_i].draw();
 }

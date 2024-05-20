@@ -14,7 +14,8 @@ function Equation(_axes) constructor
 	errorCode = GraphingError.EMPTY;
 	errorMessage = "";
 	static drawResolution = 0.1;	// The lower the value, the finer the graphs
-	graphPath = path_add();
+	xGraphPaths = [];
+	yGraphPaths = [];
 	
 	/// @func	cleanup();
 	static cleanup = function()
@@ -26,8 +27,20 @@ function Equation(_axes) constructor
 			delete expressionTree;
 		}
 		
-		// Graph
-		path_delete(graphPath);
+		// Graph paths
+		clearGraphPaths();
+		xGraphPaths = -1;
+		yGraphPaths = -1;
+	}
+	
+	/// @func	clearGraphPaths();
+	static clearGraphPaths = function()
+	{
+		// Graph paths
+		for (var _i = 0; _i < array_length(xGraphPaths); _i++) xGraphPaths[_i] = -1;
+		for (var _i = 0; _i < array_length(yGraphPaths); _i++) yGraphPaths[_i] = -1;
+		xGraphPaths = [];
+		yGraphPaths = [];
 	}
 	
 	/// @func	set({string} expressionString);
@@ -56,25 +69,36 @@ function Equation(_axes) constructor
 		}
 	}
 	
-	/// @func	drawGraph();
-	static drawGraph = function()
+	/// @func	draw();
+	static draw = function()
 	{
-		// Draw params
-		var _color = c_yellow;
-		
-		// Loop through path points
-		var _pointCount = path_get_number(graphPath);
-		for (var _i = 0; _i < _pointCount - 1; _i++)
+		// Loop through paths
+		var _pathCount = array_length(xGraphPaths);
+		for (var _i = 0; _i < _pathCount; _i++)
 		{
-			// Get point position
-			var _x = path_get_point_x(graphPath, _i), _y = path_get_point_y(graphPath, _i);
-			var _xNext =path_get_point_x(graphPath, _i + 1), _yNext = path_get_point_y(graphPath, _i + 1);
-			var _dx = _xNext - _x, _dy = _yNext - _y;
-			var _dir = point_direction(0, 0, _dx, _dy);
-			var _len = point_distance(0, 0, _dx, _dy);
-			
+			// Plot path
+			plot(xGraphPaths[_i], yGraphPaths[_i]);
+		}
+	}
+	
+	/// @func	plot({array} xs, {array} ys, {color} color, {real} alpha, {int} style, {sprite} lineSprite);
+	static plot = function(_xs, _ys, _color=c_white, _alpha=1, _style=0, _lineSprite=sDot)
+	{
+		// Array must be the same size
+		var _xCount = array_length(_xs), _yCount = array_length(_ys);
+		if (_xCount != _yCount) return;
+		
+		// Loop through values
+		for (var _i = 0; _i < _xCount - 1; _i++)
+		{
 			// Draw line
-			draw_sprite_ext(sDot, 0, _x, _y, _len, 1, _dir, _color, 1);
+			var _x1 = _xs[_i], _y1 = _ys[_i], _x2 = _xs[_i+1], _y2 = _ys[_i+1];
+			var _dir = point_direction(_x1, _y1, _x2, _y2);
+			var _len = point_distance(_x1, _y1, _x2, _y2);
+			draw_sprite_ext(_lineSprite, 0, _x1, _y1, _len, 1, _dir, _color, _alpha);
+			
+			// Style (for dotted lines)
+			if (_style != 0) _i++;
 		}
 	}
 	
@@ -411,7 +435,12 @@ function Equation(_axes) constructor
 	static setGraphPath = function()
 	{
 		// Clear points
-		path_clear_points(graphPath);
+		clearGraphPaths();
+		
+		// Init first path
+		var _idx = 0;
+		array_push(xGraphPaths, []);
+		array_push(yGraphPaths, []);
 		
 		// Loop through domain
 		for (var _ax = axes.lowerDomain; _ax <= axes.upperDomain; _ax += drawResolution)
@@ -423,7 +452,8 @@ function Equation(_axes) constructor
 			if (_ay >= axes.lowerRange && _ay <= axes.upperRange)
 			{
 				// Convert axes values to world coordinates and add to path
-				path_add_point(graphPath, axisXtoX(axes, _ax), axisYtoY(axes, _ay), 100);
+				array_push(xGraphPaths[_idx], axisXtoX(axes, _ax));
+				array_push(yGraphPaths[_idx], axisYtoY(axes, _ay));
 			}
 		}
 	}
