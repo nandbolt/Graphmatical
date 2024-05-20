@@ -17,6 +17,12 @@ function Equation(_axes) constructor
 	xGraphPaths = [];
 	yGraphPaths = [];
 	
+	/// @func	isEmpty();
+	static isEmpty = function()
+	{
+		return array_length(expressionTokens) == 0;
+	}
+	
 	/// @func	cleanup();
 	static cleanup = function()
 	{
@@ -438,7 +444,7 @@ function Equation(_axes) constructor
 		clearGraphPaths();
 		
 		// Init first path
-		var _idx = 0;
+		var _idx = 0, _newPathStarted = false;;
 		array_push(xGraphPaths, []);
 		array_push(yGraphPaths, []);
 		
@@ -454,6 +460,21 @@ function Equation(_axes) constructor
 				// Convert axes values to world coordinates and add to path
 				array_push(xGraphPaths[_idx], axisXtoX(axes, _ax));
 				array_push(yGraphPaths[_idx], axisYtoY(axes, _ay));
+				
+				// Set new path started
+				_newPathStarted = true;
+			}
+			else if (_newPathStarted)
+			{
+				// Add a new path
+				array_push(xGraphPaths, []);
+				array_push(yGraphPaths, []);
+				
+				// Increment index
+				_idx++;
+				
+				// Reset new path started
+				_newPathStarted = false;
 			}
 		}
 	}

@@ -11,10 +11,11 @@ ds_map_destroy(precedenceMap);
 // Loop through axes
 with (oAxes)
 {
-	// If has no equations
-	if (array_length(equations) == 1 && array_length(equations[0].expressionTokens) == 0)
+	// If has one equations
+	if (array_length(equations) == 1)
 	{
-		// Destroy axes
-		instance_destroy();
+		// Destroy axes if that equation is empty
+		var _isStruct = is_struct(equations[0])
+		if (!_isStruct || (_isStruct && equations[0].isEmpty())) instance_destroy();
 	}
 }
