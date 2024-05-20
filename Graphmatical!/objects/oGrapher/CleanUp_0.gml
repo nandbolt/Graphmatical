@@ -5,9 +5,6 @@ if (currentMenu != undefined)
 	delete currentMenu;
 }
 
-// Maps
-ds_map_destroy(precedenceMap);
-
 // Loop through axes
 with (oAxes)
 {

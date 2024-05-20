@@ -1,6 +1,9 @@
 /// @func	ExpressionTree();
 function ExpressionTree() : BinaryTree() constructor
 {
+	// Time
+	time = 0;
+	
 	/// @func	set({array} postfixExpression);
 	static set = function(_postfixExpression)
 	{
@@ -19,6 +22,7 @@ function ExpressionTree() : BinaryTree() constructor
 				// Convert token to value
 				var _value = 0;
 				if (_token == "x") _value = "x";
+				else if (_token == "t") _value = time;
 				else if (_token == "p") _value = pi;
 				else if (_token == "e") _value = 2.72;
 				else if (string_digits(_token) != "") _value = real(_token);

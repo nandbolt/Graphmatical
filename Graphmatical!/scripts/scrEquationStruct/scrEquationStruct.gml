@@ -17,6 +17,10 @@ function Equation(_axes) constructor
 	xGraphPaths = [];
 	yGraphPaths = [];
 	
+	// Time
+	hasTime = false;
+	timeOrigin = 0;
+	
 	/// @func	isEmpty();
 	static isEmpty = function()
 	{
@@ -85,6 +89,19 @@ function Equation(_axes) constructor
 			// Plot path
 			plot(xGraphPaths[_i], yGraphPaths[_i]);
 		}
+	}
+	
+	/// @func	update();
+	static update = function()
+	{
+		// Return if no time
+		if (!hasTime) return;
+		
+		// Increment time
+		expressionTree.time = current_time * 0.001 - timeOrigin;
+		
+		// Set equation again
+		set(expressionString);
 	}
 	
 	/// @func	plot({array} xs, {array} ys, {color} color, {real} alpha, {int} style, {sprite} lineSprite);
@@ -206,7 +223,7 @@ function Equation(_axes) constructor
 				#endregion
 			}
 			// Valid character
-			else if (charIsOperator(_char) || charIsConstant(_char) || _char == "x" || _char == "(" || _char == ")")
+			else if (charIsOperator(_char) || charIsConstant(_char) || _char == "x" || _char == "t" || _char == "(" || _char == ")")
 			{
 				// Get info
 				var _len = array_length(expressionTokens);
@@ -260,7 +277,7 @@ function Equation(_axes) constructor
 				var _nextChar = string_char_at(_expressionString, _i + 1);
 				
 				// If next character is x, a constant, or an open parenthesis
-				if (_nextChar == "x" || _nextChar == "p" || _nextChar == "e" || _nextChar == "(")
+				if (_nextChar == "x" || _nextChar == "t" || _nextChar == "p" || _nextChar == "e" || _nextChar == "(")
 				{
 					// Add implied multiplication
 					array_push(expressionTokens, "*");
@@ -344,7 +361,7 @@ function Equation(_axes) constructor
 			else
 			{
 				// If has no value yet and arrived at something of value (x or a constant value)
-				if (!_hasValue && (expressionTokens[_i] == "x" || charIsConstant(expressionTokens[_i]) || string_digits(expressionTokens[_i]) != ""))
+				if (!_hasValue && (expressionTokens[_i] == "x" || expressionTokens[_i] == "t" || charIsConstant(expressionTokens[_i]) || string_digits(expressionTokens[_i]) != ""))
 				{
 					// Set has value
 					_hasValue = true;
@@ -383,6 +400,17 @@ function Equation(_axes) constructor
 		}
 		
 		#endregion
+		
+		// Update time
+		var _prevHadTime = hasTime;
+		hasTime = string_pos("t", _expressionString) != 0;
+		if (hasTime && !_prevHadTime) setTimeOrigin();
+	}
+	
+	/// @func	setTimeOrigin();
+	static setTimeOrigin = function()
+	{
+		timeOrigin = current_time * 0.001;
 	}
 	
 	/// @func	updatePostfixExpression();
@@ -422,7 +450,7 @@ function Equation(_axes) constructor
 			{
 				// Remove any operators already in stack that have higher or equal precedence and append them to output list, then push token to stack
 				while (array_length(_operatorStack) > 0 && 
-					  (oGrapher.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= oGrapher.precedenceMap[? _token]))
+					  (oWorld.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= oWorld.precedenceMap[? _token]))
 				{
 					array_push(postfixExpressionTokens, array_pop(_operatorStack));
 				}

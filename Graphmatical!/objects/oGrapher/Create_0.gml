@@ -7,9 +7,6 @@ currentMenu = undefined;
 // Axes
 currentAxes = noone;
 
-// Graphing
-precedenceMap = ds_map_create();
-
 #region Functions
 
 /// @func	changeAxes({id} axes);
@@ -229,7 +226,7 @@ addEquation = function()
 		// Add equation to axes
 		with (oAxes)
 		{
-			array_push(equations, new Equation());
+			array_push(equations, new Equation(self));
 		}
 	
 		// Add equation textfield to menu
@@ -284,22 +281,7 @@ enterEquation = function()
 	}
 }
 
-/// @func	
-
 #endregion
-
-// Init precedence map
-ds_map_add(precedenceMap, "(", 1);	// Parenthesis
-ds_map_add(precedenceMap, "+", 2);	// Addition
-ds_map_add(precedenceMap, "-", 2);	// Subtraction
-ds_map_add(precedenceMap, "*", 3);	// Multiplication
-ds_map_add(precedenceMap, "/", 3);	// Division
-ds_map_add(precedenceMap, "s", 3);	// Sine
-ds_map_add(precedenceMap, "c", 3);	// Cosine
-ds_map_add(precedenceMap, "g", 3);	// Tangent
-ds_map_add(precedenceMap, "^", 4);	// Power
-ds_map_add(precedenceMap, "l", 5);	// Log
-ds_map_add(precedenceMap, "r", 5);	// Root
 
 // Set position to grid
 x -= x mod TILE_SIZE;
