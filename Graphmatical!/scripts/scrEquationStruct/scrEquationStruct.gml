@@ -454,6 +454,9 @@ function Equation(_axes) constructor
 			// Get equation output
 			var _ay = evaluate(_ax);
 			
+			// Continue if error
+			if (is_string(_ay)) continue;
+			
 			// If axis y value is within range
 			if (_ay >= axes.lowerRange && _ay <= axes.upperRange)
 			{
@@ -466,26 +469,30 @@ function Equation(_axes) constructor
 					var _axOut = _ax - drawResolution;
 					var _ayOut = evaluate(_axOut);
 					
-					// Init edge axis values
-					var _axEdge = _ax, _ayEdge = _ay;
-					var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
-					
-					// Loop 100 times just in case
-					var _incr = 0.05;
-					for (var _i = 0; _i < 100; _i++)
+					// If previous point was not an error
+					if (!is_string(_ayOut))
 					{
-						// Move edge values closer to out of bounds value
-						var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
-						_axEdge += _dx;
-						_ayEdge += _dy;
-						
-						// If edge is now out of bounds
-						if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
-					}
+						// Init edge axis values
+						var _axEdge = _ax, _ayEdge = _ay;
+						var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
 					
-					// Add edge value
-					array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
-					array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
+						// Loop 100 times just in case
+						var _incr = 0.05;
+						for (var _i = 0; _i < 100; _i++)
+						{
+							// Move edge values closer to out of bounds value
+							var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
+							_axEdge += _dx;
+							_ayEdge += _dy;
+						
+							// If edge is now out of bounds
+							if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
+						}
+					
+						// Add edge value
+						array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
+						array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
+					}
 					
 					#endregion
 				}
@@ -550,8 +557,26 @@ function Equation(_axes) constructor
 	}
 	
 	/// @func	evaluate({real} input);
+	/// @desc	Evaluates the equation at the input and returns the output. If there is a math error, return an error code (string).
 	static evaluate = function(_input)
 	{
-		return expressionTree.evaluate(_input, expressionTree.root);
+		// Init value
+		var _value = 0;
+		
+		// Try to...
+		try
+		{
+			// Evaluate function at input
+			_value = expressionTree.evaluate(_input, expressionTree.root);
+		}
+		// Catch any math errors
+		catch(_exception)
+		{
+			// Set value to exception (string)
+			_value = _exception;
+		}
+		
+		// Return value
+		return _value;
 	}
 }
