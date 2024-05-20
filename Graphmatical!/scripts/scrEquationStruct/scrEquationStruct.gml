@@ -131,7 +131,7 @@ function Equation(_axes) constructor
 		// Replace word operators
 		_expressionString = string_replace_all(_expressionString, "sin", "s");
 		_expressionString = string_replace_all(_expressionString, "cos", "c");
-		_expressionString = string_replace_all(_expressionString, "tan", "t");
+		_expressionString = string_replace_all(_expressionString, "tan", "g");
 		_expressionString = string_replace_all(_expressionString, "log", "l");
 		_expressionString = string_replace_all(_expressionString, "root", "r");
 		
@@ -214,7 +214,7 @@ function Equation(_axes) constructor
 				if (_len > 0) _prevChar = expressionTokens[_len - 1];
 				
 				// Trig
-				if ((_char == "s" || _char == "c" || _char == "t") && (_len == 0 || charIsOperator(_prevChar) || _prevChar == "("))
+				if ((_char == "s" || _char == "c" || _char == "g") && (_len == 0 || charIsOperator(_prevChar) || _prevChar == "("))
 				{
 					// Add implied 1 to operator
 					array_push(expressionTokens, "1");

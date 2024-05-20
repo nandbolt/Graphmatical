@@ -88,7 +88,7 @@ function ExpressionTree() : BinaryTree() constructor
 		}
 		else if (_node.data == "s") _value += _leftValue * sin(_rightValue);
 		else if (_node.data == "c") _value += _leftValue * cos(_rightValue);
-		else if (_node.data == "t")
+		else if (_node.data == "g")
 		{
 			// Get tangent
 			var _tan = _leftValue * tan(_rightValue);

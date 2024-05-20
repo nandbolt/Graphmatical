@@ -17,7 +17,7 @@ function charIsDigit(_char)
 function charIsOperator(_char)
 {
 	return _char == "+" || _char == "-" || _char == "*" || _char == "/" || _char == "^" ||
-		_char == "s" || _char == "c" || _char == "t" || _char == "l" || _char == "r";
+		_char == "s" || _char == "c" || _char == "g" || _char == "l" || _char == "r";
 }
 	
 /// @func	charIsConstant({char} char);
