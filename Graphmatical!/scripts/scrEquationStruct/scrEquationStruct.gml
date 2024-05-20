@@ -457,6 +457,39 @@ function Equation(_axes) constructor
 			// If axis y value is within range
 			if (_ay >= axes.lowerRange && _ay <= axes.upperRange)
 			{
+				// If start of new path and first point is not near the edge
+				if (!_newPathStarted && (axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1))
+				{
+					#region Left Clamped Point
+					
+					// Calcuate out of bounds axis values
+					var _axOut = _ax - drawResolution;
+					var _ayOut = evaluate(_axOut);
+					
+					// Init edge axis values
+					var _axEdge = _ax, _ayEdge = _ay;
+					var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
+					
+					// Loop 100 times just in case
+					var _incr = 0.05;
+					for (var _i = 0; _i < 100; _i++)
+					{
+						// Move edge values closer to out of bounds value
+						var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
+						_axEdge += _dx;
+						_ayEdge += _dy;
+						
+						// If edge is now out of bounds
+						if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
+					}
+					
+					// Add edge value
+					array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
+					array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
+					
+					#endregion
+				}
+				
 				// Convert axes values to world coordinates and add to path
 				array_push(xGraphPaths[_idx], axisXtoX(axes, _ax));
 				array_push(yGraphPaths[_idx], axisYtoY(axes, _ay));
@@ -466,6 +499,43 @@ function Equation(_axes) constructor
 			}
 			else if (_newPathStarted)
 			{
+				// Set out of bounds axis values
+				var _axOut = _ax;
+				var _ayOut = _ay;
+				
+				// Calculate previous axis values
+				_ax -= drawResolution;
+				_ay = evaluate(_ax);
+				
+				// If start of new path and first point is not near the edge
+				if (axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1)
+				{
+					#region Right Clamped Point
+					
+					// Init edge axis values
+					var _axEdge = _ax, _ayEdge = _ay;
+					var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
+					
+					// Loop 100 times just in case
+					var _incr = 0.05;
+					for (var _i = 0; _i < 100; _i++)
+					{
+						// Move edge values closer to out of bounds value
+						var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
+						_axEdge += _dx;
+						_ayEdge += _dy;
+						
+						// If edge is now out of bounds
+						if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
+					}
+					
+					// Add edge value
+					array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
+					array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
+					
+					#endregion
+				}
+				
 				// Add a new path
 				array_push(xGraphPaths, []);
 				array_push(yGraphPaths, []);
