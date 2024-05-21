@@ -39,6 +39,7 @@
     {"id":{"name":"oDebugManager","path":"objects/oDebugManager/oDebugManager.yy",},"order":0,},
     {"id":{"name":"sHumanSlide","path":"sprites/sHumanSlide/sHumanSlide.yy",},"order":6,},
     {"id":{"name":"scrEquationStruct","path":"scripts/scrEquationStruct/scrEquationStruct.yy",},"order":0,},
+    {"id":{"name":"scrCollisionFunctions","path":"scripts/scrCollisionFunctions/scrCollisionFunctions.yy",},"order":2,},
     {"id":{"name":"sCross","path":"sprites/sCross/sCross.yy",},"order":0,},
     {"id":{"name":"oGameManager","path":"objects/oGameManager/oGameManager.yy",},"order":0,},
     {"id":{"name":"oWorld","path":"objects/oWorld/oWorld.yy",},"order":1,},

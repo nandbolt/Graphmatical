@@ -52,17 +52,17 @@ if (!grounded) coyoteBufferCounter = clamp(coyoteBufferCounter-1, 0, coyoteBuffe
 else coyoteBufferCounter = coyoteBuffer;
 
 // Set jump buffer
-if (inputJumpPressed && !(inputCrouch && onPassableFloor())) jumpBufferCounter = jumpBuffer;
+if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
 else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
 
 // Jump if initiated
-if (jumpBufferCounter > 0 && (normal.x != 0 || normal.y != 0 || coyoteBufferCounter > 0)) jump();
+if (jumpBufferCounter > 0 && (grounded || coyoteBufferCounter > 0)) jump();
 else if (!grounded && !inputJump && velocity.y < 0) velocity.y += smallJumpStrength;
 
 #endregion
 
-// Rigid body
+// Update rigid body movements
 rbUpdate();
 
-// IKH
+// Update ikh animations based on resulting rigid body
 ikhUpdate();

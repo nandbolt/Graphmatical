@@ -80,8 +80,6 @@ function ExpressionTree() : BinaryTree() constructor
 		else if (_node.data = "^")
 		{
 			// Get power
-			_leftValue = -1;
-			_rightValue = 1/2;
 			var _power = power(_leftValue, _rightValue);
 			
 			// Negative base + fractional exponent error

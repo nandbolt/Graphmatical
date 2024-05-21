@@ -8,6 +8,7 @@ function rbInit()
 	
 	// States
 	grounded = false;
+	ignoreGraphs = false;
 	
 	// Movement
 	velocity = new Vector2();
@@ -50,8 +51,8 @@ function rbUpdate()
 	normal.x = 0;
 	normal.y = 0;
 	
-	// Update tile normals
-	rbUpdateTileNormal();
+	// Update grounded state
+	rbUpdateGroundedState();
 	
 	// Gravity
 	velocity.y += gravityStrength;
@@ -74,6 +75,48 @@ function rbUpdate()
 		if (sign(velocity.y) != _dy) velocity.y = 0;
 	}
 	
+	#region Handle X Graph Collisions
+	
+	// If not ignoring graphs
+	if (!ignoreGraphs)
+	{
+		// Set collision variable
+		var _collision = false;
+		
+		// Loop through axes
+		with (oAxes)
+		{
+			// Loop through equations
+			for (var _i = 0; _i < array_length(equations); _i++)
+			{
+				// Get equation
+				var _equation = equations[_i];
+				
+				// Go back to rigid body scope
+				with (other)
+				{
+					// If x graph collisions
+					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom))
+					{
+						// Land if landed
+						if (!grounded) rbLand();
+						
+						// Zero x velocity
+						velocity.x = 0;
+					}
+				}
+				
+				// Break if collision
+				if (_collision) break;
+			}
+			
+			// Break if collision
+			if (_collision) break;
+		}
+	}
+	
+	#endregion
+	
 	#region Handle X Tile Collisions
 	
 	var _bboxSide = bbox_left;
@@ -87,10 +130,6 @@ function rbUpdate()
 		{
 			// Store collision velocity
 			bounceVelocity.x = -velocity.x * bounciness;
-			
-			// Set normal
-			//normal.x = -sign(velocity.x);
-			//normal.y = 0;
 			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
@@ -121,6 +160,48 @@ function rbUpdate()
 	{
 		velocity.x = bounceVelocity.x;
 		bounceVelocity.x = 0;
+	}
+	
+	#endregion
+	
+	#region Handle Y Graph Collisions
+	
+	// If not ignoring graphs
+	if (!ignoreGraphs)
+	{
+		// Set collision variable
+		var _collision = false;
+		
+		// Loop through axes
+		with (oAxes)
+		{
+			// Loop through equations
+			for (var _i = 0; _i < array_length(equations); _i++)
+			{
+				// Get equation
+				var _equation = equations[_i];
+				
+				// Go back to rigid body scope
+				with (other)
+				{
+					// If y graph collisions
+					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x, bbox_bottom + velocity.y))
+					{
+						// Land if landed
+						if (!grounded && velocity.y > 0) rbLand();
+						
+						// Zero y velocity
+						velocity.y = 0;
+					}
+				}
+				
+				// Break if collision
+				if (_collision) break;
+			}
+			
+			// Break if collision
+			if (_collision) break;
+		}
 	}
 	
 	#endregion
@@ -247,7 +328,6 @@ function rbDrawGui()
 	draw_text(_x, _y, "Grounded: " + string(grounded));
 }
 
-
 /// @func	rbUpdateBbox();
 /// @desc	Updates the bounding box sizes based off of current bounding box side locations.
 function rbUpdateBbox()
@@ -265,6 +345,33 @@ function rbUpdateGroundedState()
 		// Reset grounded
 		grounded = false;
 		
+		// Graph check
+		if (!ignoreGraphs)
+		{
+			// Loop through axes
+			with (oAxes)
+			{
+				// Loop through equations
+				for (var _i = 0; _i < array_length(equations); _i++)
+				{
+					// Get equation
+					var _equation = equations[_i];
+				
+					// Go back to rigid body scope
+					with (other)
+					{
+						// If y graph collisions
+						if (graphVectorGroundCollision(_equation, x, bbox_bottom, x, bbox_bottom + 2))
+						{
+							grounded = true;
+							normal.x = 0;
+							normal.y = -1;
+						}
+					}
+				}
+			}
+		}
+		
 		// Tile check
 		for (var _i = 0; _i < 2; _i++)
 		{
@@ -275,35 +382,6 @@ function rbUpdateGroundedState()
 				normal.y = -1;
 				break;
 			}
-		}
-	}
-}
-
-/// @func	rbUpdateTileNormal();
-function rbUpdateTileNormal()
-{
-	// Update grounded state
-	rbUpdateGroundedState();
-	
-	// If not grounded
-	if (!grounded)
-	{
-		// Check walls
-		if (tilemap_get_at_pixel(collisionMap, bbox_left-1, y) == 1)
-		{
-			normal.x = 1;
-			normal.y = 0;
-		}
-		else if (tilemap_get_at_pixel(collisionMap, bbox_right+1, y) == 1)
-		{
-			normal.x = -1;
-			normal.y = 0;
-		}
-		// Check cieling
-		else if (tilemap_get_at_pixel(collisionMap, x, bbox_top-1) == 1)
-		{
-			normal.x = 0;
-			normal.y = 1;
 		}
 	}
 }

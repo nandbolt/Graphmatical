@@ -1,3 +1,5 @@
+/// @desc	Init player
+
 // States
 canMove = true;
 
@@ -66,13 +68,6 @@ jump = function()
 	jumpBufferCounter = 0;
 	coyoteBufferCounter = 0;
 	grounded = false;
-}
-
-/// @func	onPassableFloor();
-/// @desc	Returns if on a floor that can be passed through using the jump button.
-onPassableFloor = function()
-{
-	return false;
 }
 
 /// @func	resetMoveInputs();
