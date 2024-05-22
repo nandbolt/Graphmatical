@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scrEquationStruct",
+  "name": "scrLineStruct",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Graphing",
-    "path": "folders/Scripts/Physics/Graphing.yy",
+    "name": "Physics",
+    "path": "folders/Scripts/Physics.yy",
   },
 }

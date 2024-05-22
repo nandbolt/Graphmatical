@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Graphing",
-    "path": "folders/Scripts/Graphing.yy",
+    "path": "folders/Scripts/Physics/Graphing.yy",
   },
 }
