@@ -140,7 +140,9 @@ function Equation(_axes) constructor
 		var _expressionString = string_trim(expressionString);
 		
 		// Remove in-between whitespace
-		_expressionString = string_join_ext("", string_split(_expressionString, " ", true));
+		var _split = string_split(_expressionString, " ", true);
+		_expressionString = "";
+		for (var _i = 0; _i < array_length(_split); _i++) _expressionString += _split[_i];
 		
 		// Force lowercase
 		_expressionString = string_lower(_expressionString);
