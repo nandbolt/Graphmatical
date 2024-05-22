@@ -189,7 +189,13 @@ function rbUpdate()
 					// Land if wasn't grounded and normal isn't too steep
 					if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
 				}
+				
+				// Exit equations loop if collision
+				if (_collision) break;
 			}
+			
+			// Exit axes loop if collision
+			if (_collision) break;
 		}
 		
 		// Destroy list
