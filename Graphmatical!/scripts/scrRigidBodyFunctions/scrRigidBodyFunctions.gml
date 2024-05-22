@@ -60,7 +60,7 @@ function rbUpdate()
 	rbUpdateGroundedState();
 	
 	// Handle resistances
-	//rbHandleResistances();
+	rbHandleResistances();
 	
 	// Gravity
 	velocity.y += gravityStrength;
@@ -424,41 +424,30 @@ function rbUpdateGroundedState()
 /// @func	rbHandleResistances();
 function rbHandleResistances()
 {
-	// Air resistance
-	var _dx = sign(velocity.x), _dy = sign(velocity.y);
-	velocity.x += airResistance.x;
-	velocity.y += airResistance.y;
-	if (sign(velocity.x) != _dx) velocity.x = 0;
-	if (sign(velocity.y) != _dy) velocity.y = 0;
-	
-	// Ground resistance
-	if (grounded)
-	{
-		_dx = sign(velocity.x);
-		_dy = sign(velocity.y);
-		velocity.x += groundResistance.x;
-		velocity.y += groundResistance.y;
-		if (sign(velocity.x) != _dx) velocity.x = 0;
-		if (sign(velocity.y) != _dy) velocity.y = 0;
-	}
-	
-	// Calculate resistances
-	if (spd > 0)
+	// If moving
+	var _speed = velocity.getLength();
+	if (_speed > 0)
 	{
 		// Calculate air resistance
-		airResistance.x = -velocity.x;
-		airResistance.y = -velocity.y;
+		airResistance.x = velocity.x;
+		airResistance.y = velocity.y;
 		airResistance.normalize();
-		airResistance.multiplyByScalar(airConstant * spd * spd);
+		airResistance.multiplyByScalar(-1 * airConstant * _speed * _speed);
 		
-		// If touching normal
-		if (normal.x != 0 || normal.y != 0)
+		// If grounded
+		if (grounded)
 		{
 			// Calculate ground resistance
-			groundResistance.x = -velocity.x;
-			groundResistance.y = -velocity.y;
+			groundResistance.x = velocity.x;
+			groundResistance.y = velocity.y;
 			groundResistance.normalize();
-			groundResistance.multiplyByScalar(groundConstant);
+			groundResistance.multiplyByScalar(-1 * groundConstant);
+			
+			// Apply ground resistance (account for overshoot)
+			var _dir = sign(velocity.x);
+			velocity.x += groundResistance.x;
+			velocity.y += groundResistance.y;
+			if (sign(velocity.x) != _dir) velocity.x = 0;
 		}
 	}
 }

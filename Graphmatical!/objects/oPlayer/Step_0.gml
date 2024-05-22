@@ -35,6 +35,10 @@ if (inputEditorPressed)
 	}
 }
 
+// Ignore graphs
+if (inputCrouch && inputJump) ignoreGraphs = true;
+else ignoreGraphs = false;
+
 // Apply x velocity
 var _xStrength = runStrength;
 if (!grounded) _xStrength = driftStrength;
