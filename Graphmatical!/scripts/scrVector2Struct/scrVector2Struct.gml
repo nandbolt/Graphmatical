@@ -42,9 +42,6 @@ function Vector2(_x=0, _y=0) constructor
 	/// @desc	Rotates the vector by the given angle (in degrees).
 	static rotateDegrees = function(_angle)
 	{
-		// Return is zero vector
-		if (x == 0 && y == 0) return;
-		
 		// Store length
 		var _length = getLength();
 		

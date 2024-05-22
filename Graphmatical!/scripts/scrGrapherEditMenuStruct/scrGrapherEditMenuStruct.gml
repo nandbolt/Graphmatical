@@ -91,7 +91,7 @@ function GrapherEditMenu() : Menu() constructor
 				{
 					// Equation stats
 					draw_set_halign(fa_right);
-					var _xx = display_get_gui_width() - 16, _yy = 16;
+					var _xx = display_get_gui_width() - 16, _yy = 16 * 4;
 					draw_text(_xx, _yy, "Domain count: "+string(array_length(xGraphPaths)));
 					for (var _j = 0; _j < array_length(xGraphPaths); _j++)
 					{
@@ -106,6 +106,16 @@ function GrapherEditMenu() : Menu() constructor
 				}
 			}
 		}
+		
+		// Axes stats
+		draw_set_halign(fa_right);
+		_x = display_get_gui_width() - 16;
+		_y = 16;
+		draw_text(_x, _y, "Axes origin: ("+string(floor(other.currentAxes.x / TILE_SIZE)) + ", " + string(floor(-other.currentAxes.y / TILE_SIZE)) + ")");
+		_y += 16;
+		draw_text(_x, _y, "Width: "+string(other.currentAxes.upperDomain * 2));
+		_y += 16;
+		draw_text(_x, _y, "Height: "+string(other.currentAxes.upperRange * 2));
 	}
 	
 	// Load equations
