@@ -26,10 +26,10 @@ function rbInit()
 	
 	// Collisions
 	collisionMap = layer_tilemap_get_id("CollisionTiles");
+	collisionVelocity = new Vector2();
 	collisionThreshold = 0.1;
 	
 	// Bounce
-	bounceVelocity = new Vector2();
 	bounciness = 0;
 }
 
@@ -37,20 +37,16 @@ function rbInit()
 function rbCleanup()
 {
 	// Vectors
-	if (is_struct(velocity)) delete velocity;
-	if (is_struct(normal)) delete normal;
-	if (is_struct(bounceVelocity)) delete bounceVelocity;
-	if (is_struct(airResistance)) delete airResistance;
-	if (is_struct(groundResistance)) delete groundResistance;
+	delete velocity;
+	delete normal;
+	delete collisionVelocity;
+	delete airResistance;
+	delete groundResistance;
 }
 
 /// @func	rbUpdate();
 function rbUpdate()
-{	
-	// Reset normal
-	normal.x = 0;
-	normal.y = 0;
-	
+{
 	// Update grounded state
 	rbUpdateGroundedState();
 	
@@ -75,7 +71,7 @@ function rbUpdate()
 		if (sign(velocity.y) != _dy) velocity.y = 0;
 	}
 	
-	#region Handle X Graph Collisions
+	#region Handle Graph Collisions
 	
 	// If not ignoring graphs
 	if (!ignoreGraphs)
@@ -96,22 +92,97 @@ function rbUpdate()
 				with (other)
 				{
 					// If x graph collisions
-					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom))
+					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
 					{
-						// Land if landed
-						if (!grounded) rbLand();
+						// Store collision
+						_collision = true;
+						var _bboxSide = bbox_left;
+						if (velocity.x > 0) _bboxSide = bbox_right;
+						collisionVelocity.x = velocity.x;
+						collisionVelocity.y = velocity.y;
 						
-						// Zero x velocity
-						velocity.x = 0;
+						#region Move Close
+						
+						// While velocity is below 
+						while (velocity.getLength() > collisionThreshold)
+						{
+							// Halve velocity
+							velocity.multiplyByScalar(0.5);
+							
+							// If no graph collision
+							if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+							{
+								// If no tile collisions
+								if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
+									tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
+								{
+									// Move closer
+									x += velocity.x;
+									y += velocity.y;
+								}
+							}
+						}
+						
+						#endregion
+						
+						#region Calculate Normal
+						
+						// Calculate y values
+						var _xSize = 2;
+						var _ayLeft = _equation.evaluate(xToAxisX(other, x-1));
+						if (is_string(_ayLeft))
+						{
+							_ayLeft = _equation.evaluate(xToAxisX(other, x));
+							_xSize--;
+						}
+						var _ayRight = _equation.evaluate(xToAxisX(other, x+1));
+						if (is_string(_ayRight))
+						{
+							_ayRight = _equation.evaluate(xToAxisX(other, x));
+							_xSize--;
+						}
+						var _leftY = axisYtoY(other, _ayLeft), _rightY = axisYtoY(other, _ayRight);
+						
+						// Calculate normal
+						normal.x = _xSize;
+						normal.y = _rightY - _leftY;
+						normal.rotateDegrees(90);
+						normal.normalize();
+						
+						#endregion
+						
+						// Calculate velocity projection
+						var _dotProduct = collisionVelocity.dotWithVector(normal);
+						velocity.x = collisionVelocity.x - normal.x * _dotProduct;
+						velocity.y = collisionVelocity.y - normal.y * _dotProduct;
+						show_debug_message(velocity);
+						
+						// Get rotation direction
+						var _normalAngle = normal.getAngleDegrees();
+						var _rotationDirection = sign(angle_difference(velocity.getAngleDegrees(), _normalAngle));
+						
+						// Rotate velocity until above graph (up to a max)
+						var _rotationCount = 0;
+						while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+						{
+							// Rotate velocity
+							velocity.rotateDegrees(_rotationDirection);
+							_rotationCount++;
+								
+							// Break if too many rotations
+							if (_rotationCount > 45 || _rotationDirection == 0)
+							{
+								velocity.x = 0;
+								velocity.y = 0;
+								break;
+							}
+						}
+						
+						// Land if wasn't grounded and normal isn't too steep
+						if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
 					}
 				}
-				
-				// Break if collision
-				if (_collision) break;
 			}
-			
-			// Break if collision
-			if (_collision) break;
 		}
 	}
 	
@@ -129,7 +200,7 @@ function rbUpdate()
 		if (_tile == 1)
 		{
 			// Store collision velocity
-			bounceVelocity.x = -velocity.x * bounciness;
+			collisionVelocity.x = velocity.x;
 			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
@@ -156,52 +227,13 @@ function rbUpdate()
 	x += velocity.x;
 	
 	// Set bounce velocity
-	if (bounceVelocity.x != 0)
+	if (collisionVelocity.x != 0 && bounciness != 0)
 	{
-		velocity.x = bounceVelocity.x;
-		bounceVelocity.x = 0;
-	}
-	
-	#endregion
-	
-	#region Handle Y Graph Collisions
-	
-	// If not ignoring graphs
-	if (!ignoreGraphs)
-	{
-		// Set collision variable
-		var _collision = false;
+		// Set bounce velocity
+		velocity.x = -collisionVelocity.x * bounciness;
 		
-		// Loop through axes
-		with (oAxes)
-		{
-			// Loop through equations
-			for (var _i = 0; _i < array_length(equations); _i++)
-			{
-				// Get equation
-				var _equation = equations[_i];
-				
-				// Go back to rigid body scope
-				with (other)
-				{
-					// If y graph collisions
-					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x, bbox_bottom + velocity.y))
-					{
-						// Land if landed
-						if (!grounded && velocity.y > 0) rbLand();
-						
-						// Zero y velocity
-						velocity.y = 0;
-					}
-				}
-				
-				// Break if collision
-				if (_collision) break;
-			}
-			
-			// Break if collision
-			if (_collision) break;
-		}
+		// Reset collision velocity
+		collisionVelocity.x = 0
 	}
 	
 	#endregion
@@ -218,7 +250,7 @@ function rbUpdate()
 		if (_tile == 1)
 		{
 			// Store collision velocity
-			bounceVelocity.y = -velocity.y * bounciness;
+			collisionVelocity.y = velocity.y;
 			
 			// Set normal
 			normal.x = 0;
@@ -252,10 +284,13 @@ function rbUpdate()
 	y += velocity.y;
 	
 	// Set bounce velocity
-	if (bounceVelocity.y != 0)
+	if (collisionVelocity.y != 0 && bounciness != 0)
 	{
-		velocity.y = bounceVelocity.y;
-		bounceVelocity.y = 0;
+		// Set bounce velocity
+		velocity.y = -collisionVelocity.y * bounciness;
+		
+		// Reset collision velocity
+		collisionVelocity.y = 0;
 	}
 	
 	#endregion
@@ -364,8 +399,7 @@ function rbUpdateGroundedState()
 						if (graphVectorGroundCollision(_equation, x, bbox_bottom, x, bbox_bottom + 2))
 						{
 							grounded = true;
-							normal.x = 0;
-							normal.y = -1;
+							return;
 						}
 					}
 				}
@@ -378,9 +412,7 @@ function rbUpdateGroundedState()
 			if (tilemap_get_at_pixel(collisionMap, bbox_left + _i * bboxWidth, bbox_bottom + 1) == 1)
 			{
 				grounded = true;
-				normal.x = 0;
-				normal.y = -1;
-				break;
+				return;
 			}
 		}
 	}

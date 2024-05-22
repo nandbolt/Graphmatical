@@ -37,6 +37,6 @@
   "overriddenProperties": [],
   "parent": {
     "name": "Player",
-    "path": "folders/Objects/Player.yy",
+    "path": "folders/Objects/Actors/Player.yy",
   },
 }

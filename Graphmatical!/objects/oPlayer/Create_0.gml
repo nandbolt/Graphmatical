@@ -42,23 +42,8 @@ slideGroundConstant = 0.02;
 jump = function()
 {
 	// Calculate jump
-	var _jumpStrength = jumpStrength;
-	if (grounded || coyoteBufferCounter > 0)
-	{
-		// Ground jump
-		jumpForce.x = normal.x;
-		jumpForce.y = normal.y;
-	}
-	else
-	{
-		// Wall/cieling jump
-		_jumpStrength = wallJumpStrength;
-		jumpForce.x = normal.x;
-		if (inputMove.x != normal.x && inputMove.x != 0) jumpForce.y = normal.y - 1;
-		else jumpForce.y = normal.y + inputMove.y;
-	}
-	jumpForce.normalize();
-	jumpForce.multiplyByScalar(_jumpStrength);
+	jumpForce.x = 0;
+	jumpForce.y = -jumpStrength;
 	
 	// Apply jump
 	velocity.x += jumpForce.x;
