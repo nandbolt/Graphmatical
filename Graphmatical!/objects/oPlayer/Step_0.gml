@@ -39,11 +39,17 @@ if (inputEditorPressed)
 if (inputCrouch && inputJump) ignoreGraphs = true;
 else ignoreGraphs = false;
 
-// Apply x velocity
-var _xStrength = runStrength;
-if (!grounded) _xStrength = driftStrength;
-else if (inputCrouch) _xStrength = 0;
-velocity.x += inputMove.x * _xStrength;
+#region Apply Move Input
+
+// Calculate strengths
+var _moveStrength = runStrength;
+if (inputCrouch) _moveStrength = 0;
+if (!grounded) _moveStrength = driftStrength;
+
+// Apply input
+velocity.x += inputMove.x * _moveStrength;
+
+#endregion
 
 // Resistances
 if (inputCrouch) groundConstant = slideGroundConstant;
