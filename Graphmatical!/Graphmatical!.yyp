@@ -34,6 +34,7 @@
     {"id":{"name":"sHumanFall","path":"sprites/sHumanFall/sHumanFall.yy",},"order":5,},
     {"id":{"name":"oDisplayManager","path":"objects/oDisplayManager/oDisplayManager.yy",},"order":0,},
     {"id":{"name":"sHumanJumpCenter","path":"sprites/sHumanJumpCenter/sHumanJumpCenter.yy",},"order":2,},
+    {"id":{"name":"oHitbox","path":"objects/oHitbox/oHitbox.yy",},"order":1,},
     {"id":{"name":"scrExpressionTreeStruct","path":"scripts/scrExpressionTreeStruct/scrExpressionTreeStruct.yy",},"order":2,},
     {"id":{"name":"sSquareCenter","path":"sprites/sSquareCenter/sSquareCenter.yy",},"order":3,},
     {"id":{"name":"oDebugManager","path":"objects/oDebugManager/oDebugManager.yy",},"order":0,},

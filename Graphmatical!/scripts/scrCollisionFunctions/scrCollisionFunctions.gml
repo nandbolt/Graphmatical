@@ -27,7 +27,7 @@ function graphVectorGroundCollision(_equation, _x1, _y1, _x2, _y2)
 		if ((_x1 >= _lowerBound && _x1 <= _upperBound) || (_x2 >= _lowerBound && _x2 <= _upperBound))
 		{
 			// Collision if starting point above and ending point below
-			if (graphPointAbove(_equation, _x1, _y1) && !graphPointAbove(_equation, _x2, _y2)) return true;
+			if (graphPointAbove(_equation, clamp(_x1, _lowerBound, _upperBound), _y1) && !graphPointAbove(_equation, clamp(_x2, _lowerBound, _upperBound), _y2)) return true;
 			
 			// Break out of loop (other domains aren't necessary to check)
 			break;

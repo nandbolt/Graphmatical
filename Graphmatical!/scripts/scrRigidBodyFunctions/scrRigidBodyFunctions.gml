@@ -28,6 +28,12 @@ function rbInit()
 	collisionMap = layer_tilemap_get_id("CollisionTiles");
 	collisionVelocity = new Vector2();
 	collisionThreshold = 0.1;
+	graphDetector = instance_create_layer(x, y, "Instances", oHitbox);
+	with (graphDetector)
+	{
+		image_xscale = other.bboxWidth * 0.5 + TILE_SIZE;
+		image_yscale = other.bboxHeight * 0.5 + TILE_SIZE;
+	}
 	
 	// Bounce
 	bounciness = 0;
@@ -36,6 +42,9 @@ function rbInit()
 /// @func	rbCleanup();
 function rbCleanup()
 {
+	// Detector
+	instance_destroy(graphDetector);
+	
 	// Vectors
 	delete velocity;
 	delete normal;
@@ -61,114 +70,128 @@ function rbUpdate()
 	// If not ignoring graphs
 	if (!ignoreGraphs)
 	{
+		// Get axes collided with
+		var _axesList = ds_list_create();
+		with (graphDetector)
+		{
+			instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
+		}
+		
 		// Set collision variable
 		var _collision = false;
 		
 		// Loop through axes
-		with (oAxes)
+		for (var _j = 0; _j < ds_list_size(_axesList); _j++)
 		{
-			// Loop through equations
-			for (var _i = 0; _i < array_length(equations); _i++)
+			// Axes scope
+			with (_axesList[| _j])
 			{
-				// Get equation
-				var _equation = equations[_i];
-				
-				// Go back to rigid body scope
-				with (other)
+				// Loop through equations
+				for (var _i = 0; _i < array_length(equations); _i++)
 				{
-					// If x graph collisions
-					if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+					// Get equation
+					var _equation = equations[_i];
+				
+					// Go back to rigid body scope
+					with (other)
 					{
-						// Store collision
-						_collision = true;
-						var _bboxSide = bbox_left;
-						if (velocity.x > 0) _bboxSide = bbox_right;
-						collisionVelocity.x = velocity.x;
-						collisionVelocity.y = velocity.y;
-						
-						#region Move Close
-						
-						// While velocity is below 
-						while (velocity.getLength() > collisionThreshold)
+						// If x graph collisions
+						if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
 						{
-							// Halve velocity
-							velocity.multiplyByScalar(0.5);
-							
-							// If no graph collision
-							if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+							// Store collision
+							_collision = true;
+							var _bboxSide = bbox_left;
+							if (velocity.x > 0) _bboxSide = bbox_right;
+							collisionVelocity.x = velocity.x;
+							collisionVelocity.y = velocity.y;
+						
+							#region Move Close
+						
+							// While velocity is below 
+							while (velocity.getLength() > collisionThreshold)
 							{
-								// If no tile collisions
-								if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
-									tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
+								// Halve velocity
+								velocity.multiplyByScalar(0.5);
+							
+								// If no graph collision
+								if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
 								{
-									// Move closer
-									x += velocity.x;
-									y += velocity.y;
+									// If no tile collisions
+									if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
+										tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
+									{
+										// Move closer
+										x += velocity.x;
+										y += velocity.y;
+									}
 								}
 							}
-						}
 						
-						#endregion
+							#endregion
 						
-						#region Calculate Normal
+							#region Calculate Normal
 						
-						// Calculate y values
-						var _xSize = 2;
-						var _ayLeft = _equation.evaluate(xToAxisX(other, x-1));
-						if (is_string(_ayLeft))
-						{
-							_ayLeft = _equation.evaluate(xToAxisX(other, x));
-							_xSize--;
-						}
-						var _ayRight = _equation.evaluate(xToAxisX(other, x+1));
-						if (is_string(_ayRight))
-						{
-							_ayRight = _equation.evaluate(xToAxisX(other, x));
-							_xSize--;
-						}
-						var _leftY = axisYtoY(other, _ayLeft), _rightY = axisYtoY(other, _ayRight);
-						
-						// Calculate normal
-						normal.x = _xSize;
-						normal.y = _rightY - _leftY;
-						normal.rotateDegrees(90);
-						normal.normalize();
-						
-						#endregion
-						
-						// Calculate velocity projection
-						var _dotProduct = collisionVelocity.dotWithVector(normal);
-						velocity.x = collisionVelocity.x - normal.x * _dotProduct;
-						velocity.y = collisionVelocity.y - normal.y * _dotProduct;
-						show_debug_message(velocity);
-						
-						// Get rotation direction
-						var _normalAngle = normal.getAngleDegrees();
-						var _rotationDirection = sign(angle_difference(velocity.getAngleDegrees(), _normalAngle));
-						
-						// Rotate velocity until above graph (up to a max)
-						var _rotationCount = 0;
-						while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-						{
-							// Rotate velocity
-							velocity.rotateDegrees(_rotationDirection);
-							_rotationCount++;
-								
-							// Break if too many rotations
-							if (_rotationCount > 45 || _rotationDirection == 0)
+							// Calculate y values
+							var _xSize = 2;
+							var _ayLeft = _equation.evaluate(xToAxisX(other, x-1));
+							if (is_string(_ayLeft))
 							{
-								velocity.x = 0;
-								velocity.y = 0;
-								break;
+								_ayLeft = _equation.evaluate(xToAxisX(other, x));
+								_xSize--;
 							}
-						}
+							var _ayRight = _equation.evaluate(xToAxisX(other, x+1));
+							if (is_string(_ayRight))
+							{
+								_ayRight = _equation.evaluate(xToAxisX(other, x));
+								_xSize--;
+							}
+							var _leftY = axisYtoY(other, _ayLeft), _rightY = axisYtoY(other, _ayRight);
 						
-						// Land if wasn't grounded and normal isn't too steep
-						if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+							// Calculate normal
+							normal.x = _xSize;
+							normal.y = _rightY - _leftY;
+							normal.rotateDegrees(90);
+							normal.normalize();
+						
+							#endregion
+						
+							// Calculate velocity projection
+							var _dotProduct = collisionVelocity.dotWithVector(normal);
+							velocity.x = collisionVelocity.x - normal.x * _dotProduct;
+							velocity.y = collisionVelocity.y - normal.y * _dotProduct;
+							show_debug_message(velocity);
+						
+							// Get rotation direction
+							var _normalAngle = normal.getAngleDegrees();
+							var _rotationDirection = sign(angle_difference(velocity.getAngleDegrees(), _normalAngle));
+						
+							// Rotate velocity until above graph (up to a max)
+							var _rotationCount = 0;
+							while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+							{
+								// Rotate velocity
+								velocity.rotateDegrees(_rotationDirection);
+								_rotationCount++;
+								
+								// Break if too many rotations
+								if (_rotationCount > 45 || _rotationDirection == 0)
+								{
+									velocity.x = 0;
+									velocity.y = 0;
+									break;
+								}
+							}
+						
+							// Land if wasn't grounded and normal isn't too steep
+							if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+						}
 					}
 				}
 			}
 		}
+		
+		// Destroy list
+		ds_list_destroy(_axesList);
 	}
 	
 	#endregion
@@ -280,6 +303,10 @@ function rbUpdate()
 	
 	#endregion
 	
+	// Move graph detector
+	graphDetector.x = x;
+	graphDetector.y = y;
+	
 	// Set speed
 	spd = velocity.getLength();
 }
@@ -288,6 +315,9 @@ function rbUpdate()
 /// @desc	Draws the collision box and relevant movement vectors.
 function rbDraw()
 {
+	// Detection box
+	with (graphDetector) draw_sprite_pos(sSquare, 0, bbox_left, bbox_top, bbox_right, bbox_top, bbox_right, bbox_bottom, bbox_left, bbox_bottom, 0.05);
+	
 	// Collision box
 	draw_sprite_pos(sSquare, 0, bbox_left, bbox_top, bbox_right, bbox_top, bbox_right, bbox_bottom, bbox_left, bbox_bottom, 0.25);
 	
