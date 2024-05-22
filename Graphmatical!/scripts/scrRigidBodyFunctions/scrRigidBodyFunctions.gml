@@ -50,26 +50,11 @@ function rbUpdate()
 	// Update grounded state
 	rbUpdateGroundedState();
 	
+	// Handle resistances
+	//rbHandleResistances();
+	
 	// Gravity
 	velocity.y += gravityStrength;
-	
-	// Air resistance
-	var _dx = sign(velocity.x), _dy = sign(velocity.y);
-	velocity.x += airResistance.x;
-	velocity.y += airResistance.y;
-	if (sign(velocity.x) != _dx) velocity.x = 0;
-	if (sign(velocity.y) != _dy) velocity.y = 0;
-	
-	// Ground resistance
-	if (grounded)
-	{
-		_dx = sign(velocity.x);
-		_dy = sign(velocity.y);
-		velocity.x += groundResistance.x;
-		velocity.y += groundResistance.y;
-		if (sign(velocity.x) != _dx) velocity.x = 0;
-		if (sign(velocity.y) != _dy) velocity.y = 0;
-	}
 	
 	#region Handle Graph Collisions
 	
@@ -297,26 +282,6 @@ function rbUpdate()
 	
 	// Set speed
 	spd = velocity.getLength();
-	
-	// Calculate resistances
-	if (spd > 0)
-	{
-		// Calculate air resistance
-		airResistance.x = -velocity.x;
-		airResistance.y = -velocity.y;
-		airResistance.normalize();
-		airResistance.multiplyByScalar(airConstant * spd * spd);
-		
-		// If touching normal
-		if (normal.x != 0 || normal.y != 0)
-		{
-			// Calculate ground resistance
-			groundResistance.x = -velocity.x;
-			groundResistance.y = -velocity.y;
-			groundResistance.normalize();
-			groundResistance.multiplyByScalar(groundConstant);
-		}
-	}
 }
 
 /// @func	rbDraw();
@@ -414,6 +379,48 @@ function rbUpdateGroundedState()
 				grounded = true;
 				return;
 			}
+		}
+	}
+}
+
+/// @func	rbHandleResistances();
+function rbHandleResistances()
+{
+	// Air resistance
+	var _dx = sign(velocity.x), _dy = sign(velocity.y);
+	velocity.x += airResistance.x;
+	velocity.y += airResistance.y;
+	if (sign(velocity.x) != _dx) velocity.x = 0;
+	if (sign(velocity.y) != _dy) velocity.y = 0;
+	
+	// Ground resistance
+	if (grounded)
+	{
+		_dx = sign(velocity.x);
+		_dy = sign(velocity.y);
+		velocity.x += groundResistance.x;
+		velocity.y += groundResistance.y;
+		if (sign(velocity.x) != _dx) velocity.x = 0;
+		if (sign(velocity.y) != _dy) velocity.y = 0;
+	}
+	
+	// Calculate resistances
+	if (spd > 0)
+	{
+		// Calculate air resistance
+		airResistance.x = -velocity.x;
+		airResistance.y = -velocity.y;
+		airResistance.normalize();
+		airResistance.multiplyByScalar(airConstant * spd * spd);
+		
+		// If touching normal
+		if (normal.x != 0 || normal.y != 0)
+		{
+			// Calculate ground resistance
+			groundResistance.x = -velocity.x;
+			groundResistance.y = -velocity.y;
+			groundResistance.normalize();
+			groundResistance.multiplyByScalar(groundConstant);
 		}
 	}
 }

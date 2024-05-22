@@ -28,9 +28,6 @@ function GrapherEditMenu() : Menu() constructor
 	buttonRemoveAxes.width = _width;
 	buttonRemoveAxes.height = _height;
 	
-	// Width
-	
-	
 	/// @func	addEquationTextfield();
 	static addEquationTextfield = function()
 	{
@@ -86,6 +83,28 @@ function GrapherEditMenu() : Menu() constructor
 		{
 			draw_text_ext(_x, _y, other.currentAxes.equations[_i].errorMessage, 16, 200);
 			_y += textfieldEquationHeight + textfieldEquationVspacing;
+			
+			// Get focus index
+			if (textfieldEquations[_i].hasFocus())
+			{
+				with (other.currentAxes.equations[_i])
+				{
+					// Equation stats
+					draw_set_halign(fa_right);
+					var _xx = display_get_gui_width() - 16, _yy = 16;
+					draw_text(_xx, _yy, "Domain count: "+string(array_length(xGraphPaths)));
+					for (var _j = 0; _j < array_length(xGraphPaths); _j++)
+					{
+						_yy += 16;
+						var _domain = xGraphPaths[_j], _domainCount = array_length(_domain);
+						var _domainString = "?";
+						if (_domainCount < 4) _domainString = string(_domain);
+						else _domainString = "[" + string(xToAxisX(axes, _domain[0])) + ", ..., " + string(xToAxisX(axes, _domain[_domainCount - 1])) + "  ]";
+						draw_text(_xx, _yy, "Domain " + string(_j + 1) + ": " + _domainString);
+					}
+					draw_set_halign(fa_left);
+				}
+			}
 		}
 	}
 	

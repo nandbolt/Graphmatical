@@ -24,7 +24,6 @@ runStrength = 0.2;
 // Jumping
 jumpForce = new Vector2();
 jumpStrength = 3;
-wallJumpStrength = 2;
 driftStrength = 0.05;
 jumpBuffer = 10;
 jumpBufferCounter = 0;

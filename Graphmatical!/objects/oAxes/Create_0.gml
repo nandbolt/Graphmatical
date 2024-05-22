@@ -2,8 +2,8 @@
 equations = [new Equation(self)];
 
 // Visibility
-bboxVisible = true;
-axesVisible = true;
+bboxVisible = false;
+axesVisible = false;
 
 // Domain(x) + range(y)
 lowerDomain = -9;

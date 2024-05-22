@@ -466,15 +466,14 @@ function Equation(_axes) constructor
 	}
 	
 	/// @func	setGraphPath();
+	/// @desc	Sets the points that will be used for drawing the graph.
 	static setGraphPath = function()
 	{
 		// Clear points
 		clearGraphPaths();
 		
 		// Init first path
-		var _idx = 0, _newPathStarted = false;;
-		array_push(xGraphPaths, []);
-		array_push(yGraphPaths, []);
+		var _idx = 0, _newPathStarted = false;
 		
 		// Loop through domain
 		for (var _ax = axes.lowerDomain; _ax <= axes.upperDomain; _ax += drawResolution)
@@ -488,41 +487,49 @@ function Equation(_axes) constructor
 			// If axis y value is within range
 			if (_ay >= axes.lowerRange && _ay <= axes.upperRange)
 			{
-				// If start of new path and first point is not near the edge
-				if (!_newPathStarted && (axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1))
+				// If start of new path
+				if (!_newPathStarted)
 				{
-					#region Left Clamped Point
+					// Add a new path
+					array_push(xGraphPaths, []);
+					array_push(yGraphPaths, []);
 					
-					// Calcuate out of bounds axis values
-					var _axOut = _ax - drawResolution;
-					var _ayOut = evaluate(_axOut);
-					
-					// If previous point was not an error
-					if (!is_string(_ayOut))
+					// If first point is not near the edge
+					if (axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1)
 					{
-						// Init edge axis values
-						var _axEdge = _ax, _ayEdge = _ay;
-						var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
+						#region Left Clamped Point
 					
-						// Loop 100 times just in case
-						var _incr = 0.05;
-						for (var _i = 0; _i < 100; _i++)
+						// Calcuate out of bounds axis values
+						var _axOut = _ax - drawResolution;
+						var _ayOut = evaluate(_axOut);
+					
+						// If previous point was not an error
+						if (!is_string(_ayOut))
 						{
-							// Move edge values closer to out of bounds value
-							var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
-							_axEdge += _dx;
-							_ayEdge += _dy;
+							// Init edge axis values
+							var _axEdge = _ax, _ayEdge = _ay;
+							var _dir = point_direction(_ax, _ay * -1, _axOut, _ayOut * -1);
+					
+							// Loop 100 times just in case
+							var _incr = 0.05;
+							for (var _i = 0; _i < 100; _i++)
+							{
+								// Move edge values closer to out of bounds value
+								var _dx = dcos(_dir) * _incr, _dy = dsin(_dir) * _incr;
+								_axEdge += _dx;
+								_ayEdge += _dy;
 						
-							// If edge is now out of bounds
-							if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
+								// If edge is now out of bounds
+								if (axes.upperRange - abs(_ayEdge) < 0 || axes.upperDomain - abs(_axEdge) < 0) break;
+							}
+					
+							// Add edge value
+							array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
+							array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
 						}
 					
-						// Add edge value
-						array_push(xGraphPaths[_idx], axisXtoX(axes, _axEdge));
-						array_push(yGraphPaths[_idx], axisYtoY(axes, _ayEdge));
+						#endregion
 					}
-					
-					#endregion
 				}
 				
 				// Convert axes values to world coordinates and add to path
@@ -570,10 +577,6 @@ function Equation(_axes) constructor
 					
 					#endregion
 				}
-				
-				// Add a new path
-				array_push(xGraphPaths, []);
-				array_push(yGraphPaths, []);
 				
 				// Increment index
 				_idx++;
