@@ -349,20 +349,20 @@ function rbDrawGui()
 {
 	// Text
 	draw_set_halign(fa_right);
-	draw_set_valign(fa_top);
-	var _x = display_get_gui_width() - 16, _y = 16;
+	draw_set_valign(fa_bottom);
+	var _x = display_get_gui_width() - 16, _y = display_get_gui_height() - 16;
 	draw_text(_x, _y, "Rigid body: " + object_get_name(object_index));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Velocity: " + string(velocity));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Speed: " + string(spd));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Air resistance: " + string(airResistance));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Ground resistance: " + string(groundResistance));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Normal: " + string(normal));
-	_y += 16;
+	_y -= 16;
 	draw_text(_x, _y, "Grounded: " + string(grounded));
 }
 
