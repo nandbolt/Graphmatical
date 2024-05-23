@@ -22,13 +22,6 @@ enum HumanAnimationState
 	JUMP,
 }
 
-enum GrapherState
-{
-	INIT,
-	CHOOSE,
-	EDIT,
-}
-
 enum GraphingError
 {
 	NONE,

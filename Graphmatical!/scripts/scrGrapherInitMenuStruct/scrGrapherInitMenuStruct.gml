@@ -19,6 +19,24 @@ function GrapherInitMenu() : Menu() constructor
 	buttonSelectAxes.width = _width;
 	buttonSelectAxes.height = _height;
 	
+	/// @func	update();
+	static update = function()
+	{
+		// Gui controller
+		guiController.update();
+		
+		// Editor change
+		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
+		if (_dx != 0)
+		{
+			// Tiler
+			instance_create_layer(other.x, other.y, "Instances", oTiler);
+			
+			// Destroy grapher
+			instance_destroy(oGrapher);
+		}
+	}
+	
 	/// @func	drawGui();
 	static drawGui = function()
 	{

@@ -5,8 +5,6 @@ canMove = true;
 
 // Rigid body
 rbInit();
-//airConstant = 2;
-//gravityStrength = 0.001;
 
 // IKH
 ikhInit();
@@ -16,10 +14,9 @@ inputMove = new Vector2();
 inputJump = false;
 inputJumpPressed = false;
 inputCrouch = false;
-inputEditorPressed = false;
 
 // Movement
-runStrength = 0.2;
+runStrength = 0.15;
 
 // Jumping
 jumpForce = new Vector2();
@@ -32,8 +29,12 @@ coyoteBufferCounter = 0;
 smallJumpStrength = 0.1;
 
 // Resistances
-runGroundConstant = 0.15;
+runGroundConstant = 0.1;
 slideGroundConstant = 0.02;
+
+// Editor
+inputEditorPressed = false;
+currentEditor = oGrapher;
 
 #region Functions
 

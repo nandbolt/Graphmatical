@@ -1,15 +1,15 @@
-// Check if player exists
-if (instance_exists(oGrapher))
-{
-	// Set target to grapher
-	targetPosition.x = clamp(oGrapher.x - halfCamWidth, 0, room_width - camWidth);
-	targetPosition.y = clamp(oGrapher.y - halfCamHeight, 0, room_height - camHeight);
-}
-else if (instance_exists(oPlayer))
+// Init target
+var _target = noone;
+if (instance_exists(oGrapher)) _target = oGrapher;
+else if (instance_exists(oTiler)) _target = oTiler;
+else if (instance_exists(oPlayer)) _target = oPlayer;
+
+// If target exists
+if (_target != noone && instance_exists(_target))
 {
 	// Set target to player
-	targetPosition.x = clamp(oPlayer.x - halfCamWidth, 0, room_width - camWidth);
-	targetPosition.y = clamp(oPlayer.y - halfCamHeight, 0, room_height - camHeight);
+	targetPosition.x = clamp(_target.x - halfCamWidth, 0, room_width - camWidth);
+	targetPosition.y = clamp(_target.y - halfCamHeight, 0, room_height - camHeight);
 }
 
 // Follow target

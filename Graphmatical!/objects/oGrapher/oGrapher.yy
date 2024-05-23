@@ -31,6 +31,6 @@
   "overriddenProperties": [],
   "parent": {
     "name": "Graphing",
-    "path": "folders/Objects/Graphing.yy",
+    "path": "folders/Objects/Editor/Graphing.yy",
   },
 }

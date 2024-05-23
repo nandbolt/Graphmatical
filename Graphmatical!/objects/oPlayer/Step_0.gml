@@ -20,14 +20,28 @@ if (inputEditorPressed)
 		
 		// Allow movement
 		canMove = true;
+		
+		// Set current editor
+		currentEditor = oGrapher;
+	}
+	else if (instance_exists(oTiler))
+	{
+		// Destroy grapher
+		instance_destroy(oTiler);
+		
+		// Allow movement
+		canMove = true;
+		
+		// Set current editor
+		currentEditor = oTiler;
 	}
 	else
 	{
-		// Create grapher
+		// Create current editor
 		var _x = camera_get_view_x(view_camera[0]) + oCamera.halfCamWidth, _y = camera_get_view_y(view_camera[0]) + oCamera.halfCamHeight;
 		_x -= _x mod TILE_SIZE;
 		_y -= _y mod TILE_SIZE;
-		instance_create_layer(_x, _y, "Instances", oGrapher);
+		instance_create_layer(_x, _y, "Instances", currentEditor);
 		
 		// Stop move inputs
 		canMove = false;

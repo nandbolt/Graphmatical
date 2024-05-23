@@ -1,6 +1,3 @@
-// State
-currentState = GrapherState.INIT;
-
 // Menu
 currentMenu = undefined;
 

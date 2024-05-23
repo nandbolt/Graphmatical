@@ -18,4 +18,4 @@ with (oAxes)
 }
 
 // Toggle grid
-layer_set_visible("GridBackground", false);
+if (!instance_exists(oTiler)) layer_set_visible("GridBackground", false);
