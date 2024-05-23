@@ -289,3 +289,6 @@ y -= y mod TILE_SIZE;
 
 // Init first menu
 currentMenu = new GrapherInitMenu();
+
+// Toggle grid
+layer_set_visible("GridBackground", true);

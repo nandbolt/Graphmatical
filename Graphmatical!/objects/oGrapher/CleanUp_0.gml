@@ -16,3 +16,6 @@ with (oAxes)
 		if (!_isStruct || (_isStruct && equations[0].isEmpty())) instance_destroy();
 	}
 }
+
+// Toggle grid
+layer_set_visible("GridBackground", false);
