@@ -19,3 +19,18 @@ ds_map_add(precedenceMap, "g", 3);	// Tangent
 ds_map_add(precedenceMap, "^", 4);	// Power
 ds_map_add(precedenceMap, "l", 5);	// Log
 ds_map_add(precedenceMap, "r", 5);	// Root
+
+#region Create Level
+
+// Spawn point
+var _sp = instance_create_layer(24, 1064, "BackgroundInstances", oSpawnFlag);
+instance_create_layer(1896, 1064, "BackgroundInstances", oGoalFlag);
+instance_create_layer((1896 - 24) * 0.5, 1064, "BackgroundInstances", oCheckFlag);
+
+// Player
+instance_create_layer(_sp.x, _sp.y, "Instances", oPlayer);
+
+// Camera
+instance_create_layer(0, 0, "Instances", oCamera);
+
+#endregion
