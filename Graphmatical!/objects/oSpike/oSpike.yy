@@ -1,17 +1,20 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oFlag",
+  "name": "oSpike",
   "spriteId": {
-    "name": "sCheckFlag",
-    "path": "sprites/sCheckFlag/sCheckFlag.yy",
+    "name": "sSpike",
+    "path": "sprites/sSpike/sSpike.yy",
   },
   "solid": false,
   "visible": true,
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "oObstacle",
+    "path": "objects/oObstacle/oObstacle.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -28,7 +31,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Level",
-    "path": "folders/Objects/Level.yy",
+    "name": "Obstacles",
+    "path": "folders/Objects/Level/Obstacles.yy",
   },
 }

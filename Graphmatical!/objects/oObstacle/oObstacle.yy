@@ -1,10 +1,10 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oFlag",
+  "name": "oObstacle",
   "spriteId": {
-    "name": "sCheckFlag",
-    "path": "sprites/sCheckFlag/sCheckFlag.yy",
+    "name": "sSpike",
+    "path": "sprites/sSpike/sSpike.yy",
   },
   "solid": false,
   "visible": true,
