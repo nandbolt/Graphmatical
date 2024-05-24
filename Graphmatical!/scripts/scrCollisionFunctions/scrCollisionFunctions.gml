@@ -5,7 +5,7 @@ function graphPointAbove(_equation, _x, _y)
 	var _axisY = yToAxisY(_equation.axes, _y), _graphY = _equation.evaluate(xToAxisX(_equation.axes, _x));
 	
 	// Return if original y is above graph evaluation
-	return _axisY > _graphY;
+	return _axisY >= _graphY;
 }
 
 /// @func	graphVectorGroundCollision({Struct.Equation} equation, {real} x1, {real} y1, {real} x2, {real} y2);
