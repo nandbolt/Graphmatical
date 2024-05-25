@@ -16,3 +16,7 @@ if (_target != noone && instance_exists(_target))
 var _cx = lerp(camera_get_view_x(view_camera[0]), targetPosition.x, followAcceleration);
 var _cy = lerp(camera_get_view_y(view_camera[0]), targetPosition.y, followAcceleration);
 camera_set_view_pos(view_camera[0], _cx, _cy);
+
+// Move background
+layer_x(background, _cx);
+layer_y(background, _cy);

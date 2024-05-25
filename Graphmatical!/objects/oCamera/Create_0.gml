@@ -8,6 +8,9 @@ halfCamHeight = camHeight * 0.5;
 targetPosition = new Vector2();
 followAcceleration = 0.25;
 
+// Background
+background = layer_get_id("Background");
+
 // Init camera
 view_enabled = true;
 view_visible[0] = true;

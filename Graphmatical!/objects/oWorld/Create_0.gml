@@ -1,4 +1,5 @@
 // Layers
+backgroundLayer = layer_get_id("Background");
 collisionLayer = layer_get_id("CollisionTiles");
 
 // Graphing
@@ -46,3 +47,7 @@ instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPlayer);
 instance_create_layer(0, 0, "Instances", oCamera);
 
 #endregion
+
+// Set background shader
+layer_script_begin(backgroundLayer, layerWorleyShaderStart);
+layer_script_end(backgroundLayer, layerWorleyShaderEnd);

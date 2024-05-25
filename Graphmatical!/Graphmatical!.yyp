@@ -9,6 +9,7 @@
     {"id":{"name":"sDot","path":"sprites/sDot/sDot.yy",},"order":2,},
     {"id":{"name":"oMain","path":"objects/oMain/oMain.yy",},"order":0,},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},"order":0,},
+    {"id":{"name":"scrWorleyShaderFunctions","path":"scripts/scrWorleyShaderFunctions/scrWorleyShaderFunctions.yy",},"order":0,},
     {"id":{"name":"scrVector2Struct","path":"scripts/scrVector2Struct/scrVector2Struct.yy",},"order":1,},
     {"id":{"name":"scrArrayFunctions","path":"scripts/scrArrayFunctions/scrArrayFunctions.yy",},"order":0,},
     {"id":{"name":"sGrid","path":"sprites/sGrid/sGrid.yy",},"order":0,},
@@ -62,6 +63,7 @@
     {"id":{"name":"sBorder1","path":"sprites/sBorder1/sBorder1.yy",},"order":0,},
     {"id":{"name":"oCheckFlag","path":"objects/oCheckFlag/oCheckFlag.yy",},"order":3,},
     {"id":{"name":"rWorld","path":"rooms/rWorld/rWorld.yy",},"order":1,},
+    {"id":{"name":"shdrWorleyNoise","path":"shaders/shdrWorleyNoise/shdrWorleyNoise.yy",},"order":0,},
     {"id":{"name":"scrBinaryTreeStruct","path":"scripts/scrBinaryTreeStruct/scrBinaryTreeStruct.yy",},"order":0,},
     {"id":{"name":"rMain","path":"rooms/rMain/rMain.yy",},"order":0,},
   ],
@@ -134,6 +136,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tiles","folderPath":"folders/Sprites/Tiles.yy","order":3,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy","order":2,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy","order":8,},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Shaders","folderPath":"folders/Scripts/Shaders.yy","order":8,},
   ],
   "AudioGroups": [
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
