@@ -11,6 +11,7 @@ function GuiButton(_name, _x, _y, _onClick=function(){}) : GuiElement() construc
 	static click = function()
 	{
 		setFocus();
+		audio_play_sound(sfxButtonPressed, 2, false);
 		onClick();
 	}
 	

@@ -23,6 +23,9 @@ if (inputEditorPressed)
 		
 		// Set current editor
 		currentEditor = oGrapher;
+		
+		// Close editor sfx
+		audio_play_sound(sfxOpenEditor, 2, false);
 	}
 	else if (instance_exists(oTiler))
 	{
@@ -34,6 +37,9 @@ if (inputEditorPressed)
 		
 		// Set current editor
 		currentEditor = oTiler;
+		
+		// Close editor sfx
+		audio_play_sound(sfxOpenEditor, 2, false);
 	}
 	else
 	{

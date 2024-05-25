@@ -115,3 +115,6 @@ tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 
 // Toggle grid
 layer_set_visible("GridBackground", true);
+
+// Open editor sfx
+audio_play_sound(sfxOpenEditor, 2, false);
