@@ -15,14 +15,14 @@ function ikhInit()
 	// Arms
 	rightArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, -30, 30);
 	leftArm = new Arm(neckPosition.x, neckPosition.y, 3, 3, 210, 30);
-	leftArm.color = c_gray;
+	leftArm.color = #b3b9d1;
 	
 	// Legs
 	rightLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -45, -45);
 	leftLeg = new Arm(hipPosition.x, hipPosition.y, 4, 4, -90, -45);
 	rightLeg.flippedArm = true;
 	leftLeg.flippedArm = true;
-	leftLeg.color = c_gray;
+	leftLeg.color = #b3b9d1;
 }
 
 /// @func	ikhCleanup();
@@ -78,12 +78,16 @@ function ikhDraw()
 	if (image_xscale > 0)
 	{
 		// Left side is back
+		leftArm.color = #b3b9d1;
+		leftLeg.color = #b3b9d1;
 		leftArm.draw();
 		leftLeg.draw();
 	}
 	else
 	{
 		// Right side is back
+		rightArm.color = #b3b9d1;
+		rightLeg.color = #b3b9d1;
 		rightArm.draw();
 		rightLeg.draw();
 	}
@@ -91,18 +95,22 @@ function ikhDraw()
 	// Body
 	var _bodyLength = point_distance(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
 	var _bodyAngle = point_direction(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
-	draw_sprite_ext(sSquare, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.5, 0.5, _bodyAngle, c_ltgray, 1);
+	draw_sprite_ext(sSquare, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.5, 0.5, _bodyAngle, #dae0ea, 1);
 	
 	// If looking right
 	if (image_xscale > 0)
 	{
 		// Left side is front
+		rightArm.color = c_white;
+		rightLeg.color = c_white;
 		rightLeg.draw();
 		rightArm.draw();
 	}
 	else
 	{
 		// Right side is front
+		leftArm.color = c_white;
+		leftLeg.color = c_white;
 		leftLeg.draw();
 		leftArm.draw();
 	}
