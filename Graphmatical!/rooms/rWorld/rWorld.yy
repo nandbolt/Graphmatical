@@ -24,9 +24,7 @@
     {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"Instances","instances":[
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_1757B4F","properties":[],"isDnd":false,"objectId":{"name":"oWorld","path":"objects/oWorld/oWorld.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":0.0,"y":0.0,},
       ],"visible":true,"depth":100,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
-    {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"BackgroundInstances","instances":[
-        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_76B4BC90","properties":[],"isDnd":false,"objectId":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":120.0,"y":1064.0,},
-      ],"visible":true,"depth":200,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
+    {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"BackgroundInstances","instances":[],"visible":true,"depth":200,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRTileLayer","resourceVersion":"1.1","name":"WorldTiles","tilesetId":{"name":"tsWorld","path":"tilesets/tsWorld/tsWorld.yy",},"x":0,"y":0,"tiles":{"TileDataFormat":1,"SerialiseWidth":120,"SerialiseHeight":68,"TileCompressedData":[
 -121,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,
 -2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-58,-2147483648,1,0,-59,-2147483648,-2,1,-13,-2147483648,-3,0,-42,-2147483648,1,0,-59,-2147483648,-2,1,-12,-2147483648,-5,0,-41,-2147483648,1,0,-59,-2147483648,-2,1,-13,-2147483648,-2,0,1,-2147483648,
@@ -40,7 +38,6 @@
   "inheritCode": false,
   "instanceCreationOrder": [
     {"name":"inst_1757B4F","path":"rooms/rWorld/rWorld.yy",},
-    {"name":"inst_76B4BC90","path":"rooms/rWorld/rWorld.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

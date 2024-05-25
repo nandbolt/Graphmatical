@@ -38,8 +38,6 @@ ds_map_add(precedenceMap, "r", 5);	// Root
 
 // Spawn point
 spawnPoint = instance_create_layer(24, 1064, "BackgroundInstances", oSpawnFlag);
-instance_create_layer(1896, 1064, "BackgroundInstances", oGoalFlag);
-instance_create_layer((1896 - 24) * 0.5, 1064, "BackgroundInstances", oCheckFlag);
 
 // Player
 instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPlayer);
