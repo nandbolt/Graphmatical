@@ -37,6 +37,9 @@ function rbInit()
 	
 	// Bounce
 	bounciness = 0;
+	
+	// Sfx
+	landSfx = sfxLand;
 }
 
 /// @func	rbCleanup();
@@ -457,4 +460,7 @@ function rbLand()
 {
 	// Set grounded state
 	grounded = true;
+	
+	// Land sfx
+	audio_play_sound(landSfx, 2, false);
 }

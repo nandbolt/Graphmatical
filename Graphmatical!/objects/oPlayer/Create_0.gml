@@ -53,6 +53,9 @@ jump = function()
 	jumpBufferCounter = 0;
 	coyoteBufferCounter = 0;
 	grounded = false;
+	
+	// Jump sfx
+	audio_play_sound(sfxJump, 2, false);
 }
 
 /// @func	resetMoveInputs();
