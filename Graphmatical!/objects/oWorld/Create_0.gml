@@ -8,6 +8,10 @@ precedenceMap = ds_map_create();
 // Spawning
 spawnPoint = noone;
 
+// Background shader
+uTime = shader_get_uniform(shdrWorleyNoise, "u_time");
+uResolution = shader_get_uniform(shdrWorleyNoise, "u_resolution");
+
 #region Functions
 
 /// @func respawnPlayer();

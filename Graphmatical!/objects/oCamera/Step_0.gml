@@ -18,5 +18,5 @@ var _cy = lerp(camera_get_view_y(view_camera[0]), targetPosition.y, followAccele
 camera_set_view_pos(view_camera[0], _cx, _cy);
 
 // Move background
-layer_x(background, _cx);
-layer_y(background, _cy);
+//layer_x(background, _cx);
+//layer_y(background, _cy);
