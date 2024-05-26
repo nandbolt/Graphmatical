@@ -7,7 +7,7 @@ worldMap = layer_tilemap_get_id("WorldTiles");
 
 // Index
 currentIdx = 1;
-maxIdx = 6;
+maxIdx = 7;
 currentSprite = noone;
 previousTile = 0;
 
@@ -25,7 +25,7 @@ move = function(_dx, _dy)
 	
 	// Replace previous tile and set tile
 	previousTile = tilemap_get_at_pixel(worldMap, x, y);
-	if (currentIdx < 2) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
+	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 	else tilemap_set_at_pixel(worldMap, 0, x, y);
 }
 
@@ -54,22 +54,22 @@ toggleTile = function()
 		else
 		{
 			// If trying to place something other than a tile
-			if (currentIdx > 1)
+			if (currentIdx > 2)
 			{
 				// Place it
 				var _obj = noone;
-				if (currentIdx == 2) _obj = oSpawnFlag;
-				else if (currentIdx == 3) _obj = oCheckFlag;
-				else if (currentIdx == 4) _obj = oGoalFlag;
-				else if (currentIdx == 5) _obj = oSpike;
-				else if (currentIdx == 6) _obj = oSign;
+				if (currentIdx == 3) _obj = oSpawnFlag;
+				else if (currentIdx == 4) _obj = oCheckFlag;
+				else if (currentIdx == 5) _obj = oGoalFlag;
+				else if (currentIdx == 6) _obj = oSpike;
+				else if (currentIdx == 7) _obj = oSign;
 				if (_obj != noone) instance_create_layer(x, y, "BackgroundInstances", _obj);
 			}
 			else
 			{
 				// Set current tile
-				tilemap_set_at_pixel(collisionMap, currentIdx, x, y);
 				tilemap_set_at_pixel(worldMap, currentIdx, x, y);
+				if (currentIdx == 1) tilemap_set_at_pixel(collisionMap, currentIdx, x, y);
 				previousTile = currentIdx;
 			}
 		}
@@ -85,18 +85,18 @@ cycleIdx = function(_idx)
 	else currentIdx = _idx;
 	
 	// Set tile if tile
-	if (currentIdx < 2) tilemap_set_at_pixel(worldMap, _idx, x, y);
+	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, _idx, x, y);
 	else
 	{
 		// Remove tile if previous was 0
 		if (previousTile == 0) tilemap_set_at_pixel(worldMap, 0, x, y);
 		
 		// Set sprite
-		if (currentIdx == 2) currentSprite = sSpawnFlag;
-		else if (currentIdx == 3) currentSprite = sCheckFlag;
-		else if (currentIdx == 4) currentSprite = sGoalFlag;
-		else if (currentIdx == 5) currentSprite = sSpike;
-		else if (currentIdx == 6) currentSprite = sSign;
+		if (currentIdx == 3) currentSprite = sSpawnFlag;
+		else if (currentIdx == 4) currentSprite = sCheckFlag;
+		else if (currentIdx == 5) currentSprite = sGoalFlag;
+		else if (currentIdx == 6) currentSprite = sSpike;
+		else if (currentIdx == 7) currentSprite = sSign;
 	}
 }
 
