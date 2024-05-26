@@ -21,6 +21,10 @@ displayTextShown = false;	// Becomes true when display text is shown
 displayTextMaxWidth = boxWidth * 1 / displayTextScale - boxPadding * 2 / displayTextScale;
 displayTextMaxHeight = boxHeight * 1 / displayTextScale - boxPadding * 2 / displayTextScale;
 
+// Edit
+editting = false;
+editMenu = undefined;
+
 #region Functions
 
 /// @func	updateDisplayText();
@@ -51,37 +55,59 @@ updateDisplayText = function()
 /// @func	interact();
 interact = function()
 {
-	// Show text if not displayed
-	if (!displayTextShown) displayTextShown = true;
-	// Else if display text done
-	else if (displayTextDone)
+	// If holding shift
+	if (keyboard_check(vk_shift))
 	{
-		// Advance index
-		displayTextIdx += displayTextLength;
+		// Toggle sign edit
+		editting = !editting;
 		
-		// If no more to message
-		if (displayTextIdx > string_length(text))
+		// Toggle player movement
+		oPlayer.canMove = !editting;
+		
+		// Create menu if editting
+		if (editting) editMenu = new SignMenu();
+		// Else destroy menu
+		else
 		{
-			// Reset index
-			displayTextIdx = 0;
-			
-			// Close sign
-			displayTextShown = false;
+			editMenu.cleanup();
+			delete editMenu;
 		}
-		
-		// Reset
-		displayText = "";
-		displayTextLength = 0;
-		displayTextCounter = 0;
-		displayTextDone = false;
 	}
-	else
+	// Else if not editing
+	else if (!editting)
 	{
-		// Display entire message
-		while (!displayTextDone)
+		// Show text if not displayed
+		if (!displayTextShown) displayTextShown = true;
+		// Else if display text done
+		else if (displayTextDone)
 		{
-			// Update display text
-			updateDisplayText();
+			// Advance index
+			displayTextIdx += displayTextLength;
+		
+			// If no more to message
+			if (displayTextIdx > string_length(text))
+			{
+				// Reset index
+				displayTextIdx = 0;
+			
+				// Close sign
+				displayTextShown = false;
+			}
+		
+			// Reset
+			displayText = "";
+			displayTextLength = 0;
+			displayTextCounter = 0;
+			displayTextDone = false;
+		}
+		else
+		{
+			// Display entire message
+			while (!displayTextDone)
+			{
+				// Update display text
+				updateDisplayText();
+			}
 		}
 	}
 }
@@ -105,6 +131,12 @@ onPlayerNear = function()
 			displayTextCounter = 0;
 		}
 	}
+}
+
+/// @func	onSignTextEntered();
+onSignTextEntered = function()
+{
+	text = editMenu.textfieldSign.value;
 }
 
 #endregion
