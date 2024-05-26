@@ -32,6 +32,6 @@
   "overriddenProperties": [],
   "parent": {
     "name": "Flags",
-    "path": "folders/Objects/Level/Flags.yy",
+    "path": "folders/Objects/Level/Interactables/Flags.yy",
   },
 }
