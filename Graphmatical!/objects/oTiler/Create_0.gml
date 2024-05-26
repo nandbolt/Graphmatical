@@ -63,7 +63,7 @@ toggleTile = function()
 				else if (currentIdx == 4) _obj = oGoalFlag;
 				else if (currentIdx == 5) _obj = oSpike;
 				else if (currentIdx == 6) _obj = oSign;
-				if (_obj != noone) instance_create_layer(x, y, "BackgroundInstances", _obj)
+				if (_obj != noone) instance_create_layer(x, y, "BackgroundInstances", _obj);
 			}
 			else
 			{
