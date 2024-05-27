@@ -44,13 +44,11 @@ toggleTile = function()
 	{
 		// Get instance collisions
 		var _interactable = instance_place(x, y, oInteractable);
+		var _obstacle = instance_place(x, y, oObstacle);
 		
 		// If collision
-		if (_interactable != noone)
-		{
-			// Destroy object
-			instance_destroy(_interactable);
-		}
+		if (_interactable != noone) instance_destroy(_interactable);
+		else if (_obstacle != noone) instance_destroy(_obstacle);
 		else
 		{
 			// If trying to place something other than a tile

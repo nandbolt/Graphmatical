@@ -1,0 +1,1 @@
+text = "To pass through a thin platform, hold down and press jump.";

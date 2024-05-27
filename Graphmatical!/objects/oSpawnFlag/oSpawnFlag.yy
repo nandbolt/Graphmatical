@@ -3,13 +3,16 @@
   "resourceVersion": "1.0",
   "name": "oSpawnFlag",
   "spriteId": {
-    "name": "sSpawnFlag",
-    "path": "sprites/sSpawnFlag/sSpawnFlag.yy",
+    "name": "sSpawnPole",
+    "path": "sprites/sSpawnPole/sSpawnPole.yy",
   },
   "solid": false,
   "visible": true,
   "managed": true,
-  "spriteMaskId": null,
+  "spriteMaskId": {
+    "name": "sSpawnPole",
+    "path": "sprites/sSpawnPole/sSpawnPole.yy",
+  },
   "persistent": false,
   "parentObjectId": {
     "name": "oFlag",
@@ -27,7 +30,9 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
+  "eventList": [
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,},
+  ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {

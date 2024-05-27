@@ -2,4 +2,4 @@
 playerNear = true;
 onPlayerNear();
 if (keyboard_check_pressed(ord("E"))) interact();
-alarm[0] = 60;
+alarm[0] = 30;

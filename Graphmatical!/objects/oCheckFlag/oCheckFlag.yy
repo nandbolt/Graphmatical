@@ -3,13 +3,16 @@
   "resourceVersion": "1.0",
   "name": "oCheckFlag",
   "spriteId": {
-    "name": "sCheckFlag",
-    "path": "sprites/sCheckFlag/sCheckFlag.yy",
+    "name": "sCheckPole",
+    "path": "sprites/sCheckPole/sCheckPole.yy",
   },
   "solid": false,
   "visible": true,
   "managed": true,
-  "spriteMaskId": null,
+  "spriteMaskId": {
+    "name": "sCheckPole",
+    "path": "sprites/sCheckPole/sCheckPole.yy",
+  },
   "persistent": false,
   "parentObjectId": {
     "name": "oFlag",

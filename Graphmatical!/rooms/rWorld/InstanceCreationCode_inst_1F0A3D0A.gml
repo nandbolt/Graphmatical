@@ -1,0 +1,1 @@
+text = "Press Space to jump.";

@@ -1,0 +1,1 @@
+text = "Time to learn how to graph equations! Why? Because it will help you reach new heights, literally! The next couple of signs on the elevated area will explain the mathy stuff behind it. To go straight into the step-by-step explanation, go past that area.";

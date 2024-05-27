@@ -1,0 +1,1 @@
+text = "Step 1: Create the axes. To do this, press Tab to open the grapher. Then, click the button to create a new axes. You can also select an existing axes and change between them using the AWSD keys.";

@@ -1,0 +1,1 @@
+text = "Hi! You can press F9 to see debugging information. Speaking of F keys, F11 can be used to fullscreen.";

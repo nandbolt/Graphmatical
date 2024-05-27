@@ -42,10 +42,10 @@ ds_map_add(precedenceMap, "r", 5);	// Root
 #region Create Level
 
 // Spawn point
-spawnPoint = instance_create_layer(24, 1064, "BackgroundInstances", oSpawnFlag);
+spawnPoint = instance_create_layer(24, 1064 - 1000, "BackgroundInstances", oSpawnFlag);
 
 // Player
-instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPlayer);
+instance_create_layer(spawnPoint.x, spawnPoint.y, "ForegroundInstances", oPlayer);
 
 // Camera
 instance_create_layer(0, 0, "Instances", oCamera);
