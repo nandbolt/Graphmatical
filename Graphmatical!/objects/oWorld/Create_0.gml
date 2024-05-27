@@ -1,3 +1,6 @@
+// States
+levelComplete = false;
+
 // Layers
 backgroundLayer = layer_get_id("Background");
 collisionLayer = layer_get_id("CollisionTiles");
@@ -12,6 +15,10 @@ spawnPoint = noone;
 uTime = shader_get_uniform(shdrWorleyNoise, "u_time");
 uResolution = shader_get_uniform(shdrWorleyNoise, "u_resolution");
 
+// Timer
+startTime = 0;
+endTime = 0;
+
 #region Functions
 
 /// @func respawnPlayer();
@@ -19,6 +26,16 @@ respawnPlayer = function()
 {
 	// Player
 	instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPlayer);
+}
+
+/// @func	completeLevel();
+completeLevel = function()
+{
+	if (!levelComplete)
+	{
+		levelComplete = true;
+		endTime = current_time / 1000 - startTime;
+	}
 }
 
 #endregion
@@ -42,7 +59,7 @@ ds_map_add(precedenceMap, "r", 5);	// Root
 #region Create Level
 
 // Spawn point
-spawnPoint = instance_create_layer(24, 1064 - 1000, "BackgroundInstances", oSpawnFlag);
+spawnPoint = instance_create_layer(24, 1064, "BackgroundInstances", oSpawnFlag);
 
 // Player
 instance_create_layer(spawnPoint.x, spawnPoint.y, "ForegroundInstances", oPlayer);

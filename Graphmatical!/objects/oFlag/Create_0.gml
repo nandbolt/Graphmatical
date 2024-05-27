@@ -10,8 +10,8 @@ spritePole = sCheckPole;
 
 #region Functions
 
-/// @func	onPlayerNear();
-onPlayerNear = function()
+/// @func	updateSpawnPoint();
+updateSpawnPoint = function()
 {
 	// World scope
 	with (oWorld)
@@ -29,6 +29,12 @@ onPlayerNear = function()
 	
 	// Set sprite
 	sprite_index = spriteFlag;
+}
+
+/// @func	onPlayerNear();
+onPlayerNear = function()
+{
+	updateSpawnPoint();
 }
 
 #endregion
