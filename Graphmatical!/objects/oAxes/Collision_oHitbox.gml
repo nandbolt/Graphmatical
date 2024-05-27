@@ -2,6 +2,6 @@
 if (oHitbox.x == oPlayer.x && oHitbox.y == oPlayer.y)
 {
 	// Glow gold
-	image_blend = c_white;
+	image_blend = #92dcba;
 	alarm[0] = 1;
 }

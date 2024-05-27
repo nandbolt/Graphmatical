@@ -338,6 +338,7 @@
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_72DB3E32","properties":[],"isDnd":false,"objectId":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":424.0,"y":88.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_4AD0B20D","properties":[],"isDnd":false,"objectId":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":552.0,"y":56.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_5D5A91C5","properties":[],"isDnd":false,"objectId":{"name":"oSign","path":"objects/oSign/oSign.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":168.0,"y":360.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_5961175B","properties":[],"isDnd":false,"objectId":{"name":"oSign","path":"objects/oSign/oSign.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1448.0,"y":424.0,},
       ],"visible":true,"depth":300,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRTileLayer","resourceVersion":"1.1","name":"WorldTiles","tilesetId":{"name":"tsWorld","path":"tilesets/tsWorld/tsWorld.yy",},"x":0,"y":0,"tiles":{"TileDataFormat":1,"SerialiseWidth":120,"SerialiseHeight":68,"TileCompressedData":[
 -121,1,-10,2,-3,1,-105,2,-2,1,-10,2,-3,1,-12,2,1,1,-92,2,-2,1,-10,2,-3,1,-6,2,-3,1,-2,2,-3,1,1,2,-5,1,2,2,1,-83,2,-3,1,-2,2,-3,1,-4,2,-3,1,-8,2,-2,1,-5,2,1,1,-4,2,-2,1,-83,2,-3,1,-2,2,-3,1,-4,2,-3,1,-9,2,1,1,-11,2,-6,1,-71,2,-10,1,-2,2,-3,1,-4,2,-3,1,-9,2,-2,1,-3,2,-6,1,2,2,1,-4,2,1,1,-71,2,-10,1,-2,2,-3,1,
@@ -668,6 +669,7 @@
     {"name":"inst_72DB3E32","path":"rooms/rWorld/rWorld.yy",},
     {"name":"inst_4AD0B20D","path":"rooms/rWorld/rWorld.yy",},
     {"name":"inst_5D5A91C5","path":"rooms/rWorld/rWorld.yy",},
+    {"name":"inst_5961175B","path":"rooms/rWorld/rWorld.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

@@ -59,6 +59,7 @@
     {"id":{"name":"oMoveControls","path":"objects/oMoveControls/oMoveControls.yy",},"order":7,},
     {"id":{"name":"scrCollisionFunctions","path":"scripts/scrCollisionFunctions/scrCollisionFunctions.yy",},"order":2,},
     {"id":{"name":"sCross","path":"sprites/sCross/sCross.yy",},"order":0,},
+    {"id":{"name":"sBorder2","path":"sprites/sBorder2/sBorder2.yy",},"order":1,},
     {"id":{"name":"oGameManager","path":"objects/oGameManager/oGameManager.yy",},"order":0,},
     {"id":{"name":"sGoalFlag","path":"sprites/sGoalFlag/sGoalFlag.yy",},"order":0,},
     {"id":{"name":"oWorld","path":"objects/oWorld/oWorld.yy",},"order":1,},

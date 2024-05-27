@@ -49,5 +49,12 @@ function GrapherInitMenu() : Menu() constructor
 		draw_set_color(c_yellow);
 		draw_text(_x, _y, errorMessage);
 		draw_set_color(c_white);
+		
+		// Switch editor
+		draw_set_halign(fa_right);
+		draw_set_valign(fa_bottom);
+		_x = display_get_gui_width() - 16;
+		_y = display_get_gui_height() - 16;
+		draw_text(_x, _y, "Switch editor: Left + right arrow keys");
 	}
 }

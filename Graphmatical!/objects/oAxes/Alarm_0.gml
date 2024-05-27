@@ -1,2 +1,2 @@
 // Gray
-image_blend = c_gray;
+image_blend = #92dcba;

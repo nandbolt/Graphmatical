@@ -3,7 +3,7 @@ function GrapherEditMenu() : Menu() constructor
 {
 	// Equations textfields
 	textfieldEquations = [];
-	textfieldEquationWidth = 104;
+	textfieldEquationWidth = 112;
 	textfieldEquationHeight = 32;
 	textfieldEquationVspacing = 8;
 	
@@ -32,7 +32,7 @@ function GrapherEditMenu() : Menu() constructor
 	static addEquationTextfield = function()
 	{
 		// Set position
-		var _x = 16, _y = buttonAddEquation.y + buttonAddEquation.height + textfieldEquationVspacing;
+		var _x = 32, _y = buttonAddEquation.y + buttonAddEquation.height + textfieldEquationVspacing;
 		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
 		{
 			_y += textfieldEquationHeight + textfieldEquationVspacing;
@@ -76,11 +76,21 @@ function GrapherEditMenu() : Menu() constructor
 		draw_set_valign(fa_top);
 		draw_text(_x, _y, "Equations");
 		
-		// Error messages
-		_x += textfieldEquationWidth + 8;
+		// Y's
+		draw_set_color(c_white);
 		_y += 32;
 		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
 		{
+			draw_text_ext(_x, _y, "y=", 16, 200);
+			_y += textfieldEquationHeight + textfieldEquationVspacing;
+		}
+		
+		// Error messages
+		_x += textfieldEquationWidth + 24;
+		_y = 48;
+		for (var _i = 0; _i < array_length(textfieldEquations); _i++)
+		{
+			draw_set_color(#fffc40);
 			draw_text_ext(_x, _y, other.currentAxes.equations[_i].errorMessage, 16, 200);
 			_y += textfieldEquationHeight + textfieldEquationVspacing;
 			
@@ -89,9 +99,10 @@ function GrapherEditMenu() : Menu() constructor
 			{
 				with (other.currentAxes.equations[_i])
 				{
+					draw_set_color(c_white);
 					// Equation stats
 					draw_set_halign(fa_right);
-					var _xx = display_get_gui_width() - 16, _yy = 16 * 4;
+					var _xx = display_get_gui_width() - 16, _yy = 16 * 5;
 					draw_text(_xx, _yy, "Domain count: "+string(array_length(xGraphPaths)));
 					for (var _j = 0; _j < array_length(xGraphPaths); _j++)
 					{
@@ -106,16 +117,28 @@ function GrapherEditMenu() : Menu() constructor
 				}
 			}
 		}
+		draw_set_color(c_white);
 		
 		// Axes stats
 		draw_set_halign(fa_right);
 		_x = display_get_gui_width() - 16;
 		_y = 16;
-		draw_text(_x, _y, "Axes origin: ("+string(floor(other.currentAxes.x / TILE_SIZE)) + ", " + string(floor(-other.currentAxes.y / TILE_SIZE)) + ")");
+		draw_text(_x, _y, "Origin: ("+string(floor(other.currentAxes.x / TILE_SIZE)) + ", " + string(floor(-other.currentAxes.y / TILE_SIZE)) + ")");
 		_y += 16;
 		draw_text(_x, _y, "Width: "+string(other.currentAxes.upperDomain * 2));
 		_y += 16;
 		draw_text(_x, _y, "Height: "+string(other.currentAxes.upperRange * 2));
+		_y += 16;
+		draw_text(_x, _y, "Axes count: "+string(instance_number(oAxes)));
+		
+		// Adjust axes
+		draw_set_halign(fa_right);
+		draw_set_valign(fa_bottom);
+		_x = display_get_gui_width() - 16;
+		_y = display_get_gui_height() - 16;
+		draw_text(_x, _y, "Scale axes: Shift + Arrow keys");
+		_y -= 16;
+		draw_text(_x, _y, "Move origin: Arrow keys");
 	}
 	
 	// Load equations

@@ -33,6 +33,16 @@ function TilerMenu() : Menu() constructor
 	/// @func	drawGui();
 	static drawGui = function()
 	{
+		// Axes stats
+		draw_set_halign(fa_right);
+		var _x = display_get_gui_width() - 16, _y = 16;
+		draw_text(_x, _y, "Instance count: "+string(instance_count));
 		
+		// Switch editor
+		draw_set_halign(fa_right);
+		draw_set_valign(fa_bottom);
+		_x = display_get_gui_width() - 16;
+		_y = display_get_gui_height() - 16;
+		draw_text(_x, _y, "Switch editor: Left + right arrow keys");
 	}
 }
