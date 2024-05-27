@@ -322,7 +322,7 @@ function ikhAnimRun()
 			leftArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
 			
 			// Footstep
-			audio_play_sound(sfxFootstep, 1, false);
+			//if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
@@ -373,7 +373,7 @@ function ikhAnimRun()
 			leftArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
 			
 			// Footstep
-			audio_play_sound(sfxFootstep, 1, false);
+			//if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
