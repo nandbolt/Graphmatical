@@ -11,6 +11,8 @@ if (instance_exists(oPlayer))
 		draw_text(_x, _y, "Move input: " + string(inputMove));
 		_y -= 16;
 		draw_text(_x, _y, "Time: " + string(current_time / 1000 - oWorld.startTime));
+		_y -= 16;
+		draw_text(_x, _y, "FPS: " + string(fps_real));
 	}
 }
 
