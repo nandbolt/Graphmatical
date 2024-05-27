@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "oTiler",
   "spriteId": {
-    "name": "sCross",
-    "path": "sprites/sCross/sCross.yy",
+    "name": "sSquareCenter",
+    "path": "sprites/sSquareCenter/sSquareCenter.yy",
   },
   "solid": false,
   "visible": true,

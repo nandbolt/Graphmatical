@@ -552,7 +552,7 @@ function Equation(_axes) constructor
 				_ay = evaluate(_ax);
 				
 				// If start of new path and first point is not near the edge
-				if (axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1)
+				if (!is_string(_ay) && axes.upperRange - abs(_ay) > 0.1 && axes.upperDomain - abs(_ax) > 0.1)
 				{
 					#region Right Clamped Point
 					

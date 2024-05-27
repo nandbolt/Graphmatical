@@ -5,6 +5,7 @@ function graphPointAbove(_equation, _x, _y)
 	var _axisY = yToAxisY(_equation.axes, _y), _graphY = _equation.evaluate(xToAxisX(_equation.axes, _x));
 	
 	// Return if original y is above graph evaluation
+	if (is_string(_graphY)) return true;
 	return _axisY >= _graphY;
 }
 

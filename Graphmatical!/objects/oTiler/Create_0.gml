@@ -83,7 +83,7 @@ cycleIdx = function(_idx)
 	else currentIdx = _idx;
 	
 	// Set tile if tile
-	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, _idx, x, y);
+	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 	else
 	{
 		// Remove tile if previous was 0
