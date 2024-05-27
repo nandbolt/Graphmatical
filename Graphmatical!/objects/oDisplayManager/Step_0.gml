@@ -4,7 +4,7 @@ if (keyboard_check_pressed(vk_f11))
 	window_set_fullscreen(!window_get_fullscreen());
 }
 
-// Check if not on browser
+// If using a browser
 if (os_browser != browser_not_a_browser)
 {
 	#region Browser Scaling
@@ -17,6 +17,13 @@ if (os_browser != browser_not_a_browser)
 		canvasHeight = min(baseCanvasHeight, browser_height);
 		browserScaleCanvas(baseCanvasWidth, baseCanvasHeight, canvasWidth, canvasHeight, true);
 	}
+	//if (browser_width != canvasWidth || browser_height != canvasHeight)
+	//{
+	//	// Scale canvas
+	//	canvasWidth = browser_width;
+	//	canvasHeight = browser_height;
+	//	browserCanvasFullscreen(baseSize);
+	//}
 	
 	#endregion
 }

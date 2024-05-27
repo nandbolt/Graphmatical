@@ -171,13 +171,9 @@ function rbUpdate()
 					#endregion
 					
 					// Calculate velocity projection
-					if (normal.x != 0)
-					{
-						var _dotProduct = collisionVelocity.dotWithVector(normal);
-						velocity.x = collisionVelocity.x - normal.x * _dotProduct;
-						velocity.y = collisionVelocity.y - normal.y * _dotProduct;
-					}
-					else velocity.y = 0;
+					var _dotProduct = collisionVelocity.dotWithVector(normal);
+					velocity.x = collisionVelocity.x - normal.x * _dotProduct;
+					velocity.y = collisionVelocity.y - normal.y * _dotProduct;
 					
 					// Get rotation direction
 					var _normalAngle = normal.getAngleDegrees();
@@ -199,13 +195,20 @@ function rbUpdate()
 							break;
 						}
 					}
+					
+					// Last check
+					if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+					{
+						velocity.x = 0;
+						velocity.y = 0;
+					}
 						
 					// Land if wasn't grounded and normal isn't too steep
 					if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+					
+					// Break
+					break;
 				}
-				
-				// Exit equations loop if collision
-				if (_collision) break;
 			}
 			
 			// Exit axes loop if collision
