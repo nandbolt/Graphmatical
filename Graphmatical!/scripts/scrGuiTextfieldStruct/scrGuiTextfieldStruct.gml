@@ -37,6 +37,7 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder, _onEnter=function(){}
 	{
 		// Set focus and set keyboard string to current value
 		setFocus();
+		audio_play_sound(sfxTextfieldClicked, 2, false);
 		keyboard_string = get();
 	}
 	
@@ -50,6 +51,7 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder, _onEnter=function(){}
 		if (keyboard_check_pressed(vk_enter))
 		{
 			onEnter();
+			audio_play_sound(sfxTextfieldEntered, 2, false);
 			removeFocus();
 		}
 	}

@@ -110,6 +110,9 @@ interact = function()
 			}
 		}
 	}
+	
+	// Sound
+	audio_play_sound(sfxSignRead, 2, false);
 }
 
 /// @func	onPlayerNear();

@@ -24,6 +24,9 @@ updateSpawnPoint = function()
 		
 			// Set spawn point
 			spawnPoint = other;
+			
+			// Sound
+			audio_play_sound(sfxFlagActivated, 2, false);
 		}
 	}
 	

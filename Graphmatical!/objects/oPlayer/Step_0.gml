@@ -96,3 +96,9 @@ rbUpdate();
 
 // Update ikh animations based on resulting rigid body
 ikhUpdate();
+
+// Slide sound
+if (grounded && inputCrouch && abs(velocity.x) > 0.05 && !audio_is_playing(sfxSlide))
+{
+	audio_play_sound(sfxSlide, 1, false, clamp(abs(velocity.x) * 0.25, 0, 1));
+}

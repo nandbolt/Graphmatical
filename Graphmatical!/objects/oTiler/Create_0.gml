@@ -27,6 +27,9 @@ move = function(_dx, _dy)
 	previousTile = tilemap_get_at_pixel(worldMap, x, y);
 	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 	else tilemap_set_at_pixel(worldMap, 0, x, y);
+	
+	// Move sound
+	audio_play_sound(sfxButtonPressed, 2, false);
 }
 
 /// @func	toggleTile()
@@ -72,6 +75,9 @@ toggleTile = function()
 			}
 		}
 	}
+	
+	// Toggle sound
+	audio_play_sound(sfxSignRead, 2, false);
 }
 
 /// @func	cycleIdx({int} idx);
@@ -96,6 +102,9 @@ cycleIdx = function(_idx)
 		else if (currentIdx == 6) currentSprite = sSpike;
 		else if (currentIdx == 7) currentSprite = sSign;
 	}
+	
+	// Cycle sound
+	audio_play_sound(sfxButtonPressed, 2, false);
 }
 
 #endregion

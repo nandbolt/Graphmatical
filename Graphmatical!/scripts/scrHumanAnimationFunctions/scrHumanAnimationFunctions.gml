@@ -320,6 +320,9 @@ function ikhAnimRun()
 			// Move arm targets
 			rightArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
 			leftArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
+			
+			// Footstep
+			audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
@@ -368,6 +371,9 @@ function ikhAnimRun()
 			// Move arm targets
 			rightArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
 			leftArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
+			
+			// Footstep
+			audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
