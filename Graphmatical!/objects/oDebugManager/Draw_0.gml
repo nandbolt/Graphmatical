@@ -1,3 +1,12 @@
+// Axes
+if (instance_exists(oAxes))
+{
+	with (oAxes)
+	{
+		bboxVisible = true;
+	}
+}
+
 // Player
 if (instance_exists(oPlayer))
 {

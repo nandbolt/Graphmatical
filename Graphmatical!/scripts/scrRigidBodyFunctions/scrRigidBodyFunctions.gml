@@ -70,28 +70,34 @@ function rbUpdate()
 	
 	#region Handle Graph Collisions
 	
+	// Reset collision variables
+	collisionVelocity.x = 0;
+	collisionVelocity.y = 0;
+	
 	// If not ignoring graphs
 	if (!ignoreGraphs)
 	{
 		// Get axes collided with
 		var _axesList = ds_list_create();
+		var _axesCount = 0;
 		with (graphDetector)
 		{
-			instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
+			_axesCount = instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
 		}
 		
 		// Set collision variable
 		var _collision = false;
 		
 		// Loop through axes
-		for (var _j = 0; _j < ds_list_size(_axesList); _j++)
+		for (var _j = 0; _j < _axesCount; _j++)
 		{
 			// Get axes + equations
 			var _axes = _axesList[| _j];
 			var _equations = _axes.equations;
+			var _equationCount = array_length(_equations);
 			
 			// Loop through equations
-			for (var _i = 0; _i < array_length(_equations); _i++)
+			for (var _i = 0; _i < _equationCount; _i++)
 			{
 				// Get equation
 				var _equation = _equations[_i];
@@ -116,8 +122,9 @@ function rbUpdate()
 						// Halve velocity
 						velocity.multiplyByScalar(0.5);
 							
-						// If no graph collision
-						if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+						// If point above graph
+						//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+						if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
 						{
 							// If no tile collisions
 							if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
@@ -164,9 +171,13 @@ function rbUpdate()
 					#endregion
 					
 					// Calculate velocity projection
-					var _dotProduct = collisionVelocity.dotWithVector(normal);
-					velocity.x = collisionVelocity.x - normal.x * _dotProduct;
-					velocity.y = collisionVelocity.y - normal.y * _dotProduct;
+					if (normal.x != 0)
+					{
+						var _dotProduct = collisionVelocity.dotWithVector(normal);
+						velocity.x = collisionVelocity.x - normal.x * _dotProduct;
+						velocity.y = collisionVelocity.y - normal.y * _dotProduct;
+					}
+					else velocity.y = 0;
 					
 					// Get rotation direction
 					var _normalAngle = normal.getAngleDegrees();
@@ -174,14 +185,14 @@ function rbUpdate()
 					
 					// Rotate velocity until no collision (up to a max)
 					var _rotationCount = 0;
-					while (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+					while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
 					{
 						// Rotate velocity
 						velocity.rotateDegrees(_rotationDirection);
 						_rotationCount++;
 								
 						// Break if too many rotations
-						if (_rotationCount > 360 || _rotationDirection == 0)
+						if (_rotationCount > 45)
 						{
 							velocity.x = 0;
 							velocity.y = 0;

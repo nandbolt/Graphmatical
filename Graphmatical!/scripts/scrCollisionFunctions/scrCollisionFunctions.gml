@@ -6,7 +6,7 @@ function graphPointAbove(_equation, _x, _y)
 	
 	// Return if original y is above graph evaluation
 	if (is_string(_graphY)) return true;
-	return _axisY >= _graphY;
+	return _axisY > _graphY;
 }
 
 /// @func	graphVectorGroundCollision({Struct.Equation} equation, {real} x1, {real} y1, {real} x2, {real} y2);
@@ -29,9 +29,6 @@ function graphVectorGroundCollision(_equation, _x1, _y1, _x2, _y2)
 		{
 			// Collision if starting point above and ending point below
 			if (graphPointAbove(_equation, clamp(_x1, _lowerBound, _upperBound), _y1) && !graphPointAbove(_equation, clamp(_x2, _lowerBound, _upperBound), _y2)) return true;
-			
-			// Break out of loop (other domains aren't necessary to check)
-			break;
 		}
 	}
 	
