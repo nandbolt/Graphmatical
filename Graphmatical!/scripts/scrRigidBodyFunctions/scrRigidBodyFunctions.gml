@@ -22,7 +22,7 @@ function rbInit()
 	airResistance = new Vector2();
 	airConstant = 0.001;
 	groundResistance = new Vector2();
-	groundConstant = 0.15;
+	groundConstant = 0.1;
 	
 	// Collisions
 	collisionMap = layer_tilemap_get_id("CollisionTiles");
@@ -241,7 +241,7 @@ function rbHandleResistances()
 function rbHandleGraphCollisions()
 {
 	// Return if ignoring graphs
-	if (!ignoreGraphs) return;
+	if (ignoreGraphs) return;
 	
 	// Get axes collided with
 	var _axesList = ds_list_create();
