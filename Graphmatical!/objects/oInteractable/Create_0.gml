@@ -7,6 +7,9 @@ playerNear = false;
 /// @func	interact();
 interact = function(){}
 
+/// @func	interactPressed();
+interactPressed = function(){}
+
 /// @func	onPlayerNear();
 onPlayerNear = function(){}
 

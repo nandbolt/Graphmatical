@@ -52,8 +52,8 @@ updateDisplayText = function()
 	}
 }
 
-/// @func	interact();
-interact = function()
+/// @func	interactPressed();
+interactPressed = function()
 {
 	// If holding shift
 	if (keyboard_check(vk_shift))

@@ -37,6 +37,7 @@ function rbInit()
 	
 	// Bounce
 	bounciness = 0;
+	bounceVelocity = new Vector2();
 	
 	// Sfx
 	landSfx = sfxLand;
@@ -52,6 +53,7 @@ function rbCleanup()
 	delete velocity;
 	delete normal;
 	delete collisionVelocity;
+	delete bounceVelocity;
 	delete airResistance;
 	delete groundResistance;
 }
@@ -59,17 +61,20 @@ function rbCleanup()
 /// @func	rbUpdate();
 function rbUpdate()
 {
+	// Reset collision variables
+	collisionVelocity.set();
+	
 	// Update grounded state
 	rbUpdateGroundedState();
+	
+	// Bounce
+	rbHandleBounce();
 	
 	// Handle resistances
 	rbHandleResistances();
 	
 	// Gravity
 	velocity.y += gravityStrength;
-	
-	// Reset collision variables
-	collisionVelocity.set();
 	
 	// Graphs
 	rbHandleGraphCollisions();
@@ -80,31 +85,11 @@ function rbUpdate()
 	// Update x
 	x += velocity.x;
 	
-	// Set bounce velocity
-	if (collisionVelocity.x != 0 && bounciness != 0)
-	{
-		// Set bounce velocity
-		velocity.x = -collisionVelocity.x * bounciness;
-		
-		// Reset collision velocity
-		collisionVelocity.x = 0
-	}
-	
 	// Y Tiles
 	rbHandleYTileCollisions();
 	
 	// Update y
 	y += velocity.y;
-	
-	// Set bounce velocity
-	if (collisionVelocity.y != 0 && bounciness != 0)
-	{
-		// Set bounce velocity
-		velocity.y = -collisionVelocity.y * bounciness;
-		
-		// Reset collision velocity
-		collisionVelocity.y = 0;
-	}
 	
 	// Move graph detector
 	graphDetector.x = x;
@@ -212,6 +197,26 @@ function rbUpdateGroundedState()
 				grounded = true;
 				return;
 			}
+		}
+	}
+}
+
+/// @func	rbHandleBounce();
+function rbHandleBounce()
+{
+	// If bouncy
+	if (bounciness != 0)
+	{
+		// Bounce if collision
+		if (bounceVelocity.x != 0)
+		{
+			velocity.x += bounceVelocity.x * bounciness;
+			bounceVelocity.x = 0;
+		}
+		if (bounceVelocity.y != 0)
+		{
+			velocity.y += bounceVelocity.y * bounciness;
+			bounceVelocity.y = 0;
 		}
 	}
 }
@@ -335,32 +340,47 @@ function rbHandleGraphCollisions()
 				// Calculate velocity projection
 				var _dotProduct = collisionVelocity.dotWithVector(normal);
 				velocity.set(collisionVelocity.x - normal.x * _dotProduct, collisionVelocity.y - normal.y * _dotProduct);
-					
-				// Get rotation direction
-				var _normalAngle = normal.getAngleDegrees();
-				var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
-					
-				// Rotate velocity until no collision (up to a max)
-				var _rotationCount = 0;
-				while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+				
+				// If bouncy
+				if (bounciness != 0)
 				{
-					// Rotate velocity
-					velocity.rotateDegrees(_rotationDirection);
-					_rotationCount++;
-								
-					// Break if too many rotations
-					if (_rotationCount > 45)
-					{
-						velocity.set();
-						break;
-					}
-				}
+					// Calculate bounce velocity
+					bounceVelocity.set(collisionVelocity.x - normal.x * _dotProduct * 2, collisionVelocity.y - normal.y * _dotProduct * 2);
 					
-				// Last check
-				if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y)) velocity.set();
+					// Set grounded state
+					grounded = true;
+					
+					// Zero velocity 
+					velocity.set();
+				}
+				else
+				{
+					// Get rotation direction
+					var _normalAngle = normal.getAngleDegrees();
+					var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
+					
+					// Rotate velocity until no collision (up to a max)
+					var _rotationCount = 0;
+					while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+					{
+						// Rotate velocity
+						velocity.rotateDegrees(_rotationDirection);
+						_rotationCount++;
+								
+						// Break if too many rotations
+						if (_rotationCount > 45)
+						{
+							velocity.set();
+							break;
+						}
+					}
+					
+					// Last check
+					if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y)) velocity.set();
 						
-				// Land if wasn't grounded and normal isn't too steep
-				if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+					// Land if wasn't grounded and normal isn't too steep
+					if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+				}
 					
 				// Break
 				break;
@@ -390,6 +410,7 @@ function rbHandleXTileCollisions()
 		{
 			// Store collision velocity
 			collisionVelocity.x = velocity.x;
+			bounceVelocity.x = -velocity.x;
 			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
@@ -427,6 +448,7 @@ function rbHandleYTileCollisions()
 		{
 			// Store collision velocity
 			collisionVelocity.y = velocity.y;
+			bounceVelocity.y = -velocity.y;
 			
 			// Set normal
 			normal.set(0, -sign(velocity.y));
