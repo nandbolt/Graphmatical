@@ -2,8 +2,7 @@
 if (canMove)
 {
 	// Move inputs
-	inputMove.x = keyboard_check(ord("D")) - keyboard_check(ord("A"));
-	inputMove.y = keyboard_check(ord("S")) - keyboard_check(ord("W"));
+	inputMove.set(keyboard_check(ord("D")) - keyboard_check(ord("A")), keyboard_check(ord("S")) - keyboard_check(ord("W")));
 	inputJump = keyboard_check(vk_space);
 	inputJumpPressed = keyboard_check_pressed(vk_space);
 	inputCrouch = keyboard_check(ord("S"));

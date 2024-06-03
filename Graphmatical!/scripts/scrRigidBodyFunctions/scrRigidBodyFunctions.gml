@@ -68,158 +68,11 @@ function rbUpdate()
 	// Gravity
 	velocity.y += gravityStrength;
 	
-	#region Handle Graph Collisions
-	
 	// Reset collision variables
-	collisionVelocity.x = 0;
-	collisionVelocity.y = 0;
+	collisionVelocity.set();
 	
-	// If not ignoring graphs
-	if (!ignoreGraphs)
-	{
-		// Get axes collided with
-		var _axesList = ds_list_create();
-		var _axesCount = 0;
-		with (graphDetector)
-		{
-			_axesCount = instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
-		}
-		
-		// Set collision variable
-		var _collision = false;
-		
-		// Loop through axes
-		for (var _j = 0; _j < _axesCount; _j++)
-		{
-			// Get axes + equations
-			var _axes = _axesList[| _j];
-			var _equations = _axes.equations;
-			var _equationCount = array_length(_equations);
-			
-			// Loop through equations
-			for (var _i = 0; _i < _equationCount; _i++)
-			{
-				// Get equation
-				var _equation = _equations[_i];
-				
-				// If x graph collisions
-				if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
-				{
-					// Store collision
-					_collision = true;
-					collisionVelocity.x = velocity.x;
-					collisionVelocity.y = velocity.y;
-					
-					// Choose side to check tile collision
-					var _bboxSide = bbox_left;
-					if (velocity.x > 0) _bboxSide = bbox_right;
-					
-					#region Move Close
-						
-					// While velocity is below 
-					while (velocity.getLength() > collisionThreshold)
-					{
-						// Halve velocity
-						velocity.scale(0.5);
-							
-						// If point above graph
-						//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
-						if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-						{
-							// If no tile collisions
-							if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
-								tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
-							{
-								// Move closer
-								x += velocity.x;
-								y += velocity.y;
-								_bboxSide += velocity.x;
-							}
-						}
-					}
-					
-					// Zero velocity
-					velocity.x = 0;
-					velocity.y = 0;
-						
-					#endregion
-					
-					#region Calculate Normal
-						
-					// Calculate y values
-					var _xSize = 2;
-					var _ayLeft = _equation.evaluate(xToAxisX(_axes, x-1));
-					if (is_string(_ayLeft))
-					{
-						_ayLeft = _equation.evaluate(xToAxisX(_axes, x));
-						_xSize--;
-					}
-					var _ayRight = _equation.evaluate(xToAxisX(_axes, x+1));
-					if (is_string(_ayRight))
-					{
-						_ayRight = _equation.evaluate(xToAxisX(_axes, x));
-						_xSize--;
-					}
-					var _leftY = axisYtoY(_axes, _ayLeft), _rightY = axisYtoY(_axes, _ayRight);
-						
-					// Calculate normal
-					normal.x = _xSize;
-					normal.y = _rightY - _leftY;
-					normal.rotateDegrees(90);
-					normal.normalize();
-						
-					#endregion
-					
-					// Calculate velocity projection
-					var _dotProduct = collisionVelocity.dotWithVector(normal);
-					velocity.x = collisionVelocity.x - normal.x * _dotProduct;
-					velocity.y = collisionVelocity.y - normal.y * _dotProduct;
-					
-					// Get rotation direction
-					var _normalAngle = normal.getAngleDegrees();
-					var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
-					
-					// Rotate velocity until no collision (up to a max)
-					var _rotationCount = 0;
-					while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-					{
-						// Rotate velocity
-						velocity.rotateDegrees(_rotationDirection);
-						_rotationCount++;
-								
-						// Break if too many rotations
-						if (_rotationCount > 45)
-						{
-							velocity.x = 0;
-							velocity.y = 0;
-							break;
-						}
-					}
-					
-					// Last check
-					if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-					{
-						velocity.x = 0;
-						velocity.y = 0;
-					}
-						
-					// Land if wasn't grounded and normal isn't too steep
-					if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
-					
-					// Break
-					break;
-				}
-			}
-			
-			// Exit axes loop if collision
-			if (_collision) break;
-		}
-		
-		// Destroy list
-		ds_list_destroy(_axesList);
-	}
-	
-	#endregion
+	// Graphs
+	rbHandleGraphCollisions();
 	
 	// X Tiles
 	rbHandleXTileCollisions();
@@ -384,6 +237,144 @@ function rbHandleResistances()
 	}
 }
 
+/// @func	rbHandleGraphCollisions();
+function rbHandleGraphCollisions()
+{
+	// Return if ignoring graphs
+	if (!ignoreGraphs) return;
+	
+	// Get axes collided with
+	var _axesList = ds_list_create();
+	var _axesCount = 0;
+	with (graphDetector)
+	{
+		_axesCount = instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
+	}
+		
+	// Set collision variable
+	var _collision = false;
+		
+	// Loop through axes
+	for (var _j = 0; _j < _axesCount; _j++)
+	{
+		// Get axes + equations
+		var _axes = _axesList[| _j];
+		var _equations = _axes.equations;
+		var _equationCount = array_length(_equations);
+			
+		// Loop through equations
+		for (var _i = 0; _i < _equationCount; _i++)
+		{
+			// Get equation
+			var _equation = _equations[_i];
+				
+			// If x graph collisions
+			if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+			{
+				// Store collision
+				_collision = true;
+				collisionVelocity.setVector(velocity);
+					
+				// Choose side to check tile collision
+				var _bboxSide = bbox_left;
+				if (velocity.x > 0) _bboxSide = bbox_right;
+					
+				#region Move Close
+						
+				// While velocity is below 
+				while (velocity.getLength() > collisionThreshold)
+				{
+					// Halve velocity
+					velocity.scale(0.5);
+							
+					// If point above graph
+					//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+					if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+					{
+						// If no tile collisions
+						if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
+							tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
+						{
+							// Move closer
+							x += velocity.x;
+							y += velocity.y;
+							_bboxSide += velocity.x;
+						}
+					}
+				}
+					
+				// Zero velocity
+				velocity.set();
+						
+				#endregion
+					
+				#region Calculate Normal
+						
+				// Calculate y values
+				var _xSize = 2;
+				var _ayLeft = _equation.evaluate(xToAxisX(_axes, x-1));
+				if (is_string(_ayLeft))
+				{
+					_ayLeft = _equation.evaluate(xToAxisX(_axes, x));
+					_xSize--;
+				}
+				var _ayRight = _equation.evaluate(xToAxisX(_axes, x+1));
+				if (is_string(_ayRight))
+				{
+					_ayRight = _equation.evaluate(xToAxisX(_axes, x));
+					_xSize--;
+				}
+				var _leftY = axisYtoY(_axes, _ayLeft), _rightY = axisYtoY(_axes, _ayRight);
+						
+				// Calculate normal
+				normal.setNormal(_xSize, _rightY - _leftY);
+				normal.rotateDegrees(90);
+						
+				#endregion
+					
+				// Calculate velocity projection
+				var _dotProduct = collisionVelocity.dotWithVector(normal);
+				velocity.set(collisionVelocity.x - normal.x * _dotProduct, collisionVelocity.y - normal.y * _dotProduct);
+					
+				// Get rotation direction
+				var _normalAngle = normal.getAngleDegrees();
+				var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
+					
+				// Rotate velocity until no collision (up to a max)
+				var _rotationCount = 0;
+				while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+				{
+					// Rotate velocity
+					velocity.rotateDegrees(_rotationDirection);
+					_rotationCount++;
+								
+					// Break if too many rotations
+					if (_rotationCount > 45)
+					{
+						velocity.set();
+						break;
+					}
+				}
+					
+				// Last check
+				if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y)) velocity.set();
+						
+				// Land if wasn't grounded and normal isn't too steep
+				if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+					
+				// Break
+				break;
+			}
+		}
+			
+		// Exit axes loop if collision
+		if (_collision) break;
+	}
+		
+	// Destroy list
+	ds_list_destroy(_axesList);
+}
+
 /// @func	rbHandleXTileCollisions();
 function rbHandleXTileCollisions()
 {
@@ -438,8 +429,7 @@ function rbHandleYTileCollisions()
 			collisionVelocity.y = velocity.y;
 			
 			// Set normal
-			normal.x = 0;
-			normal.y = -sign(velocity.y);
+			normal.set(0, -sign(velocity.y));
 			
 			// Land if landed
 			if (!grounded && velocity.y > 0) rbLand();

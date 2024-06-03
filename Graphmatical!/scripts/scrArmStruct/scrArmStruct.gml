@@ -32,19 +32,15 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	static moveRoot = function(_x, _y)
 	{
 		var _dx = _x - rootJoint.x, _dy = _y - rootJoint.y;
-		rootJoint.x += _dx;
-		rootJoint.y += _dy;
-		elbowJoint.x += _dx;
-		elbowJoint.y += _dy;
-		handPosition.x += _dx;
-		handPosition.y += _dy;
+		rootJoint.add(_dx, _dy);
+		elbowJoint.add(_dx, _dy);
+		handPosition.add(_dx, _dy);
 	}
 	
 	/// @func	moveTarget({real} x, {real} y);
 	static moveTarget = function(_x, _y)
 	{
-		targetPosition.x = _x;
-		targetPosition.y = _y;
+		targetPosition.set(_x, _y);
 	}
 	
 	/// @func	lerpTarget({real} x, {real} y, {real} amount);
@@ -90,10 +86,8 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 		}
 		
 		// Calculate joint positions
-		elbowJoint.x = rootJoint.x + lengthdir_x(rootArmLength, rootAngle);
-		elbowJoint.y = rootJoint.y + lengthdir_y(rootArmLength, rootAngle);
-		handPosition.x = elbowJoint.x + lengthdir_x(elbowArmLength, rootAngle + elbowAngle);
-		handPosition.y = elbowJoint.y + lengthdir_y(elbowArmLength, rootAngle + elbowAngle);
+		elbowJoint.set(rootJoint.x + lengthdir_x(rootArmLength, rootAngle), rootJoint.y + lengthdir_y(rootArmLength, rootAngle));
+		handPosition.set(elbowJoint.x + lengthdir_x(elbowArmLength, rootAngle + elbowAngle), elbowJoint.y + lengthdir_y(elbowArmLength, rootAngle + elbowAngle));
 	}
 	
 	/// @func	cleanup();
