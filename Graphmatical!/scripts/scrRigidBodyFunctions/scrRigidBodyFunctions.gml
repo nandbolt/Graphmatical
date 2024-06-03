@@ -20,7 +20,7 @@ function rbInit()
 	
 	// Resistances
 	airResistance = new Vector2();
-	airConstant = 0.002;
+	airConstant = 0.001;
 	groundResistance = new Vector2();
 	groundConstant = 0.15;
 	
@@ -120,7 +120,7 @@ function rbUpdate()
 					while (velocity.getLength() > collisionThreshold)
 					{
 						// Halve velocity
-						velocity.multiplyByScalar(0.5);
+						velocity.scale(0.5);
 							
 						// If point above graph
 						//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
@@ -221,40 +221,8 @@ function rbUpdate()
 	
 	#endregion
 	
-	#region Handle X Tile Collisions
-	
-	var _bboxSide = bbox_left;
-	if (velocity.x > 0) _bboxSide = bbox_right;
-	for (var _j = 0; _j < 2; _j++)
-	{
-		// Check for x collision on moving side
-		var _y = bbox_top + _j * bboxHeight;
-		var _tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-		if (_tile == 1)
-		{
-			// Store collision velocity
-			collisionVelocity.x = velocity.x;
-			
-			// Loop until close enough to tile
-			while (abs(velocity.x) > collisionThreshold)
-			{
-				// Halve velocity
-				velocity.x *= 0.5;
-				
-				// Move if no collision
-				_tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-				if (_tile != 1)
-				{
-					_bboxSide += velocity.x;
-					x += velocity.x;
-				}
-			}
-			
-			// X collision
-			velocity.x = 0;
-			break;
-		}
-	}
+	// X Tiles
+	rbHandleXTileCollisions();
 	
 	// Update x
 	x += velocity.x;
@@ -269,49 +237,8 @@ function rbUpdate()
 		collisionVelocity.x = 0
 	}
 	
-	#endregion
-	
-	#region Handle Y Tile Collisions
-	
-	_bboxSide = bbox_top;
-	if (velocity.y > 0) _bboxSide = bbox_bottom;
-	for (var _i = 0; _i < 2; _i++)
-	{
-		// Check for y collision on moving side
-		var _x = bbox_left + _i * bboxWidth;
-		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-		if (_tile == 1)
-		{
-			// Store collision velocity
-			collisionVelocity.y = velocity.y;
-			
-			// Set normal
-			normal.x = 0;
-			normal.y = -sign(velocity.y);
-			
-			// Land if landed
-			if (!grounded && velocity.y > 0) rbLand();
-			
-			// Loop until close enough to tile
-			while (abs(velocity.y) > collisionThreshold)
-			{
-				// Halve velocity
-				velocity.y *= 0.5;
-				
-				// Move if no collision
-				_tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-				if (_tile != 1)
-				{
-					_bboxSide += velocity.y;
-					y += velocity.y;
-				}
-			}
-			
-			// Y collision
-			velocity.y = 0;
-			break;
-		}
-	}
+	// Y Tiles
+	rbHandleYTileCollisions();
 	
 	// Update y
 	y += velocity.y;
@@ -325,8 +252,6 @@ function rbUpdate()
 		// Reset collision velocity
 		collisionVelocity.y = 0;
 	}
-	
-	#endregion
 	
 	// Move graph detector
 	graphDetector.x = x;
@@ -445,26 +370,98 @@ function rbHandleResistances()
 	var _speed = velocity.getLength();
 	if (_speed > 0)
 	{
-		// Calculate air resistance
-		airResistance.x = velocity.x;
-		airResistance.y = velocity.y;
-		airResistance.normalize();
-		airResistance.multiplyByScalar(-1 * airConstant * _speed * _speed);
+		// Apply air resistance
+		airResistance.setLengthVector(velocity, -1 * airConstant * _speed * _speed);
+		velocity.addResistanceVector(airResistance);
 		
 		// If grounded
 		if (grounded)
 		{
-			// Calculate ground resistance
-			groundResistance.x = velocity.x;
-			groundResistance.y = velocity.y;
-			groundResistance.normalize();
-			groundResistance.multiplyByScalar(-1 * groundConstant);
+			// Apply ground resistance
+			groundResistance.setLengthVector(velocity, -1 * groundConstant);
+			velocity.addResistanceVector(groundResistance);
+		}
+	}
+}
+
+/// @func	rbHandleXTileCollisions();
+function rbHandleXTileCollisions()
+{
+	// Choose bounding box side
+	var _bboxSide = bbox_left;
+	if (velocity.x > 0) _bboxSide = bbox_right;
+	for (var _j = 0; _j < 2; _j++)
+	{
+		// Check for x collision on moving side
+		var _y = bbox_top + _j * bboxHeight;
+		var _tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
+		if (_tile == 1)
+		{
+			// Store collision velocity
+			collisionVelocity.x = velocity.x;
 			
-			// Apply ground resistance (account for overshoot)
-			var _dir = sign(velocity.x);
-			velocity.x += groundResistance.x;
-			velocity.y += groundResistance.y;
-			if (sign(velocity.x) != _dir) velocity.x = 0;
+			// Loop until close enough to tile
+			while (abs(velocity.x) > collisionThreshold)
+			{
+				// Halve velocity
+				velocity.x *= 0.5;
+				
+				// Move if no collision
+				_tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
+				if (_tile != 1)
+				{
+					_bboxSide += velocity.x;
+					x += velocity.x;
+				}
+			}
+			
+			// X collision
+			velocity.x = 0;
+			break;
+		}
+	}
+}
+
+/// @func	rbHandleYTileCollisions();
+function rbHandleYTileCollisions()
+{
+	var _bboxSide = bbox_top;
+	if (velocity.y > 0) _bboxSide = bbox_bottom;
+	for (var _i = 0; _i < 2; _i++)
+	{
+		// Check for y collision on moving side
+		var _x = bbox_left + _i * bboxWidth;
+		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
+		if (_tile == 1)
+		{
+			// Store collision velocity
+			collisionVelocity.y = velocity.y;
+			
+			// Set normal
+			normal.x = 0;
+			normal.y = -sign(velocity.y);
+			
+			// Land if landed
+			if (!grounded && velocity.y > 0) rbLand();
+			
+			// Loop until close enough to tile
+			while (abs(velocity.y) > collisionThreshold)
+			{
+				// Halve velocity
+				velocity.y *= 0.5;
+				
+				// Move if no collision
+				_tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
+				if (_tile != 1)
+				{
+					_bboxSide += velocity.y;
+					y += velocity.y;
+				}
+			}
+			
+			// Y collision
+			velocity.y = 0;
+			break;
 		}
 	}
 }

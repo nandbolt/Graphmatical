@@ -150,6 +150,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sounds","folderPath":"folders/Sounds.yy","order":3,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Editor","folderPath":"folders/Sounds/Editor.yy","order":2,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Human","folderPath":"folders/Sounds/Human.yy","order":1,},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Level","folderPath":"folders/Sounds/Level.yy","order":3,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sprites","folderPath":"folders/Sprites.yy","order":1,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Background","folderPath":"folders/Sprites/Background.yy","order":4,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Debug","folderPath":"folders/Sprites/Debug.yy","order":5,},
@@ -167,7 +168,6 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tiles","folderPath":"folders/Sprites/Tiles.yy","order":3,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy","order":2,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy","order":8,},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Level","folderPath":"folders/Sounds/Level.yy","order":3,},
   ],
   "AudioGroups": [
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
