@@ -82,12 +82,20 @@ function Equation(_axes) constructor
 	/// @func	draw();
 	static draw = function()
 	{
+		// Color
+		var _color = #cdf7e2, _alpha = 1, _style = 0, _sprite = sDot;
+		if (axes.material == GraphType.LASER)
+		{
+			_color = c_white;
+			_sprite = sLaser;
+		}
+		
 		// Loop through paths
 		var _pathCount = array_length(xGraphPaths);
 		for (var _i = 0; _i < _pathCount; _i++)
 		{
 			// Plot path
-			plot(xGraphPaths[_i], yGraphPaths[_i]);
+			plot(xGraphPaths[_i], yGraphPaths[_i], _color, _alpha, _style, _sprite);
 		}
 	}
 	

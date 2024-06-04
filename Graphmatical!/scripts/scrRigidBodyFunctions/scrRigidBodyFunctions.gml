@@ -41,6 +41,10 @@ function rbInit()
 	
 	// Sfx
 	landSfx = sfxLand;
+	
+	// Death
+	dead = false;
+	die = function(){ instance_destroy(); }
 }
 
 /// @func	rbCleanup();
@@ -97,6 +101,12 @@ function rbUpdate()
 	
 	// Set speed
 	spd = velocity.getLength();
+}
+
+/// @func	rbEndUpdate();
+function rbEndUpdate()
+{
+	if (dead) die();
 }
 
 /// @func	rbDraw();
@@ -245,9 +255,6 @@ function rbHandleResistances()
 /// @func	rbHandleGraphCollisions();
 function rbHandleGraphCollisions()
 {
-	// Return if ignoring graphs
-	if (ignoreGraphs) return;
-	
 	// Get axes collided with
 	var _axesList = ds_list_create();
 	var _axesCount = 0;
@@ -266,125 +273,22 @@ function rbHandleGraphCollisions()
 		var _axes = _axesList[| _j];
 		var _equations = _axes.equations;
 		var _equationCount = array_length(_equations);
-			
+		
+		// If ignore graphs and axes is not laser
+		if (ignoreGraphs && _axes.material != GraphType.LASER) continue;
+		
 		// Loop through equations
 		for (var _i = 0; _i < _equationCount; _i++)
 		{
 			// Get equation
 			var _equation = _equations[_i];
-				
-			// If x graph collisions
-			if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
-			{
-				// Store collision
-				_collision = true;
-				collisionVelocity.setVector(velocity);
-					
-				// Choose side to check tile collision
-				var _bboxSide = bbox_left;
-				if (velocity.x > 0) _bboxSide = bbox_right;
-					
-				#region Move Close
-						
-				// While velocity is below 
-				while (velocity.getLength() > collisionThreshold)
-				{
-					// Halve velocity
-					velocity.scale(0.5);
-							
-					// If point above graph
-					//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
-					if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-					{
-						// If no tile collisions
-						if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
-							tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
-						{
-							// Move closer
-							x += velocity.x;
-							y += velocity.y;
-							_bboxSide += velocity.x;
-						}
-					}
-				}
-					
-				// Zero velocity
-				velocity.set();
-						
-				#endregion
-					
-				#region Calculate Normal
-						
-				// Calculate y values
-				var _xSize = 2;
-				var _ayLeft = _equation.evaluate(xToAxisX(_axes, x-1));
-				if (is_string(_ayLeft))
-				{
-					_ayLeft = _equation.evaluate(xToAxisX(_axes, x));
-					_xSize--;
-				}
-				var _ayRight = _equation.evaluate(xToAxisX(_axes, x+1));
-				if (is_string(_ayRight))
-				{
-					_ayRight = _equation.evaluate(xToAxisX(_axes, x));
-					_xSize--;
-				}
-				var _leftY = axisYtoY(_axes, _ayLeft), _rightY = axisYtoY(_axes, _ayRight);
-						
-				// Calculate normal
-				normal.setNormal(_xSize, _rightY - _leftY);
-				normal.rotateDegrees(90);
-						
-				#endregion
-					
-				// Calculate velocity projection
-				var _dotProduct = collisionVelocity.dotWithVector(normal);
-				velocity.set(collisionVelocity.x - normal.x * _dotProduct, collisionVelocity.y - normal.y * _dotProduct);
-				
-				// If bouncy
-				if (bounciness != 0)
-				{
-					// Calculate bounce velocity
-					bounceVelocity.set(collisionVelocity.x - normal.x * _dotProduct * 2, collisionVelocity.y - normal.y * _dotProduct * 2);
-					
-					// Set grounded state
-					grounded = true;
-					
-					// Zero velocity 
-					velocity.set();
-				}
-				else
-				{
-					// Get rotation direction
-					var _normalAngle = normal.getAngleDegrees();
-					var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
-					
-					// Rotate velocity until no collision (up to a max)
-					var _rotationCount = 0;
-					while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
-					{
-						// Rotate velocity
-						velocity.rotateDegrees(_rotationDirection);
-						_rotationCount++;
-								
-						// Break if too many rotations
-						if (_rotationCount > 45)
-						{
-							velocity.set();
-							break;
-						}
-					}
-					
-					// Last check
-					if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y)) velocity.set();
-						
-					// Land if wasn't grounded and normal isn't too steep
-					if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
-				}
-					
-				// Break
-				break;
-			}
+			
+			// If not laser
+			if (_axes.material != GraphType.LASER) _collision = rbHandleSolidGraphCollision(_equation);
+			else _collision = rbHandleLaserGraphCollision(_equation);
+			
+			// If collision
+			if (_collision) break;
 		}
 			
 		// Exit axes loop if collision
@@ -393,6 +297,136 @@ function rbHandleGraphCollisions()
 		
 	// Destroy list
 	ds_list_destroy(_axesList);
+}
+
+/// @func	rbHandleSolidGraphCollision({Equation} equation);
+function rbHandleSolidGraphCollision(_equation)
+{
+	// If x graph collisions
+	if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+	{
+		// Store collision
+		collisionVelocity.setVector(velocity);
+					
+		// Choose side to check tile collision
+		var _bboxSide = bbox_left;
+		if (velocity.x > 0) _bboxSide = bbox_right;
+					
+		#region Move Close
+						
+		// While velocity is below 
+		while (velocity.getLength() > collisionThreshold)
+		{
+			// Halve velocity
+			velocity.scale(0.5);
+							
+			// If point above graph
+			//if (!graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
+			if (graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+			{
+				// If no tile collisions
+				if (tilemap_get_at_pixel(collisionMap, x + velocity.x, bbox_bottom + velocity.y) == 0 && 
+					tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, y + velocity.y) == 0)
+				{
+					// Move closer
+					x += velocity.x;
+					y += velocity.y;
+					_bboxSide += velocity.x;
+				}
+			}
+		}
+					
+		// Zero velocity
+		velocity.set();
+						
+		#endregion
+					
+		#region Calculate Normal
+						
+		// Calculate y values
+		var _xSize = 2;
+		var _ayLeft = _equation.evaluate(xToAxisX(_axes, x-1));
+		if (is_string(_ayLeft))
+		{
+			_ayLeft = _equation.evaluate(xToAxisX(_axes, x));
+			_xSize--;
+		}
+		var _ayRight = _equation.evaluate(xToAxisX(_axes, x+1));
+		if (is_string(_ayRight))
+		{
+			_ayRight = _equation.evaluate(xToAxisX(_axes, x));
+			_xSize--;
+		}
+		var _leftY = axisYtoY(_axes, _ayLeft), _rightY = axisYtoY(_axes, _ayRight);
+						
+		// Calculate normal
+		normal.setNormal(_xSize, _rightY - _leftY);
+		normal.rotateDegrees(90);
+						
+		#endregion
+					
+		// Calculate velocity projection
+		var _dotProduct = collisionVelocity.dotWithVector(normal);
+		velocity.set(collisionVelocity.x - normal.x * _dotProduct, collisionVelocity.y - normal.y * _dotProduct);
+				
+		// If bouncy
+		if (bounciness != 0)
+		{
+			// Calculate bounce velocity
+			bounceVelocity.set(collisionVelocity.x - normal.x * _dotProduct * 2, collisionVelocity.y - normal.y * _dotProduct * 2);
+					
+			// Set grounded state
+			grounded = true;
+					
+			// Zero velocity 
+			velocity.set();
+		}
+		else
+		{
+			// Get rotation direction
+			var _normalAngle = normal.getAngleDegrees();
+			var _rotationDirection = sign(angle_difference(_normalAngle, velocity.getAngleDegrees()));
+					
+			// Rotate velocity until no collision (up to a max)
+			var _rotationCount = 0;
+			while (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y))
+			{
+				// Rotate velocity
+				velocity.rotateDegrees(_rotationDirection);
+				_rotationCount++;
+								
+				// Break if too many rotations
+				if (_rotationCount > 45)
+				{
+					velocity.set();
+					break;
+				}
+			}
+					
+			// Last check
+			if (!graphPointAbove(_equation, x + velocity.x, bbox_bottom + velocity.y)) velocity.set();
+						
+			// Land if wasn't grounded and normal isn't too steep
+			if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
+		}
+		
+		// Graph collision
+		return true;
+	}
+	
+	// No graph collision
+	return false;
+}
+
+/// @func	rbHandleLaserGraphCollision({Equation} equation);
+function rbHandleLaserGraphCollision(_equation)
+{
+	if (graphTouching(_equation, self))
+	{
+		dead = true;
+		return true;
+	}
+	return false;
 }
 
 /// @func	rbHandleXTileCollisions();

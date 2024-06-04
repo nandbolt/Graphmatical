@@ -11,6 +11,9 @@ upperDomain = 9;
 lowerRange = -5;
 upperRange = 5;
 
+// Material
+material = GraphType.LASER;
+
 #region Functions
 
 /// @func	setAxesSize({int} tileWidth, {int} tileHeight);

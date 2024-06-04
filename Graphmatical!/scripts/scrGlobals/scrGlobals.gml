@@ -37,4 +37,11 @@ enum GraphingError
 	NO_VALUE,
 }
 
+enum GraphType
+{
+	NORMAL,
+	LASER,
+	BOUNCY,
+}
+
 #endregion
