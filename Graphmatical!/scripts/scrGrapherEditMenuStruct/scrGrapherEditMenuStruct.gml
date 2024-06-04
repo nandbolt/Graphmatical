@@ -28,6 +28,13 @@ function GrapherEditMenu() : Menu() constructor
 	buttonRemoveAxes.width = _width;
 	buttonRemoveAxes.height = _height;
 	
+	// Material dropdown
+	_x += 24;
+	_width = 64;
+	dropdownMaterial = new GuiDropdown("Material", _x, _y, ["Normal", "Laser", "Bouncy"], oGrapher.currentAxes.material, other.changeMaterial);
+	dropdownMaterial.width = _width;
+	dropdownMaterial.height = _height;
+	
 	/// @func	addEquationTextfield();
 	static addEquationTextfield = function()
 	{

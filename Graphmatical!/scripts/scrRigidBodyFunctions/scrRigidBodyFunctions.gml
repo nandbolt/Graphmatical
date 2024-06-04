@@ -302,6 +302,9 @@ function rbHandleGraphCollisions()
 /// @func	rbHandleSolidGraphCollision({Equation} equation);
 function rbHandleSolidGraphCollision(_equation)
 {
+	// Get axes
+	var _axes = _equation.axes;
+	
 	// If x graph collisions
 	if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
 	{

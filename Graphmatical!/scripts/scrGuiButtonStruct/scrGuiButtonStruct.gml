@@ -1,4 +1,4 @@
-/// @func	GuiButton({string} name, {real} x, {real} y, {func} onClick=function(){});
+/// @func	GuiButton({string} name, {real} x, {real} y, {func} onClick);
 function GuiButton(_name, _x, _y, _onClick=function(){}) : GuiElement() constructor
 {
 	// Values

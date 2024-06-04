@@ -89,6 +89,7 @@ function Equation(_axes) constructor
 			_color = c_white;
 			_sprite = sLaser;
 		}
+		else if (axes.material == GraphType.BOUNCY) _color = #bc4a9b;
 		
 		// Loop through paths
 		var _pathCount = array_length(xGraphPaths);

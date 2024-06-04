@@ -278,6 +278,13 @@ enterEquation = function()
 	}
 }
 
+/// @func	changeMaterial();
+changeMaterial = function()
+{
+	// Update material
+	currentAxes.material = currentMenu.dropdownMaterial.get();
+}
+
 #endregion
 
 // Set position to grid

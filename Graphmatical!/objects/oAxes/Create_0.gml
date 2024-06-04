@@ -12,7 +12,7 @@ lowerRange = -5;
 upperRange = 5;
 
 // Material
-material = GraphType.LASER;
+material = GraphType.NORMAL;
 
 #region Functions
 
