@@ -214,20 +214,16 @@ function rbUpdateGroundedState()
 /// @func	rbHandleBounce();
 function rbHandleBounce()
 {
-	// If bouncy
-	if (bounciness != 0)
+	// Bounce if necessary
+	if (bounceVelocity.x != 0)
 	{
-		// Bounce if collision
-		if (bounceVelocity.x != 0)
-		{
-			velocity.x += bounceVelocity.x * bounciness;
-			bounceVelocity.x = 0;
-		}
-		if (bounceVelocity.y != 0)
-		{
-			velocity.y += bounceVelocity.y * bounciness;
-			bounceVelocity.y = 0;
-		}
+		velocity.x += bounceVelocity.x;
+		bounceVelocity.x = 0;
+	}
+	if (bounceVelocity.y != 0)
+	{
+		velocity.y += bounceVelocity.y;
+		bounceVelocity.y = 0;
 	}
 }
 
@@ -373,10 +369,11 @@ function rbHandleSolidGraphCollision(_equation)
 		velocity.set(collisionVelocity.x - normal.x * _dotProduct, collisionVelocity.y - normal.y * _dotProduct);
 				
 		// If bouncy
-		if (bounciness != 0)
+		if (bounciness != 0 || _axes.material == GraphType.BOUNCY)
 		{
 			// Calculate bounce velocity
 			bounceVelocity.set(collisionVelocity.x - normal.x * _dotProduct * 2, collisionVelocity.y - normal.y * _dotProduct * 2);
+			if (_axes.material != GraphType.BOUNCY) bounceVelocity.scale(bounciness);
 					
 			// Set grounded state
 			grounded = true;
@@ -447,7 +444,7 @@ function rbHandleXTileCollisions()
 		{
 			// Store collision velocity
 			collisionVelocity.x = velocity.x;
-			bounceVelocity.x = -velocity.x;
+			bounceVelocity.x = -velocity.x * bounciness;
 			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
@@ -485,7 +482,7 @@ function rbHandleYTileCollisions()
 		{
 			// Store collision velocity
 			collisionVelocity.y = velocity.y;
-			bounceVelocity.y = -velocity.y;
+			bounceVelocity.y = -velocity.y * bounciness;
 			
 			// Set normal
 			normal.set(0, -sign(velocity.y));
