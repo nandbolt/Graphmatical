@@ -464,7 +464,7 @@ function Equation(_axes) constructor
 			{
 				// Remove any operators already in stack that have higher or equal precedence and append them to output list, then push token to stack
 				while (array_length(_operatorStack) > 0 && 
-					  (oWorld.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= oWorld.precedenceMap[? _token]))
+					  (oLevel.precedenceMap[? _operatorStack[array_length(_operatorStack) - 1]] >= oLevel.precedenceMap[? _token]))
 				{
 					array_push(postfixExpressionTokens, array_pop(_operatorStack));
 				}

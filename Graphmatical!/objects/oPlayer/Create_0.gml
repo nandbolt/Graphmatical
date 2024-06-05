@@ -73,7 +73,7 @@ resetMoveInputs = function()
 die = function()
 {
 	// World scope
-	with (oWorld)
+	with (oLevel)
 	{
 		// Set respawn timer
 		alarm[0] = 30;

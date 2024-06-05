@@ -7,8 +7,8 @@ function layerWorleyShaderStart()
 		{
 			// Set shader
 			shader_set(shdrWorleyNoise);
-			shader_set_uniform_f(oWorld.uTime, current_time * 0.0001);
-			shader_set_uniform_f(oWorld.uResolution, 1920.0 * 0.25, 1080.0 * 0.25);
+			shader_set_uniform_f(oLevel.uTime, current_time * 0.0001);
+			shader_set_uniform_f(oLevel.uResolution, 1920.0 * 0.25, 1080.0 * 0.25);
 		}
 	}
 }

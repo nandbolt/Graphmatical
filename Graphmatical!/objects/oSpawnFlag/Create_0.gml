@@ -13,7 +13,7 @@ onPlayerNear = function()
 	updateSpawnPoint();
 	
 	// Reset level
-	with (oWorld)
+	with (oLevel)
 	{
 		levelComplete = false;
 		startTime = current_time / 1000;

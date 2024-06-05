@@ -13,7 +13,7 @@ onPlayerNear = function()
 	updateSpawnPoint();
 	
 	// Complete level
-	with (oWorld)
+	with (oLevel)
 	{
 		completeLevel();
 	}

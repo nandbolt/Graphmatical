@@ -14,7 +14,7 @@ spritePole = sCheckPole;
 updateSpawnPoint = function()
 {
 	// World scope
-	with (oWorld)
+	with (oLevel)
 	{
 		// If spawn point is different
 		if (spawnPoint != other)

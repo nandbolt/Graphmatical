@@ -9,7 +9,7 @@ collisionLayer = layer_get_id("CollisionTiles");
 precedenceMap = ds_map_create();
 
 // Spawning
-spawnPoint = noone;
+spawnPoint = instance_create_layer(24, 1064, "Instances", oSpawnFlag);
 
 // Background shader
 uTime = shader_get_uniform(shdrWorleyNoise, "u_time");
@@ -55,19 +55,6 @@ ds_map_add(precedenceMap, "g", 3);	// Tangent
 ds_map_add(precedenceMap, "^", 4);	// Power
 ds_map_add(precedenceMap, "l", 5);	// Log
 ds_map_add(precedenceMap, "r", 5);	// Root
-
-#region Create Level
-
-// Spawn point
-spawnPoint = instance_create_layer(24, 1064, "BackgroundInstances", oSpawnFlag);
-
-// Player
-instance_create_layer(spawnPoint.x, spawnPoint.y, "ForegroundInstances", oPlayer);
-
-// Camera
-instance_create_layer(0, 0, "Instances", oCamera);
-
-#endregion
 
 // Set background shader
 layer_script_begin(backgroundLayer, layerWorleyShaderStart);

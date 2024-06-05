@@ -136,6 +136,9 @@ function rbDraw()
 		draw_line_color(x-1, bbox_bottom-1, x + normal.x * 4-1, bbox_bottom + normal.y * 4 -1, c_lime, c_lime);
 	}
 	draw_line_color(x-1, y-1, x + _rx-1, y + _ry-1, c_red, c_red);
+	
+	// Ground line
+	draw_line(x-1, bbox_bottom-1, x-1, bbox_bottom + 1);
 }
 
 /// @func	rbDrawGui();

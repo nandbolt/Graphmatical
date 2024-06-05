@@ -165,7 +165,7 @@ createAxes = function()
 	}
 	
 	// Create new axes
-	currentAxes = instance_create_layer(x, y, "Instances", oAxes);
+	currentAxes = instance_create_layer(x, y, "MiddleBackgroundInstances", oAxes);
 	
 	// Change to grapher choose menu
 	changeMenu(GrapherChooseMenu);
