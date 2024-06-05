@@ -81,6 +81,17 @@ die = function()
 
 	// Hurt sound
 	audio_play_sound(sfxHurt, 2, false);
+	
+	// Emit a particle from every part of the body
+	with (oParticleManager)
+	{
+		part_particles_create(partSystem, other.neckPosition.x, other.neckPosition.y - 2, partTypeDust, 1);				// Head
+		part_particles_create(partSystem, other.neckPosition.x, other.neckPosition.y + 2, partTypeDust, 1);				// Body
+		part_particles_create(partSystem, other.leftArm.elbowJoint.x, other.leftArm.elbowJoint.y, partTypeDust, 1);		// Left Elbow
+		part_particles_create(partSystem, other.rightArm.elbowJoint.x, other.rightArm.elbowJoint.y, partTypeDust, 1);	// Right Elbow
+		part_particles_create(partSystem, other.leftLeg.elbowJoint.x, other.leftLeg.elbowJoint.y, partTypeDust, 1);		// Left Knee
+		part_particles_create(partSystem, other.rightLeg.elbowJoint.x, other.rightLeg.elbowJoint.y, partTypeDust, 1);	// Right Knee
+	}
 
 	// Destroy self
 	instance_destroy();
