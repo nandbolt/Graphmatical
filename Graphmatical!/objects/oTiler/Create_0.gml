@@ -7,7 +7,7 @@ worldMap = layer_tilemap_get_id("WorldTiles");
 
 // Index
 currentIdx = 1;
-maxIdx = 7;
+maxIdx = 8;
 currentSprite = noone;
 previousTile = 0;
 
@@ -58,13 +58,22 @@ toggleTile = function()
 			if (currentIdx > 2)
 			{
 				// Place it
-				var _obj = noone;
+				var _obj = noone, _layerName = "Instances";
 				if (currentIdx == 3) _obj = oSpawnFlag;
 				else if (currentIdx == 4) _obj = oCheckFlag;
 				else if (currentIdx == 5) _obj = oGoalFlag;
-				else if (currentIdx == 6) _obj = oSpike;
+				else if (currentIdx == 6)
+				{
+					_obj = oSpike;
+					_layerName = "MiddleBackgroundInstances";
+				}
 				else if (currentIdx == 7) _obj = oSign;
-				if (_obj != noone) instance_create_layer(x, y, "BackgroundInstances", _obj);
+				else if (currentIdx == 8)
+				{
+					_obj = oBall;
+					_layerName = "MiddleForegroundInstances";
+				}
+				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
 			{
@@ -101,6 +110,7 @@ cycleIdx = function(_idx)
 		else if (currentIdx == 5) currentSprite = sGoalFlag;
 		else if (currentIdx == 6) currentSprite = sSpike;
 		else if (currentIdx == 7) currentSprite = sSign;
+		else if (currentIdx == 8) currentSprite = sBall;
 	}
 	
 	// Cycle sound
