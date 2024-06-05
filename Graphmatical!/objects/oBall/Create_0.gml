@@ -56,3 +56,6 @@ onBounce = function()
 }
 
 #endregion
+
+// Hide name
+showName = false;

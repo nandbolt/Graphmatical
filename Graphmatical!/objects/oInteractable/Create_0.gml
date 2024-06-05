@@ -2,6 +2,10 @@
 interactable = true;
 playerNear = false;
 
+// Info
+name = "";
+showName = true;
+
 #region Functions
 
 /// @func	interact();

@@ -1,0 +1,2 @@
+name = "LASERS";
+nextLevel = rLaserLevel;

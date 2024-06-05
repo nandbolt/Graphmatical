@@ -1,7 +1,7 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oLevelTutorial",
+  "name": "oLevelEmpty",
   "spriteId": null,
   "solid": false,
   "visible": true,
@@ -30,7 +30,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "PrebuiltLevels",
-    "path": "folders/Objects/Rooms/PrebuiltLevels.yy",
+    "name": "Rooms",
+    "path": "folders/Objects/Rooms.yy",
   },
 }

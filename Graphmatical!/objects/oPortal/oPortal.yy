@@ -1,16 +1,19 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oLevelTutorial",
-  "spriteId": null,
+  "name": "oPortal",
+  "spriteId": {
+    "name": "sPortal",
+    "path": "sprites/sPortal/sPortal.yy",
+  },
   "solid": false,
   "visible": true,
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "oLevel",
-    "path": "objects/oLevel/oLevel.yy",
+    "name": "oInteractable",
+    "path": "objects/oInteractable/oInteractable.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
@@ -25,12 +28,13 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,},
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "PrebuiltLevels",
-    "path": "folders/Objects/Rooms/PrebuiltLevels.yy",
+    "name": "Portals",
+    "path": "folders/Objects/Level/Interactables/Portals.yy",
   },
 }
