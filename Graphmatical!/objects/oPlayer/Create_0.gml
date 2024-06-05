@@ -72,10 +72,11 @@ resetMoveInputs = function()
 /// @func	die();
 die = function()
 {
-	// Respawn
+	// World scope
 	with (oWorld)
 	{
-		respawnPlayer();
+		// Set respawn timer
+		alarm[0] = 30;
 	}
 
 	// Hurt sound

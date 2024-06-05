@@ -1,0 +1,2 @@
+/// @desc Respawn Timer
+respawnPlayer();
