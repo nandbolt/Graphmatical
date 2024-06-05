@@ -26,6 +26,9 @@ function ikhInit()
 	
 	// Run animation
 	leftFootGrounded = true;
+	
+	// Slide
+	slideParticleCounter = 0;
 }
 
 /// @func	ikhCleanup();
@@ -149,8 +152,15 @@ function ikhUpdateAnimState()
 				if (currentAnimationState != HumanAnimationState.IDLE)
 				{
 					show_debug_message("human entered IDLE state");
-					ikhGroundFoot(leftLeg, leftLeg.targetPosition.x);
-					ikhGroundFoot(rightLeg, rightLeg.targetPosition.x);
+					ikhGroundFoot(leftLeg, leftLeg.handPosition.x);
+					ikhGroundFoot(rightLeg, rightLeg.handPosition.x);
+					
+					// Dirt particles
+					with (oParticleManager)
+					{
+						part_particles_create(partSystem, other.leftLeg.handPosition.x, other.leftLeg.handPosition.y, partTypeDirt, 1);
+						part_particles_create(partSystem, other.rightLeg.handPosition.x, other.rightLeg.handPosition.y, partTypeDirt, 1);
+					}
 				}
 				
 				// Idle
@@ -166,6 +176,17 @@ function ikhUpdateAnimState()
 				// Slide
 				currentAnimationState = HumanAnimationState.SLIDE;
 				currentAnimationFunc = ikhAnimSlide;
+				
+				// Dirt particles
+				slideParticleCounter++;
+				if (slideParticleCounter mod clamp(floor(10 - velocity.getLength()), 1, 10) == 0)
+				{
+					with (oParticleManager)
+					{
+						part_particles_create(partSystem, other.leftLeg.handPosition.x, other.leftLeg.handPosition.y, partTypeDirt, 1);
+						part_particles_create(partSystem, other.rightLeg.handPosition.x, other.rightLeg.handPosition.y, partTypeDirt, 1);
+					}
+				}
 			}
 			else
 			{
@@ -194,6 +215,17 @@ function ikhUpdateAnimState()
 		}
 		else
 		{
+			// If entering jump
+			if (currentAnimationState != HumanAnimationState.JUMP)
+			{
+				// Dirt particles
+				with (oParticleManager)
+				{
+					part_particles_create(partSystem, other.leftLeg.handPosition.x, other.leftLeg.handPosition.y, partTypeDirt, 2);
+					part_particles_create(partSystem, other.rightLeg.handPosition.x, other.rightLeg.handPosition.y, partTypeDirt, 2);
+				}
+			}
+			
 			// Jump
 			currentAnimationState = HumanAnimationState.JUMP;
 			currentAnimationFunc = ikhAnimJump;
@@ -342,6 +374,12 @@ function ikhAnimRun()
 			
 			// Footstep
 			if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
+			
+			// Dirt particles
+			with (oParticleManager)
+			{
+				part_particles_create(partSystem, _tx, _ty, partTypeDirt, 1);
+			}
 		}
 		else
 		{
@@ -379,6 +417,12 @@ function ikhAnimRun()
 			
 			// Footstep
 			if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
+			
+			// Dirt particles
+			with (oParticleManager)
+			{
+				part_particles_create(partSystem, _tx, _ty, partTypeDirt, 1);
+			}
 		}
 		else
 		{

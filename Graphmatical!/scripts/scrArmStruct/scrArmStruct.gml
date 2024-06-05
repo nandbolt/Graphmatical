@@ -24,7 +24,6 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	
 	// Target
 	targetPosition = new Vector2(handPosition.x, handPosition.y);
-	goalPosition = new Vector2(targetPosition.x, targetPosition.y);
 	
 	// Color
 	color = c_white;
@@ -54,12 +53,6 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	static lerpTarget = function(_x, _y, _amount)
 	{
 		moveTarget(lerp(targetPosition.x, _x, _amount), lerp(targetPosition.y, _y, _amount));
-	}
-	
-	/// @func	lerpTargetToGoal({real} amount);
-	static lerpTargetToGoal = function(_amount)
-	{
-		lerpTarget(goalPosition.x, goalPosition.y, _amount);
 	}
 	
 	/// @func	moveArm();
@@ -131,7 +124,6 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 		
 		// Targets
 		draw_sprite_ext(sSquareCenter, 0, targetPosition.x, targetPosition.y, 0.5, 0.5, 0, c_red, 1);
-		draw_sprite_ext(sSquareCenter, 0, goalPosition.x, goalPosition.y, 0.5, 0.5, 0, c_yellow, 1);
 		draw_set_color(c_white);
 	}
 }
