@@ -1,7 +1,10 @@
 // If player hitbox
-if (oHitbox.x == oPlayer.x && oHitbox.y == oPlayer.y)
+if (instance_exists(oPlayer))
 {
-	// Glow gold
-	image_blend = #92dcba;
-	alarm[0] = 1;
+	if (oHitbox.x == oPlayer.x && oHitbox.y == oPlayer.y)
+	{
+		// Glow gold
+		image_blend = #92dcba;
+		alarm[0] = 1;
+	}
 }

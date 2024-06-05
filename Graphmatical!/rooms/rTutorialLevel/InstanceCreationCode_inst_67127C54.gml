@@ -1,1 +1,2 @@
-text = "SPIKES!"
+text = "Watch your step...";
+name = "SPIKES!";

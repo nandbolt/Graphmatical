@@ -1,1 +1,2 @@
 text = "To the right is the equation y = sin(x). It spans a very large distance. It's here to sort of test the physics collisions with the graphs. In theory you shouldn't be able to touch the spikes down below unless you hold down and press jump...";
+name = "y = sin(x)";

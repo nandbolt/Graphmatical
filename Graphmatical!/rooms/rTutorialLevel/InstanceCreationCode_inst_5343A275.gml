@@ -1,1 +1,2 @@
 text = "In summary, equations are math sentences that say y is equal to x with some \"math\" applied to it (example: y = x + 5). These equations can be graphed using a pair of xy axes. You can then jump on these graphs and use them as platforms.";
+name = "Math summary";

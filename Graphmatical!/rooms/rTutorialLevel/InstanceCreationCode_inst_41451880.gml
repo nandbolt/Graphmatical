@@ -1,1 +1,2 @@
 text = "Step 3: Create an equation. While editting the axes, you can click the textbox to the left and start typing in an equation. You can type: a number (0-9), a number with a decimal (.), x (for the input), arithmetic operators (+-*/^), parentheses (), trigonometric operators (sin, cos, tan), some special operators (log, root) and some constants (pi, e).";
+name = "Step 3: Create equation";

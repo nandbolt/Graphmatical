@@ -22,7 +22,7 @@ endTime = 0;
 respawnPlayer = function()
 {
 	// Player
-	instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPlayer);
+	instance_create_layer(spawnPoint.x, spawnPoint.y, "ForegroundInstances", oPlayer);
 }
 
 /// @func	completeLevel();

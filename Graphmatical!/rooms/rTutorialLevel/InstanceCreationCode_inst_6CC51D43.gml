@@ -1,1 +1,2 @@
 text = "You should be well prepared to traverse any place you so desire now! There are a couple of things that I have yet to explain such as the Tiler or the Time input 't', but feel free to explore and edit the world around you!";
+name = "Explore!";

@@ -1,1 +1,2 @@
 text = "What's an equation? Well, they are used in math to say that two things are equal, usually equalling a number. A good example of this is y = x + 1. In this case, y is equal to x + 1. So, if x is equal to 5, then y is equal to 6 since 5 + 1 = 6. In these equations, x can be thought of as the input of the equation, and y as the output.";
+name = "What's an equation?";
