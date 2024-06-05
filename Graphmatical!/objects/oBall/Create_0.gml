@@ -32,6 +32,27 @@ kick = function()
 	
 	// Sound
 	audio_play_sound(sfxSignRead, 2, false);
+	
+	// Kick particles
+	with (oParticleManager)
+	{
+		part_particles_create(partSystem, other.x, other.y, partTypeDust, 3);
+	}
+}
+
+/// @func	onBounce();
+onBounce = function()
+{
+	// Dirt particles
+	if (grounded)
+	{
+		with (oParticleManager)
+		{
+			part_particles_create(partSystem, other.bbox_left, other.bbox_bottom, partTypeDirt, 1);
+			part_particles_create(partSystem, other.x, other.bbox_bottom, partTypeDirt, 1);
+			part_particles_create(partSystem, other.bbox_right, other.bbox_bottom, partTypeDirt, 1);
+		}
+	}
 }
 
 #endregion

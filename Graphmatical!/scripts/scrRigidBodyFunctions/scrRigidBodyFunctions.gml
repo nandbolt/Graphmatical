@@ -40,6 +40,8 @@ function rbInit()
 	// Bounce
 	bounciness = 0;
 	bounceVelocity = new Vector2();
+	onBounce = function(){}
+	bounceThreshold = 0.1;
 	
 	// Sfx
 	landSfx = sfxLand;
@@ -229,15 +231,19 @@ function rbUpdateGroundedState()
 function rbHandleBounce()
 {
 	// Bounce if necessary
-	if (bounceVelocity.x != 0)
+	if (bounceVelocity.getLength() > bounceThreshold)
 	{
-		velocity.x += bounceVelocity.x;
-		bounceVelocity.x = 0;
-	}
-	if (bounceVelocity.y != 0)
-	{
-		velocity.y += bounceVelocity.y;
-		bounceVelocity.y = 0;
+		onBounce();
+		if (bounceVelocity.x != 0)
+		{
+			velocity.x += bounceVelocity.x;
+			bounceVelocity.x = 0;
+		}
+		if (bounceVelocity.y != 0)
+		{
+			velocity.y += bounceVelocity.y;
+			bounceVelocity.y = 0;
+		}
 	}
 }
 

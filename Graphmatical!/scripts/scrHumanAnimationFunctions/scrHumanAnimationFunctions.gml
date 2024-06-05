@@ -4,6 +4,7 @@ function ikhInit()
 {
 	// Animation states
 	currentAnimationState = HumanAnimationState.IDLE;
+	currentAnimationStateName = "Idle";
 	currentAnimationFunc = ikhAnimIdle;
 	animationCounter = 0;
 	animationSpeed = 0.1;
@@ -142,6 +143,9 @@ function ikhUpdateAnimState()
 		{
 			if (inputCrouch)
 			{
+				// On entering crouch
+				if (currentAnimationState != HumanAnimationState.CROUCH) currentAnimationStateName = "Crouch";
+				
 				// Crouch
 				currentAnimationState = HumanAnimationState.CROUCH;
 				currentAnimationFunc = ikhAnimCrouch;
@@ -151,7 +155,7 @@ function ikhUpdateAnimState()
 				// Ground both feet if entering idle
 				if (currentAnimationState != HumanAnimationState.IDLE)
 				{
-					show_debug_message("human entered IDLE state");
+					currentAnimationStateName = "Idle";
 					ikhGroundFoot(leftLeg, leftLeg.handPosition.x);
 					ikhGroundFoot(rightLeg, rightLeg.handPosition.x);
 					
@@ -173,6 +177,9 @@ function ikhUpdateAnimState()
 		{
 			if (inputCrouch)
 			{
+				// On entering crouch
+				if (currentAnimationState != HumanAnimationState.SLIDE) currentAnimationStateName = "Slide";
+				
 				// Slide
 				currentAnimationState = HumanAnimationState.SLIDE;
 				currentAnimationFunc = ikhAnimSlide;
@@ -193,7 +200,7 @@ function ikhUpdateAnimState()
 				// Ground one foot if entering run
 				if (currentAnimationState != HumanAnimationState.RUN)
 				{
-					show_debug_message("human entered RUN state");
+					currentAnimationStateName = "Run";
 					ikhGroundFoot(leftLeg, leftLeg.targetPosition.x);
 					ikhGroundFoot(rightLeg, rightLeg.targetPosition.x);
 				}
@@ -209,6 +216,9 @@ function ikhUpdateAnimState()
 	{
 		if (velocity.y > 0)
 		{
+			// On entering fall
+			if (currentAnimationState != HumanAnimationState.FALL) currentAnimationStateName = "Fall";
+			
 			// Fall
 			currentAnimationState = HumanAnimationState.FALL;
 			currentAnimationFunc = ikhAnimFall;
@@ -218,6 +228,8 @@ function ikhUpdateAnimState()
 			// If entering jump
 			if (currentAnimationState != HumanAnimationState.JUMP)
 			{
+				currentAnimationStateName = "Jump";
+				
 				// Dirt particles
 				with (oParticleManager)
 				{
