@@ -32,6 +32,13 @@ completeLevel = function()
 	{
 		levelComplete = true;
 		endTime = current_time / 1000 - startTime;
+		
+		// Spawn hub portal
+		with(instance_create_layer(oGoalFlag.x, oGoalFlag.y, "Instances", oPortal))
+		{
+			name = "Hub";
+			nextLevel = rHubLevel;
+		}
 	}
 }
 
