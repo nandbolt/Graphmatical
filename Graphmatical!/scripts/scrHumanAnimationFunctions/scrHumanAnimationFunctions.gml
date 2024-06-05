@@ -23,6 +23,9 @@ function ikhInit()
 	rightLeg.flippedArm = true;
 	leftLeg.flippedArm = true;
 	leftLeg.color = #b3b9d1;
+	
+	// Run animation
+	leftFootGrounded = true;
 }
 
 /// @func	ikhCleanup();
@@ -132,7 +135,7 @@ function ikhUpdateAnimState()
 {
 	if (grounded)
 	{
-		if (abs(velocity.x) < 0.05)
+		if (velocity.isZero())
 		{
 			if (inputCrouch)
 			{
@@ -142,6 +145,14 @@ function ikhUpdateAnimState()
 			}
 			else
 			{
+				// Ground both feet if entering idle
+				if (currentAnimationState != HumanAnimationState.IDLE)
+				{
+					show_debug_message("human entered IDLE state");
+					ikhGroundFoot(leftLeg, leftLeg.targetPosition.x);
+					ikhGroundFoot(rightLeg, rightLeg.targetPosition.x);
+				}
+				
 				// Idle
 				currentAnimationState = HumanAnimationState.IDLE;
 				animationSpeed = 0.1;
@@ -158,6 +169,14 @@ function ikhUpdateAnimState()
 			}
 			else
 			{
+				// Ground one foot if entering run
+				if (currentAnimationState != HumanAnimationState.RUN)
+				{
+					show_debug_message("human entered RUN state");
+					ikhGroundFoot(leftLeg, leftLeg.targetPosition.x);
+					ikhGroundFoot(rightLeg, rightLeg.targetPosition.x);
+				}
+				
 				// Run
 				currentAnimationState = HumanAnimationState.RUN;
 				animationSpeed = 0.1;
@@ -182,6 +201,20 @@ function ikhUpdateAnimState()
 	}
 }
 
+/// @func	ikhGroundFoot({Arm} leg, {real} xGround);
+function ikhGroundFoot(_leg, _xGround)
+{
+	// If on graph
+	if (onGraph)
+	{
+		// Evaluate x position
+		var _ay = onGraphEquation.evaluate(xToAxisX(onGraphEquation.axes, _xGround));
+		if (!is_string(_ay)) _leg.moveTarget(_xGround, axisYtoY(onGraphEquation.axes, _ay));
+	}
+	// Else touching tile
+	else _leg.moveTarget(_xGround, bbox_bottom);
+}
+
 /// @func	ikhAnimIdle();
 /// @desc	Runs the idling animation (grounded, speed approx. zero).
 function ikhAnimIdle()
@@ -192,7 +225,7 @@ function ikhAnimIdle()
 		// Arm targets
 		leftArm.lerpTarget(x + 4, y-1, 0.2);
 		rightArm.lerpTarget(x - 1, y, 0.2);
-			
+		
 		// Orientation
 		rightArm.flippedArm = false;
 		leftArm.flippedArm = false;
@@ -213,8 +246,8 @@ function ikhAnimIdle()
 	}
 		
 	// Leg targets
-	rightLeg.targetPosition.y = lerp(rightLeg.targetPosition.y, bbox_bottom, 0.2);
-	leftLeg.targetPosition.y = lerp(leftLeg.targetPosition.y, bbox_bottom, 0.2);
+	//rightLeg.targetPosition.y = lerp(rightLeg.targetPosition.y, bbox_bottom, 0.2);
+	//leftLeg.targetPosition.y = lerp(leftLeg.targetPosition.y, bbox_bottom, 0.2);
 			
 	// Neck + hip
 	var _hover = sin(animationCounter) * 0.5;
@@ -287,106 +320,79 @@ function ikhAnimRun()
 	}
 		
 	// If left leg grounded
-	if (leftLeg.handPosition.y == bbox_bottom)
+	if (leftFootGrounded)
 	{
-		// Plant left leg
-		var _tx = leftLeg.targetPosition.x;
-		var _ty = bbox_bottom;
-			
 		// If left leg too far
-		if (point_distance(x, y, _tx, _ty) > leftLeg.rootArmLength + leftLeg.elbowArmLength)
+		if (leftLeg.getTargetDistance() > leftLeg.rootArmLength + leftLeg.elbowArmLength && sign(leftLeg.targetPosition.x - x) != image_xscale)
 		{
-			// If moving right
-			if (image_xscale > 0)
-			{
-				// Plant right leg forward right
-				_tx = bbox_right + 3;
-				_ty = bbox_bottom;
-			}
-			else
-			{
-				// Plant right leg forward left
-				_tx = bbox_left - 3;
-				_ty = bbox_bottom;
-			}
+			// // Plant right leg forward right if moving right
+			if (image_xscale > 0) ikhGroundFoot(rightLeg, bbox_right + 3);
+			// Else plant right leg forward left
+			else ikhGroundFoot(rightLeg, bbox_left - 3);
 				
 			// Get target displacement
+			var _tx = rightLeg.targetPosition.x, _ty = rightLeg.targetPosition.y;
 			var _tdx = x - _tx;
 			
 			// Move leg targets
-			rightLeg.moveTarget(_tx, _ty);
-			leftLeg.moveTarget(x + _tdx, _ty - 2);
+			leftLeg.targetPosition.x = x + _tdx;
 			
-			// Move arm targets
-			rightArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
-			leftArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
+			// Set planted foot
+			leftFootGrounded = false;
 			
 			// Footstep
-			//if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
+			if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
 			// Get target displacement
+			var _tx = leftLeg.targetPosition.x, _ty = leftLeg.targetPosition.y;
 			var _tdx = x - _tx;
 			
 			// Move leg targets
-			rightLeg.moveTarget(x + _tdx, _ty - 2);
-			leftLeg.moveTarget(_tx, _ty);
+			ikhGroundFoot(rightLeg, x + _tdx);
+			rightLeg.targetPosition.y -= 2;
 			
 			// Move arm targets
-			rightArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
-			leftArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
+			rightArm.moveTarget(x - _tdx * 0.5, hipPosition.y - 1);
+			leftArm.moveTarget(x + _tdx * 0.5, hipPosition.y - 1);
 		}
 	}
 	else
-	{
-		// Plant right leg
-		var _tx = rightLeg.targetPosition.x;
-		var _ty = bbox_bottom;
-			
+	{	
 		// If right leg too far (e.g. behind)
-		if (point_distance(x, y, _tx, _ty) > rightLeg.rootArmLength + rightLeg.elbowArmLength)
+		if (rightLeg.getTargetDistance() > rightLeg.rootArmLength + rightLeg.elbowArmLength && sign(rightLeg.targetPosition.x - x) != image_xscale)
 		{
 			// If moving right
-			if (image_xscale > 0)
-			{
-				// Plant left leg forward right
-				_tx = bbox_right + 3;
-				_ty = bbox_bottom;
-			}
-			else
-			{
-				// Plant left leg forward left
-				_tx = bbox_left - 3;
-				_ty = bbox_bottom;
-			}
+			if (image_xscale > 0) ikhGroundFoot(leftLeg, bbox_right + 3);
+			else ikhGroundFoot(leftLeg, bbox_left - 3);
 				
 			// Get target displacement
+			var _tx = leftLeg.targetPosition.x, _ty = leftLeg.targetPosition.y;
 			var _tdx = x - _tx;
 			
 			// Move leg targets
-			rightLeg.moveTarget(x + _tdx, _ty - 2);
-			leftLeg.moveTarget(_tx, _ty);
+			rightLeg.targetPosition.x = x + _tdx;
 			
-			// Move arm targets
-			rightArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
-			leftArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
+			// Set planted foot
+			leftFootGrounded = true;
 			
 			// Footstep
-			//if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
+			if (!audio_is_playing(sfxFootstep)) audio_play_sound(sfxFootstep, 1, false);
 		}
 		else
 		{
 			// Get target displacement
+			var _tx = rightLeg.targetPosition.x, _ty = rightLeg.targetPosition.y;
 			var _tdx = x - _tx;
 			
 			// Move leg targets
-			rightLeg.moveTarget(_tx, _ty);
-			leftLeg.moveTarget(x + _tdx, _ty - 2);
+			ikhGroundFoot(leftLeg, x + _tdx);
+			leftLeg.targetPosition.y -= 2;
 			
 			// Move arm targets
-			rightArm.lerpTarget(x + _tdx, _ty - 7 - _tdx * 0.1, 0.8);
-			leftArm.lerpTarget(_tx, _ty - 8 + _tdx * 0.1, 0.8);
+			rightArm.moveTarget(x + _tdx * 0.5, hipPosition.y - 1);
+			leftArm.moveTarget(x - _tdx * 0.5, hipPosition.y - 1);
 		}
 	}
 		
@@ -407,8 +413,8 @@ function ikhAnimSlide()
 		// Targets
 		rightArm.moveTarget(x + 4, y + 3);
 		leftArm.moveTarget(x - 2, y + 3);
-		rightLeg.moveTarget(x + 8, bbox_bottom);
-		leftLeg.moveTarget(x - 1, bbox_bottom);
+		ikhGroundFoot(rightLeg, x + 8);
+		ikhGroundFoot(leftLeg, x - 1);
 			
 		// Orientation
 		rightArm.flippedArm = false;
@@ -421,8 +427,8 @@ function ikhAnimSlide()
 		// Targets
 		rightArm.moveTarget(x + 2, y + 3);
 		leftArm.moveTarget(x - 4, y + 3);
-		rightLeg.moveTarget(x + 1, bbox_bottom);
-		leftLeg.moveTarget(x - 8, bbox_bottom);
+		ikhGroundFoot(rightLeg, x + 1);
+		ikhGroundFoot(leftLeg, x - 8);
 			
 		// Orientation
 		rightArm.flippedArm = true;
@@ -433,9 +439,9 @@ function ikhAnimSlide()
 			
 	// Neck + hip
 	neckPosition.x = x;
-	neckPosition.y = lerp(neckPosition.y, y, 0.5);
+	neckPosition.y = lerp(neckPosition.y, y, 0.6);
 	hipPosition.x = x;
-	hipPosition.y = lerp(hipPosition.y, y + 4, 0.5);
+	hipPosition.y = lerp(hipPosition.y, y + 4, 0.6);
 }
 
 /// @func	ikhAnimJump();

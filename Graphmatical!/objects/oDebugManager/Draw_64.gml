@@ -7,7 +7,7 @@ if (instance_exists(oPlayer))
 		rbDrawGui();
 	
 		// Player stats
-		var _x = display_get_gui_width() - 16, _y = display_get_gui_height() - 16 * 9;
+		var _x = display_get_gui_width() - 16, _y = display_get_gui_height() - 16 * 10;
 		draw_text(_x, _y, "Move input: " + string(inputMove));
 		_y -= 16;
 		draw_text(_x, _y, "Time: " + string(current_time / 1000 - oWorld.startTime));

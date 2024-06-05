@@ -8,6 +8,8 @@ function rbInit()
 	
 	// States
 	grounded = false;
+	onGraph = false;
+	onGraphEquation = undefined;
 	ignoreGraphs = false;
 	
 	// Movement
@@ -154,6 +156,13 @@ function rbDrawGui()
 	draw_text(_x, _y, "Normal: " + string(normal));
 	_y -= 16;
 	draw_text(_x, _y, "Grounded: " + string(grounded));
+	_y -= 16;
+	draw_text(_x, _y, "On Graph: " + string(onGraph));
+	if (onGraph)
+	{
+		_y -= 16;
+		draw_text(_x, _y, "On Graph EQ: " + string(onGraphEquation.expressionString));
+	}
 }
 
 /// @func	rbUpdateBbox();
@@ -172,6 +181,8 @@ function rbUpdateGroundedState()
 	{
 		// Reset grounded
 		grounded = false;
+		onGraph = false;
+		onGraphEquation = undefined;
 		
 		// Graph check
 		if (!ignoreGraphs)
@@ -192,11 +203,14 @@ function rbUpdateGroundedState()
 						if (graphVectorGroundCollision(_equation, x, bbox_bottom, x, bbox_bottom + 2))
 						{
 							grounded = true;
+							onGraph = true;
+							onGraphEquation = _equation;
 							return;
 						}
 					}
 				}
 			}
+			onGraph = false;
 		}
 		
 		// Tile check
