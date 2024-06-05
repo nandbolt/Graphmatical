@@ -106,6 +106,9 @@ function Equation(_axes) constructor
 		// Return if no time
 		if (!hasTime) return;
 		
+		// Return if axes not visible
+		if (!visibleToCamera(axes)) return;
+		
 		// Increment time
 		expressionTree.time = current_time * 0.001 - timeOrigin;
 		

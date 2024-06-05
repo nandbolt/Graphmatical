@@ -1,3 +1,13 @@
+/// @func	visibleToCamera({id} inst);
+function visibleToCamera(_inst)
+{
+	var _cx1 = camera_get_view_x(view_camera[0]);
+	var _cy1 = camera_get_view_y(view_camera[0]);
+	var _cx2 = _cx1 + camera_get_view_width(view_camera[0]);
+	var _cy2 = _cy1 + camera_get_view_height(view_camera[0]);
+	return _inst.bbox_left < _cx2 && _inst.bbox_right > _cx1 && _inst.bbox_top < _cy2 && _inst.bbox_bottom > _cy1;
+}
+
 /// @func	graphPointAbove({Struct.Equation} equation, {real} x, {real} y);
 function graphPointAbove(_equation, _x, _y)
 {
