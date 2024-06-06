@@ -1,11 +1,11 @@
-// Set material
+// Material
 material = GraphType.LASER;
 
 // Equations
-equations[0].set("-2-0.5x");
+equations[0].set("9tan(0.5x+t)");
 
 // Set size
-setAxesSize(6, 8);
+setAxesSize(40, 8);
 
 // Regraph
 regraphEquations();

@@ -281,10 +281,7 @@ function rbHandleGraphCollisions()
 	{
 		_axesCount = instance_place_list(x + other.velocity.x, y + other.velocity.y, oAxes, _axesList, false);
 	}
-		
-	// Set collision variable
-	var _collision = false;
-		
+	
 	// Loop through axes
 	for (var _j = 0; _j < _axesCount; _j++)
 	{
@@ -303,15 +300,9 @@ function rbHandleGraphCollisions()
 			var _equation = _equations[_i];
 			
 			// If not laser
-			if (_axes.material != GraphType.LASER) _collision = rbHandleSolidGraphCollision(_equation);
-			else _collision = rbHandleLaserGraphCollision(_equation);
-			
-			// If collision
-			if (_collision) break;
+			if (_axes.material != GraphType.LASER) rbHandleSolidGraphCollision(_equation);
+			else rbHandleLaserGraphCollision(_equation);
 		}
-			
-		// Exit axes loop if collision
-		if (_collision) break;
 	}
 		
 	// Destroy list
@@ -432,24 +423,13 @@ function rbHandleSolidGraphCollision(_equation)
 			// Land if wasn't grounded and normal isn't too steep
 			if (!grounded && _normalAngle < 178 && _normalAngle > 2) rbLand();
 		}
-		
-		// Graph collision
-		return true;
 	}
-	
-	// No graph collision
-	return false;
 }
 
 /// @func	rbHandleLaserGraphCollision({Equation} equation);
 function rbHandleLaserGraphCollision(_equation)
 {
-	if (graphTouching(_equation, self))
-	{
-		dead = true;
-		return true;
-	}
-	return false;
+	if (graphTouching(_equation, self)) dead = true;
 }
 
 /// @func	rbHandleXTileCollisions();

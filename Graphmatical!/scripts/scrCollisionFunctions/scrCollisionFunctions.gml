@@ -52,17 +52,19 @@ function graphTouching(_equation, _inst)
 	// Loop through domains
 	for (var _i = 0; _i < array_length(_equation.xGraphPaths); _i++)
 	{
-		// Get domain
+		// Get domain + range
 		var _domain = _equation.xGraphPaths[_i];
 		
 		// Continue if empty array
 		if (array_length(_domain) == 0) continue;
 		
 		// Get bounds
-		var _lowerBound = _domain[0], _upperBound = _domain[array_length(_domain)-1]
+		var _lowerXBound = _domain[0], _upperXBound = _domain[array_length(_domain)-1];
+		var _lowerYBound = _equation.axes.bbox_top, _upperYBound = _equation.axes.bbox_bottom;
 		
 		// If within the domain
-		if (_inst.bbox_right >= _lowerBound && _inst.bbox_left <= _upperBound)
+		if (_inst.bbox_right >= _lowerXBound && _inst.bbox_left <= _upperXBound &&
+			_inst.bbox_bottom >= _lowerYBound && _inst.bbox_top <= _upperYBound)
 		{
 			var _aboveGraph = graphPointAbove(_equation, _inst.bbox_left, _inst.bbox_top);
 			return (_aboveGraph != graphPointAbove(_equation, _inst.bbox_right, _inst.bbox_top) ||

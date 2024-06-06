@@ -2,10 +2,10 @@
 material = GraphType.LASER;
 
 // Equations
-equations[0].set("-2-0.5x");
+equations[0].set("1/x");
 
 // Set size
-setAxesSize(6, 8);
+setAxesSize(6, 6);
 
 // Regraph
 regraphEquations();
