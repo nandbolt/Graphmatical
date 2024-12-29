@@ -13,6 +13,10 @@ function GuiElement() constructor
 	static height = 32;
 	static padding = 16;
 	
+	// States
+	hovering = false;
+	hoverSizeIncrease = 2;
+	
 	// Add to gui elements
 	array_push(guiController.elements, self);
 	
@@ -56,9 +60,11 @@ function GuiElement() constructor
 	/// @func	update();
 	static update = function()
 	{
+		// Hover
+		hovering = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), x, y, x + width, y + height);
+		
 		// Check left click + not already clicking something this gamestep + clicked element
-		if (mouse_check_button_pressed(mb_left) && guiController.canClick &&
-			point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), x, y, x + width, y + height))
+		if (mouse_check_button_pressed(mb_left) && guiController.canClick && hovering)
 		{
 			// Click element
 			guiController.canClick = false;

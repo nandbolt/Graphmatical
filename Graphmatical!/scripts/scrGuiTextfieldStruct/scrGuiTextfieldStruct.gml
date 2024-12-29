@@ -63,9 +63,17 @@ function GuiTextfield(_name, _x, _y, _value, _placeholder, _onEnter=function(){}
 		var _inFocus = hasFocus(), _saveAlpha = draw_get_alpha();
 		if (!_inFocus) draw_set_alpha(0.5);
 		
-		// Border
-		draw_sprite_stretched(sBorder1, 0, x, y, width, height);
-		//draw_rectangle_color(x, y, x + width - 1, y + height - 1, c_red, c_red, c_red, c_red, true);
+		// Hover
+		if (hovering)
+		{
+			// Border
+			draw_sprite_stretched(sBorder2, 0, x - hoverSizeIncrease, y - hoverSizeIncrease, width + hoverSizeIncrease * 2, height + hoverSizeIncrease * 2);
+		}
+		else
+		{
+			// Border
+			draw_sprite_stretched(sBorder1, 0, x, y, width, height);
+		}
 		
 		// Flashing
 		var _ticker = (_inFocus && floor((current_time * 0.002) mod 2) == 0) ? "|" : "";

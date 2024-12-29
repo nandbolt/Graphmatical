@@ -18,9 +18,19 @@ function GuiButton(_name, _x, _y, _onClick=function(){}) : GuiElement() construc
 	/// @func	drawGui();
 	static drawGui = function()
 	{
-		// Border
-		draw_sprite_stretched(sBorder1, 0, x, y, width, height);
-		//draw_rectangle_color(x, y, x + width - 1, y + height - 1, c_red, c_red, c_red, c_red, true);
+		if (hovering)
+		{
+			// Border
+			draw_set_alpha(0.8);
+			draw_sprite_stretched(sBorder2, 0, x - hoverSizeIncrease, y - hoverSizeIncrease, width + hoverSizeIncrease * 2, height + hoverSizeIncrease * 2);
+		}
+		else
+		{
+			// Border
+			draw_set_alpha(0.5);
+			draw_sprite_stretched(sBorder1, 0, x, y, width, height);
+		}
+		draw_set_alpha(1);
 		
 		// Text
 		draw_text(x + width * 0.5 - string_width(name) * 0.5, y + height * 0.5, name);
