@@ -34,7 +34,7 @@ slideGroundConstant = 0.02;
 
 // Editor
 inputEditorPressed = false;
-currentEditor = oGrapher;
+currentEditor = oPauser;
 
 #region Functions
 

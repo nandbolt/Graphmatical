@@ -12,7 +12,21 @@ inputEditorPressed = keyboard_check_pressed(vk_tab);
 // Editor
 if (inputEditorPressed)
 {
-	if (instance_exists(oGrapher))
+	if (instance_exists(oPauser))
+	{
+		// Destroy editor
+		instance_destroy(oPauser);
+		
+		// Allow movement
+		canMove = true;
+		
+		// Set current editor
+		currentEditor = oPauser;
+		
+		// Close editor sfx
+		audio_play_sound(sfxOpenEditor, 2, false);
+	}
+	else if (instance_exists(oGrapher))
 	{
 		// Destroy grapher
 		instance_destroy(oGrapher);

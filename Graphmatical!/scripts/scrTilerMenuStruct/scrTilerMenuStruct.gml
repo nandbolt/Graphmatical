@@ -22,8 +22,9 @@ function TilerMenu() : Menu() constructor
 		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
 		if (_dx != 0)
 		{
-			// Tiler
-			instance_create_layer(other.x, other.y, "Instances", oGrapher);
+			// Create new editor
+			if (_dx > 0) instance_create_layer(other.x, other.y, "Instances", oPauser);
+			else instance_create_layer(other.x, other.y, "Instances", oGrapher);
 			
 			// Destroy grapher
 			instance_destroy(oTiler);

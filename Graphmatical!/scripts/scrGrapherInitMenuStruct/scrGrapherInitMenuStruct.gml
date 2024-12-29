@@ -29,8 +29,9 @@ function GrapherInitMenu() : Menu() constructor
 		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
 		if (_dx != 0)
 		{
-			// Tiler
-			instance_create_layer(other.x, other.y, "Instances", oTiler);
+			// Create new editor
+			if (_dx > 0) instance_create_layer(other.x, other.y, "Instances", oTiler);
+			else instance_create_layer(other.x, other.y, "Instances", oPauser);
 			
 			// Destroy grapher
 			instance_destroy(oGrapher);
