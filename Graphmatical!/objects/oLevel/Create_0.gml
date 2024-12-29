@@ -11,6 +11,7 @@ spawnPoint = instance_create_layer(24, 1064, "Instances", oSpawnFlag);
 // Background shader
 uTime = shader_get_uniform(shdrWorleyNoise, "u_time");
 uResolution = shader_get_uniform(shdrWorleyNoise, "u_resolution");
+uOffset = shader_get_uniform(shdrWorleyNoise, "u_offset");
 
 // Timer
 startTime = 0;

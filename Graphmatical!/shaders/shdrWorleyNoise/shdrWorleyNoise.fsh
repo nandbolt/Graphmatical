@@ -7,6 +7,7 @@ varying vec4 v_vColour;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_offset;
 
 vec2 random2(vec2 p)
 {
@@ -15,7 +16,7 @@ vec2 random2(vec2 p)
 
 void main()
 {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = (gl_FragCoord.xy + u_offset) / u_resolution.xy;
 	st.x *= u_resolution.x / u_resolution.y;
 	vec3 color = vec3(.0);
 	
