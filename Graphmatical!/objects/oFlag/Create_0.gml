@@ -26,7 +26,7 @@ updateSpawnPoint = function()
 			spawnPoint = other;
 			
 			// Sound
-			audio_play_sound(sfxFlagActivated, 2, false);
+			if (spawnPoint.sprite_index != sNoFlag) audio_play_sound(sfxFlagActivated, 2, false);
 		}
 	}
 	

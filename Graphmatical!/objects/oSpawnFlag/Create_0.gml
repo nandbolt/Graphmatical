@@ -2,8 +2,8 @@
 event_inherited();
 
 // Sprites
-spriteFlag = sSpawnFlag;
-spritePole = sSpawnPole;
+spriteFlag = sNoFlag;
+spritePole = sNoFlag;
 
 #region Functions
 

@@ -8,6 +8,10 @@
 
 #region Global Variables
 
+// Level
+global.currentLevelName = "Hub";
+global.previousHubPortalIdx = -1;
+
 #endregion
 
 #region Enums

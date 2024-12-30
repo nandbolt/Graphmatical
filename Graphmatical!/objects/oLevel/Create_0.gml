@@ -7,6 +7,7 @@ collisionLayer = layer_get_id("CollisionTiles");
 
 // Spawning
 spawnPoint = instance_create_layer(24, 1064, "Instances", oSpawnFlag);
+spawnPortal = noone;
 
 // Background shader
 uTime = shader_get_uniform(shdrWorleyNoise, "u_time");
@@ -18,6 +19,18 @@ startTime = 0;
 endTime = 0;
 
 #region Functions
+
+/// @func	moveSpawnPoint({real} x, {real} y);
+moveSpawnPoint = function(_x=24,_y=1064)
+{
+	spawnPoint.x = _x;
+	spawnPoint.y = _y;
+	if (instance_exists(spawnPortal))
+	{
+		spawnPortal.x = _x;
+		spawnPortal.y = _y;
+	}
+}
 
 /// @func respawnPlayer();
 respawnPlayer = function()
@@ -51,3 +64,15 @@ layer_set_visible(collisionLayer, false);
 // Set background shader
 layer_script_begin(backgroundLayer, layerWorleyShaderStart);
 layer_script_end(backgroundLayer, layerWorleyShaderEnd);
+
+// Setup spawn portal
+if (room != rHubLevel)
+{
+	spawnPortal = instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPortal);
+	with (spawnPortal)
+	{
+		// Hub
+		nextLevel = rHubLevel;
+		name = "Hub";
+	}
+}
