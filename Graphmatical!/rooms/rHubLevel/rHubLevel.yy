@@ -29,6 +29,7 @@
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_13DA4FE3","properties":[],"isDnd":false,"objectId":{"name":"oPortal","path":"objects/oPortal/oPortal.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1096.0,"y":936.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_399E77E4","properties":[],"isDnd":false,"objectId":{"name":"oPortal","path":"objects/oPortal/oPortal.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1160.0,"y":936.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_2AFB25AA","properties":[],"isDnd":false,"objectId":{"name":"oPortal","path":"objects/oPortal/oPortal.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":760.0,"y":936.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_2F0F11EB","properties":[],"isDnd":false,"objectId":{"name":"oBallLauncher","path":"objects/oBallLauncher/oBallLauncher.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":680.0,"y":936.0,},
       ],"visible":true,"depth":300,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"MiddleBackgroundInstances","instances":[
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_113DC5F5","properties":[],"isDnd":false,"objectId":{"name":"oAxes","path":"objects/oAxes/oAxes.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":64.0,"y":1024.0,},
@@ -81,6 +82,7 @@
     {"name":"inst_13DA4FE3","path":"rooms/rHubLevel/rHubLevel.yy",},
     {"name":"inst_399E77E4","path":"rooms/rHubLevel/rHubLevel.yy",},
     {"name":"inst_2AFB25AA","path":"rooms/rHubLevel/rHubLevel.yy",},
+    {"name":"inst_2F0F11EB","path":"rooms/rHubLevel/rHubLevel.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,
