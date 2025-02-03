@@ -57,6 +57,7 @@
     {"id":{"name":"sLaser","path":"sprites/sLaser/sLaser.yy",},"order":0,},
     {"id":{"name":"sSquare","path":"sprites/sSquare/sSquare.yy",},"order":1,},
     {"id":{"name":"sCollisionTiles","path":"sprites/sCollisionTiles/sCollisionTiles.yy",},"order":0,},
+    {"id":{"name":"shdrOutline","path":"shaders/shdrOutline/shdrOutline.yy",},"order":1,},
     {"id":{"name":"oGrapher","path":"objects/oGrapher/oGrapher.yy",},"order":0,},
     {"id":{"name":"oAxes","path":"objects/oAxes/oAxes.yy",},"order":1,},
     {"id":{"name":"oDisplayManager","path":"objects/oDisplayManager/oDisplayManager.yy",},"order":0,},
@@ -208,7 +209,7 @@
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
   ],
   "TextureGroups": [
-    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
+    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":false,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
   ],
   "IncludedFiles": [],
   "MetaData": {
