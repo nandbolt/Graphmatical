@@ -26,6 +26,7 @@ if (promptAlpha > 0)
 	shader_set_uniform_f_array(uColorOutline, colorOutline);
 	shader_set_uniform_f(uTexelWidth, texelWidth);
 	shader_set_uniform_f(uTexelHeight, texelHeight);
+	shader_set_uniform_f(uAlphaOutline, promptAlpha);
 }
 
 // Self

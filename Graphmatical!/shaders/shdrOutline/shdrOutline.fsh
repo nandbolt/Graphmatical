@@ -7,6 +7,7 @@ varying vec4 v_vColour;
 uniform vec3 u_colorOutline;
 uniform float u_texelWidth;
 uniform float u_texelHeight;
+uniform float u_alphaOutline;
 
 void main()
 {
@@ -24,5 +25,6 @@ void main()
 	alpha = max(alpha, texture2D( gm_BaseTexture, v_vTexcoord - offy).a);
 	
 	// Set final color
-    gl_FragColor = vec4(texColor.rgb * texColor.a + u_colorOutline * (1. - texColor.a), alpha);
+    gl_FragColor = vec4(texColor.rgb * texColor.a + u_colorOutline * (1. - texColor.a),
+		alpha * texColor.a + u_alphaOutline * (1. - texColor.a) * alpha);
 }

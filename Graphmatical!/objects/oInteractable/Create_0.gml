@@ -35,5 +35,6 @@ texelHeight = texture_get_texel_height(texSprite);
 uColorOutline = shader_get_uniform(shdrOutline, "u_colorOutline");
 uTexelWidth = shader_get_uniform(shdrOutline, "u_texelWidth");
 uTexelHeight = shader_get_uniform(shdrOutline, "u_texelHeight");
+uAlphaOutline = shader_get_uniform(shdrOutline, "u_alphaOutline");
 
 #endregion
