@@ -25,6 +25,10 @@ displayTextMaxHeight = boxHeight * 1 / displayTextScale - boxPadding * 2 / displ
 editting = false;
 editMenu = undefined;
 
+// Draw
+textAlpha = 0;
+textAlphaSpeed = 0.05;
+
 #region Functions
 
 /// @func	updateDisplayText();
