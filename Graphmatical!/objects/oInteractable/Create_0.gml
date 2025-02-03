@@ -5,6 +5,8 @@ playerNear = false;
 // Info
 name = "";
 showName = true;
+promptAlpha = 0;
+promptAlphaSpeed = 0.05;
 
 #region Functions
 
