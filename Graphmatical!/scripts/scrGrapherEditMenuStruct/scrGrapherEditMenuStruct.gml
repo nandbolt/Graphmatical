@@ -24,16 +24,22 @@ function GrapherEditMenu() : Menu() constructor
 	
 	// Remove axes button
 	_x += 24;
-	buttonRemoveAxes = new GuiButton("T", _x, _y, other.removeAxes);
-	buttonRemoveAxes.width = _width;
-	buttonRemoveAxes.height = _height;
+	if (!instance_exists(oGrapher.currentTerminal))
+	{
+		buttonRemoveAxes = new GuiButton("T", _x, _y, other.removeAxes);
+		buttonRemoveAxes.width = _width;
+		buttonRemoveAxes.height = _height;
+	}
 	
 	// Material dropdown
 	_x += 24;
 	_width = 64;
-	dropdownMaterial = new GuiDropdown("Material", _x, _y, ["Normal", "Laser", "Bouncy"], oGrapher.currentAxes.material, other.changeMaterial);
-	dropdownMaterial.width = _width;
-	dropdownMaterial.height = _height;
+	if (!instance_exists(oGrapher.currentTerminal))
+	{
+		dropdownMaterial = new GuiDropdown("Material", _x, _y, ["Normal", "Laser", "Bouncy"], oGrapher.currentAxes.material, other.changeMaterial);
+		dropdownMaterial.width = _width;
+		dropdownMaterial.height = _height;
+	}
 	
 	/// @func	addEquationTextfield();
 	static addEquationTextfield = function()
@@ -76,6 +82,9 @@ function GrapherEditMenu() : Menu() constructor
 	{
 		// Gui controller
 		guiController.drawGui();
+		
+		// Terminal
+		var _hasTerminal = instance_exists(oGrapher.currentTerminal);
 		
 		// Equations
 		var _x = 16, _y = 16;
@@ -136,16 +145,19 @@ function GrapherEditMenu() : Menu() constructor
 		_y += 16;
 		draw_text(_x, _y, "Height: "+string(other.currentAxes.upperRange * 2));
 		_y += 16;
-		draw_text(_x, _y, "Axes count: "+string(instance_number(oAxes)));
+		if (!_hasTerminal) draw_text(_x, _y, "Axes count: "+string(instance_number(oAxes)));
 		
 		// Adjust axes
-		draw_set_halign(fa_right);
-		draw_set_valign(fa_bottom);
-		_x = display_get_gui_width() - 16;
-		_y = display_get_gui_height() - 16;
-		draw_text(_x, _y, "Scale axes: Shift + Arrow keys");
-		_y -= 16;
-		draw_text(_x, _y, "Move origin: Arrow keys");
+		if (!_hasTerminal)
+		{
+			draw_set_halign(fa_right);
+			draw_set_valign(fa_bottom);
+			_x = display_get_gui_width() - 16;
+			_y = display_get_gui_height() - 16;
+			draw_text(_x, _y, "Scale axes: Shift + Arrow keys");
+			_y -= 16;
+			draw_text(_x, _y, "Move origin: Arrow keys");
+		}
 	}
 	
 	// Load equations

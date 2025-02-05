@@ -4,6 +4,9 @@ currentMenu = undefined;
 // Axes
 currentAxes = noone;
 
+// Terminal
+currentTerminal = noone;
+
 #region Functions
 
 /// @func	changeAxes({id} axes);

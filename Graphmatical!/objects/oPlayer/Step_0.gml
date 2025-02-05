@@ -28,14 +28,15 @@ if (inputEditorPressed)
 	}
 	else if (instance_exists(oGrapher))
 	{
+		// Set current editor
+		if (instance_exists(oGrapher.currentTerminal)) currentEditor = oPauser;
+		else currentEditor = oGrapher;
+		
 		// Destroy grapher
 		instance_destroy(oGrapher);
 		
 		// Allow movement
 		canMove = true;
-		
-		// Set current editor
-		currentEditor = oGrapher;
 		
 		// Close editor sfx
 		audio_play_sound(sfxOpenEditor, 2, false);
