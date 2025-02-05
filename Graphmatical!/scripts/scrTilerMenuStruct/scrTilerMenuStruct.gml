@@ -19,7 +19,7 @@ function TilerMenu() : Menu() constructor
 		}
 		
 		// Editor change
-		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
+		var _dx = keyboard_check_pressed(vk_right) - (oLevel.globalGraphing ? keyboard_check_pressed(vk_left) : 0);
 		if (_dx != 0)
 		{
 			// Create new editor

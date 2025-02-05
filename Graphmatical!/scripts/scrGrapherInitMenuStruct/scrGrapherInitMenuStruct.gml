@@ -26,7 +26,7 @@ function GrapherInitMenu() : Menu() constructor
 		guiController.update();
 		
 		// Editor change
-		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
+		var _dx = (oLevel.globalTiling ? keyboard_check_pressed(vk_right) : 0) - keyboard_check_pressed(vk_left);
 		if (_dx != 0)
 		{
 			// Create new editor

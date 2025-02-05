@@ -29,7 +29,8 @@ function PauserMenu() : Menu() constructor
 		guiController.update();
 		
 		// Editor change
-		var _dx = keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left);
+		var _dx = (oLevel.globalGraphing ? keyboard_check_pressed(vk_right) : 0) -
+			(oLevel.globalTiling ? keyboard_check_pressed(vk_left) : 0);
 		if (_dx != 0)
 		{
 			// Create new editor
@@ -48,9 +49,21 @@ function PauserMenu() : Menu() constructor
 		guiController.drawGui();
 		
 		// Switch editor
-		draw_set_halign(fa_right);
-		draw_set_valign(fa_bottom);
-		var _x = display_get_gui_width() - 16, _y = display_get_gui_height() - 16;
-		draw_text(_x, _y, "Switch editor: Left + right arrow keys");
+		draw_set_halign(fa_left);
+		draw_set_valign(fa_top);
+		var _x = 16, _y = 16;
+		if (oLevel.globalGraphing) draw_text(_x, _y, "Graphing enabled (->)");
+		else draw_text(_x, _y, "Graphing disabled");
+		_y += 16;
+		if (oLevel.globalTiling) draw_text(_x, _y, "Tiling enabled (<-)");
+		else draw_text(_x, _y, "Tiling disabled");
+		
+		
+		// Switch editor
+		//draw_set_halign(fa_right);
+		//draw_set_valign(fa_bottom);
+		//_x = display_get_gui_width() - 16;
+		//_y = display_get_gui_height() - 16;
+		//if (oLevel.globalGraphing || oLevel.globalTiling) draw_text(_x, _y, "Switch editor: Left + right arrow keys");
 	}
 }
