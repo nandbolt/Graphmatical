@@ -8,6 +8,11 @@ name = "Grapher";
 axes = noone;
 axesOriginX = x - x mod TILE_SIZE + TILE_SIZE;
 axesOriginY = y - y mod TILE_SIZE - TILE_SIZE * 4;
+axesOffsetX = 1;
+axesOffsetY = -4;
+axesWidth = 18;
+axesHeight = 10;
+initialEquations = [""];
 
 #region Functions
 
@@ -47,12 +52,20 @@ initGraph = function()
 	if (instance_exists(axes)) instance_destroy(axes);
 	
 	// Create axes
+	axesOriginX = x - x mod TILE_SIZE + TILE_SIZE * axesOffsetX;
+	axesOriginY = y - y mod TILE_SIZE + TILE_SIZE * axesOffsetY;
 	axes = instance_create_layer(axesOriginX, axesOriginY, "Instances", oAxes);
-	
-	// Set equations
+	with (axes)
+	{
+		// Equations
+		equations[0].set(other.initialEquations[0]);
+
+		// Set size
+		setAxesSize(other.axesWidth, other.axesHeight);
+
+		// Regraph
+		regraphEquations();
+	}
 }
 
 #endregion
-
-// Init graph
-initGraph();

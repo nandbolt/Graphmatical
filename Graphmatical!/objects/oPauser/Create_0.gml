@@ -33,6 +33,7 @@ resume = function()
 /// @func	backToHub();
 backToHub = function()
 {
+	global.currentLevelName = "Hub";
 	room_goto(rHubLevel);
 }
 

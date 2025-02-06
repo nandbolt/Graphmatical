@@ -1,3 +1,6 @@
+// States
+tutorialComplete = false;
+
 // Graphing
 precedenceMap = ds_map_create();
 

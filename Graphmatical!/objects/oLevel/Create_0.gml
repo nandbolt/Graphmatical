@@ -68,7 +68,7 @@ layer_script_begin(backgroundLayer, layerWorleyShaderStart);
 layer_script_end(backgroundLayer, layerWorleyShaderEnd);
 
 // Setup spawn portal
-if (room != rHubLevel)
+if (room != rHubLevel && (room != rTutorialLevel || oGameManager.tutorialComplete))
 {
 	spawnPortal = instance_create_layer(spawnPoint.x, spawnPoint.y, "Instances", oPortal);
 	with (spawnPortal)

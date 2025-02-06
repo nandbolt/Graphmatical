@@ -1,2 +1,2 @@
-text = "Graphing equations\nStep 1: Create the axes (Tab)\nStep 2: Adjust the axes (Arrows)\nStep 3: Create an equation (y=x)\nStep 4: Graph the equation (Enter)";
-name = "Graphing equations: Overview";
+text = "Graphing terminals allow you to graph equations! Just interact, choose an equation slot, type a valid equation and press enter to graph! Try changing the equation to y = 0.";
+name = "Graphing terminals";
