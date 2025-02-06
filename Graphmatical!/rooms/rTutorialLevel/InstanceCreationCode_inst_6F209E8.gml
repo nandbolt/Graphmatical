@@ -1,2 +1,2 @@
-text = "Time to learn how to graph equations! Why? Because it will help you reach new heights, literally! The next couple of signs on the elevated area will explain the mathy stuff behind it. To go straight into the step-by-step explanation, go past that area.";
+text = "Understanding the basics of math equations and graphing is essential in GRAPHMATICAL!. If you have a decent understanding, feel free to skip the signs on the elevated platform and make your way to the first graphing terminal.";
 name = "Graphing";

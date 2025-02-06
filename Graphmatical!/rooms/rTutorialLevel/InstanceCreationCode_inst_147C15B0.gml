@@ -1,2 +1,2 @@
-text = "To edit the text on a sign, hold shift and press E. Then, click the text box, type in some text and press enter. To leave, hold shift and press E again.";
-name = "Editing signs";
+text = "Try to make it to the other side of this gap! You could graph something, or just jump across if you can make it...";
+name = "Think graphically!";

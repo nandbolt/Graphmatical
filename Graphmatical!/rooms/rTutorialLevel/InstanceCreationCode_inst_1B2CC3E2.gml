@@ -1,0 +1,2 @@
+text = "Quadratic equations look like y = x^2, y = -x^2 + 2 and y =2x^2 + 3x. These usually make U-shaped curves called parabolas since y changes exponentially as x changes!";
+name = "y = ax^2 + bx + c";

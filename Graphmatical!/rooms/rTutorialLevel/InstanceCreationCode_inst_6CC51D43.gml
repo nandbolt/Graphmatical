@@ -1,2 +1,2 @@
-text = "You should be well prepared to traverse any place you so desire now! There are a couple of things that I have yet to explain such as the Tiler or the Time input 't', but feel free to explore and edit the world around you!";
-name = "Explore!";
+text = "You can graph all sorts of equations! Depending on the relationship between x and y will determine how the graph looks. Everything is relative to the axes, with the center being (x=0, y=0). You can also graph multiple equations on the same terminal!";
+name = "What can you graph?";

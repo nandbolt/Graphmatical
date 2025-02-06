@@ -58,7 +58,11 @@ initGraph = function()
 	with (axes)
 	{
 		// Equations
-		equations[0].set(other.initialEquations[0]);
+		for (var _i = 0; _i < array_length(other.initialEquations); _i++)
+		{
+			if (_i >= array_length(equations)) array_push(equations, new Equation(self));
+			equations[_i].set(other.initialEquations[_i]);
+		}
 
 		// Set size
 		setAxesSize(other.axesWidth, other.axesHeight);

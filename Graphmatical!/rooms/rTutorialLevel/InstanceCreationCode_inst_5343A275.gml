@@ -1,2 +1,2 @@
-text = "In summary, equations are math sentences that say y is equal to x with some \"math\" applied to it (example: y = x + 5). These equations can be graphed using a pair of xy axes. You can then jump on these graphs and use them as platforms.";
-name = "Math summary";
+text = "Equations can be visually represented as a graph on a plane with two crossed number lines, or axes. The x-axis (horizontal) represents the input of the equation and the y-axis (vertical) represents the output. Functions are special types of equations where every input x has only one output y. Remember, graphs are only a visual representation of an equation!";
+name = "Graphing equations";

@@ -1,10 +1,10 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oMoveControls",
+  "name": "oDownControls",
   "spriteId": {
-    "name": "sMoveControls",
-    "path": "sprites/sMoveControls/sMoveControls.yy",
+    "name": "sDownControls",
+    "path": "sprites/sDownControls/sDownControls.yy",
   },
   "solid": false,
   "visible": true,
