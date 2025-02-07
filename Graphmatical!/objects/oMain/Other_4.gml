@@ -1,8 +1,3 @@
-/// @desc Start Game
-if (oGameManager.tutorialComplete) room_goto_next();
-else
-{
-	global.currentLevelName = "First Steps";
-	global.previousHubPortalIdx = 0;
-	room_goto(rTutorialLevel);
-}
+/// @desc Delay Start
+if (os_browser != browser_not_a_browser) alarm[0] = 60;
+else alarm[0] = 2;
