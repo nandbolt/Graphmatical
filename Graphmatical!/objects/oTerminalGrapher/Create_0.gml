@@ -12,6 +12,7 @@ axesOffsetX = 1;
 axesOffsetY = -4;
 axesWidth = 18;
 axesHeight = 10;
+material = GraphType.NORMAL;
 initialEquations = [""];
 
 #region Functions
@@ -60,6 +61,9 @@ initGraph = function()
 	axes = instance_create_layer(axesOriginX, axesOriginY, "Instances", oAxes);
 	with (axes)
 	{
+		// Set material
+		material = other.material;
+		
 		// Equations
 		for (var _i = 0; _i < array_length(other.initialEquations); _i++)
 		{
