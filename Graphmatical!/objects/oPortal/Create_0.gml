@@ -24,6 +24,11 @@ interactPressed = function()
 			}
 		}
 	}
+	else if (room == rTutorialLevel)
+	{
+		// Tutorial complete
+		oGameManager.tutorialComplete = true;
+	}
 	
 	// Destroy player
 	with (oPlayer)

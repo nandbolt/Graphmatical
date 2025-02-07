@@ -19,6 +19,9 @@ initialEquations = [""];
 /// @func	interactPressed();
 interactPressed = function()
 {
+	// Equation count
+	show_debug_message("eq count: " + string(array_length(axes.equations)));
+	
 	// Create graph editor
 	with(instance_create_layer(axesOriginX, axesOriginY, "Instances", oGrapher))
 	{

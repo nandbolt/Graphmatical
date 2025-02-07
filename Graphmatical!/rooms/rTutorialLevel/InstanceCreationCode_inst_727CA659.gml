@@ -1,0 +1,2 @@
+text = "There are loads of equations and math to learn about. After all, that's what school is for! There's also loads of resources online, and if you find that an equation doesn't look how it's supposed to here, that's probably my bad!";
+name = "Every equation ever";

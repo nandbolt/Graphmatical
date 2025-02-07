@@ -34,6 +34,7 @@ resume = function()
 backToHub = function()
 {
 	global.currentLevelName = "Hub";
+	if (room == rTutorialLevel) oGameManager.tutorialComplete = true;	// Not really, but prevents spawning back here
 	room_goto(rHubLevel);
 }
 
