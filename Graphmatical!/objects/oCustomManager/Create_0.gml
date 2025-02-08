@@ -1,0 +1,3 @@
+/*
+The manager for custom levels when PLAYING the level
+*/

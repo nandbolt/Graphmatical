@@ -29,6 +29,8 @@ load = function()
 	
 	// Close
 	ini_close();
+	
+	
 }
 
 #endregion

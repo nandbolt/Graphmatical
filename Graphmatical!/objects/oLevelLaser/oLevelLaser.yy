@@ -30,7 +30,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "PrebuiltLevels",
-    "path": "folders/Objects/Rooms/PrebuiltLevels.yy",
+    "name": "Prebuilt",
+    "path": "folders/Objects/Rooms/Prebuilt.yy",
   },
 }

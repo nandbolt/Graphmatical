@@ -2,7 +2,7 @@
 event_inherited();
 
 // Spawn point
-var _sx = room_width * 0.5 - HALF_TILE_SIZE, _sy = 1064 - TILE_SIZE * 8;
+var _sx = room_width * 0.5, _sy = room_height * 0.5 + TILE_SIZE * 4 + HALF_TILE_SIZE;
 if (global.previousHubPortalIdx > -1)
 {
 	var _inst = instance_find(oPortal, global.previousHubPortalIdx);

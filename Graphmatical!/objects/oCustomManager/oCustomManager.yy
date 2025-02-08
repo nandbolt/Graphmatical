@@ -1,17 +1,14 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oLevelTutorial",
+  "name": "oCustomManager",
   "spriteId": null,
   "solid": false,
   "visible": true,
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": {
-    "name": "oLevel",
-    "path": "objects/oLevel/oLevel.yy",
-  },
+  "parentObjectId": null,
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -30,7 +27,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Prebuilt",
-    "path": "folders/Objects/Rooms/Prebuilt.yy",
+    "name": "Custom",
+    "path": "folders/Objects/Level/Custom.yy",
   },
 }
