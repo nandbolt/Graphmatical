@@ -7,6 +7,13 @@ nextLevel = rHubLevel;
 /// @func	interactPressed();
 interactPressed = function()
 {
+	// Enter portal
+	enter();
+}
+
+/// @func	enter();
+enter = function()
+{
 	// Setup next room name
 	global.currentLevelName = name;
 	

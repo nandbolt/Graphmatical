@@ -1,16 +1,19 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oLevelEmpty",
-  "spriteId": null,
+  "name": "oPortalCustom",
+  "spriteId": {
+    "name": "sPortal",
+    "path": "sprites/sPortal/sPortal.yy",
+  },
   "solid": false,
   "visible": true,
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "oLevel",
-    "path": "objects/oLevel/oLevel.yy",
+    "name": "oPortal",
+    "path": "objects/oPortal/oPortal.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
@@ -26,11 +29,12 @@
   "physicsShapePoints": [],
   "eventList": [
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,},
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Rooms",
-    "path": "folders/Objects/Rooms.yy",
+    "name": "Portals",
+    "path": "folders/Objects/Level/Interactables/Portals.yy",
   },
 }

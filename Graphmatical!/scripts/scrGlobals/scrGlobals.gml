@@ -11,6 +11,8 @@
 // Level
 global.currentLevelName = "Hub";
 global.previousHubPortalIdx = -1;
+global.editMode = false;
+global.customLevelIdx = -1;
 
 #endregion
 

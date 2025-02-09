@@ -1,2 +1,0 @@
-name = "Empty";
-nextLevel = rEmptyLevel;
