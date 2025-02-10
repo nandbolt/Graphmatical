@@ -1,7 +1,7 @@
 // States
 levelComplete = false;
-globalGraphing = true;
-globalTiling = true;
+globalGraphing = false;
+globalTiling = false;
 
 // Layers
 backgroundLayer = layer_get_id("Background");

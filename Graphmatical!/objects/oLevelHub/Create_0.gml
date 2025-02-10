@@ -10,3 +10,7 @@ if (global.previousHubPortalIdx > -1)
 	else moveSpawnPoint(_sx, _sy);
 }
 else moveSpawnPoint(_sx, _sy);
+
+// Set state
+globalGraphing = false;
+globalTiling = false;

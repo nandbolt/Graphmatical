@@ -8,6 +8,25 @@ event_inherited();
 /// @func	saveLevel();
 saveLevel = function()
 {
+	#region Tiles
+	
+	var _gridWidth = ceil(room_width / TILE_SIZE) - 2;
+	var _gridHeight = ceil(room_height / TILE_SIZE) - 2;
+	var _tileData = array_create(_gridWidth * _gridHeight, 0);
+	for (var _j = 0; _j < _gridHeight; _j++)
+	{
+		for (var _i = 0; _i < _gridWidth; _i++)
+		{
+			var _idx = _i + _j * _gridWidth;
+			var _x = _i * TILE_SIZE + TILE_SIZE, _y = _j * TILE_SIZE + TILE_SIZE;
+			_tileData[_idx] = tilemap_get_at_pixel(worldMap, _x, _y);
+		}
+	}
+	var _tileDataString = json_stringify(_tileData);
+	_tileDataString = string_replace_all(_tileDataString, ".0", "");
+	
+	#endregion
+	
 	#region Axes
 	
 	var _axesData = [];
@@ -34,7 +53,6 @@ saveLevel = function()
 	}
 	var _axesDataString = json_stringify(_axesData);
 	_axesDataString = string_replace_all(_axesDataString, "\"", "$");
-	show_debug_message("json: " + _axesDataString);
 	
 	#endregion
 	
@@ -42,10 +60,14 @@ saveLevel = function()
 	ini_open(fileName);
 	
 	// Save level json string
+	ini_write_string("objs", "tiles", _tileDataString);
 	ini_write_string("objs", "graphs", _axesDataString);
 	
 	// Close
 	ini_close();
+	
+	// Print
+	show_debug_message("Level saved!");
 }
 
 // Setup global modes
