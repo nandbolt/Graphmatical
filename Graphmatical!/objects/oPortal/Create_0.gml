@@ -3,6 +3,7 @@ event_inherited();
 
 // Level
 nextLevel = rHubLevel;
+promptString = "Enter";
 
 /// @func	interactPressed();
 interactPressed = function()

@@ -5,6 +5,7 @@ event_inherited();
 customIdx = 1;
 name = "Custom Level " + string(customIdx);
 nextLevel = rEmptyLevel;
+altPromptString = "Edit";
 
 /// @func	interactPressed();
 interactPressed = function()
