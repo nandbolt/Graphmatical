@@ -68,6 +68,9 @@ saveLevel = function()
 	
 	// Print
 	show_debug_message("Level saved!");
+	
+	// Make a sound
+	audio_play_sound(sfxFlagActivated, 10, false);
 }
 
 // Setup global modes

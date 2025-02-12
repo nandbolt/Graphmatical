@@ -58,12 +58,11 @@ function PauserMenu() : Menu() constructor
 		if (oLevel.globalTiling) draw_text(_x, _y, "Tiling enabled (<-)");
 		else draw_text(_x, _y, "Tiling disabled");
 		
-		
 		// Switch editor
-		//draw_set_halign(fa_right);
-		//draw_set_valign(fa_bottom);
-		//_x = display_get_gui_width() - 16;
-		//_y = display_get_gui_height() - 16;
-		//if (oLevel.globalGraphing || oLevel.globalTiling) draw_text(_x, _y, "Switch editor: Left + right arrow keys");
+		draw_set_halign(fa_right);
+		draw_set_valign(fa_bottom);
+		_x = display_get_gui_width() - 16;
+		_y = display_get_gui_height() - 16;
+		if (instance_exists(oCustomEditorManager)) draw_text(_x, _y, "Save level: Ctrl + S");
 	}
 }
