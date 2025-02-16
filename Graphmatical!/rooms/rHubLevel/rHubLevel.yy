@@ -67,6 +67,7 @@
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_1931D791","properties":[],"isDnd":false,"objectId":{"name":"oNumberSign","path":"objects/oNumberSign/oNumberSign.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":6,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1176.0,"y":232.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_37FEF9DF","properties":[],"isDnd":false,"objectId":{"name":"oNumberSign","path":"objects/oNumberSign/oNumberSign.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":7,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1176.0,"y":88.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_66CD4401","properties":[],"isDnd":false,"objectId":{"name":"oPortalCustom","path":"objects/oPortalCustom/oPortalCustom.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":888.0,"y":616.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_6D84341","properties":[],"isDnd":false,"objectId":{"name":"oBox","path":"objects/oBox/oBox.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":976.0,"y":456.0,},
       ],"visible":true,"depth":300,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":8,"gridY":8,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"MiddleBackgroundInstances","instances":[
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_113DC5F5","properties":[],"isDnd":false,"objectId":{"name":"oAxes","path":"objects/oAxes/oAxes.yy",},"inheritCode":false,"hasCreationCode":true,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":64.0,"y":1024.0,},
@@ -188,6 +189,7 @@
     {"name":"inst_1931D791","path":"rooms/rHubLevel/rHubLevel.yy",},
     {"name":"inst_37FEF9DF","path":"rooms/rHubLevel/rHubLevel.yy",},
     {"name":"inst_66CD4401","path":"rooms/rHubLevel/rHubLevel.yy",},
+    {"name":"inst_6D84341","path":"rooms/rHubLevel/rHubLevel.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

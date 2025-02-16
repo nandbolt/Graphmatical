@@ -20,6 +20,9 @@ uOffset = shader_get_uniform(shdrWorleyNoise, "u_offset");
 startTime = 0;
 endTime = 0;
 
+// Physics
+boxEngine = noone;
+
 #region Functions
 
 /// @func	moveSpawnPoint({real} x, {real} y);
@@ -77,4 +80,17 @@ if (room != rHubLevel && (room != rTutorialLevel || oGameManager.tutorialComplet
 		nextLevel = rHubLevel;
 		name = "Hub";
 	}
+}
+
+// Create box engine
+boxEngine = instance_create_layer(0, 0, "Instances", be_oBoxEngine);
+
+// Init scene
+cgTiles = new BETileContactGen();
+cgBoxes = new BEBoxContactGen();
+fgGravity = new BEGravityForceGen();
+with (boxEngine)
+{
+	array_push(contactGens, other.cgTiles);
+	array_push(contactGens, other.cgBoxes);
 }

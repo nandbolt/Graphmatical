@@ -13,7 +13,7 @@ Keeps track of and updates all boxes in the simulation.
 
 // World
 boxes = [];											// All of the boxes in the simulation.
-maxContacts = 8;									// The given number of contacts per frame the simulation can handle.
+maxContacts = 32;									// The given number of contacts per frame the simulation can handle.
 iterations = maxContacts * 2;						// The number of contact iterations used.
 calculateIterations	= (iterations == 0);			// Whether the number of iterations to for contact resolver should be calculated every frame.
 registry = new BEForceRegistry();					// The force registry.
