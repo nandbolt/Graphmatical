@@ -137,7 +137,7 @@ loadLevel = function()
 							moveSpawnPoint(_flag.x, _flag.y);
 						}
 					}
-					else instance_create_layer(_flag.x, _flag.y, "Instances", _flag.obj)
+					else instance_create_layer(_flag.x, _flag.y, "Instances", _flag.obj);
 				}
 			}
 		}
@@ -167,6 +167,27 @@ loadLevel = function()
 						name = _sign.name;
 					}
 				}
+			}
+		}
+	}
+	
+	#endregion
+	
+	#region Spikes
+	
+	// Get sign data string
+	var _spikeDataString = ini_read_string("objs", "spikes", "");
+	if (_spikeDataString != "")
+	{
+		_spikeDataString = string_replace_all(_spikeDataString, "$", "\"");
+		var _spikeData = json_parse(_spikeDataString);
+		if (is_array(_spikeData))
+		{
+			// Init all axes
+			while (array_length(_spikeData) > 0)
+			{
+				var _spike = array_pop(_spikeData);
+				if (is_struct(_spike)) instance_create_layer(_spike.x, _spike.y, "BackgroundInstances", oSpike);
 			}
 		}
 	}

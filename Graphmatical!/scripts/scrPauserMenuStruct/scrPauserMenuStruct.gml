@@ -63,6 +63,12 @@ function PauserMenu() : Menu() constructor
 		draw_set_valign(fa_bottom);
 		_x = display_get_gui_width() - 16;
 		_y = display_get_gui_height() - 16;
-		if (instance_exists(oCustomEditorManager)) draw_text(_x, _y, "Save level: Ctrl + S");
+		if (instance_exists(oCustomEditorManager))
+		{
+			// Windows
+			if (os_browser == browser_not_a_browser) draw_text(_x, _y, "Level save files are located\nin your local app data folder.");
+			// Browser
+			else draw_text(_x, _y, "Level save files are located\nin your browser's memory using the\ninspector (which can be tricky to find).");
+		}
 	}
 }

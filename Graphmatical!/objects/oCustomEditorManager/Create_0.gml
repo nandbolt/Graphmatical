@@ -120,6 +120,23 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Spikes
+	
+	var _spikeData = [];
+	with (oSpike)
+	{
+		var _spike =
+		{
+			x : x,
+			y : y,
+		}
+		array_push(_spikeData, _spike);
+	}
+	var _spikeDataString = json_stringify(_spikeData);
+	_spikeDataString = string_replace_all(_spikeDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -129,6 +146,7 @@ saveLevel = function()
 	ini_write_string("objs", "terminals", _terminalDataString);
 	ini_write_string("objs", "flags", _flagDataString);
 	ini_write_string("objs", "signs", _signDataString);
+	ini_write_string("objs", "spikes", _spikeDataString);
 	
 	// Close
 	ini_close();
