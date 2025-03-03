@@ -15,6 +15,10 @@ loadLevel = function()
 	// Open
 	ini_open(fileName);
 	
+	// General info
+	global.currentLevelName = ini_read_string("gen", "name", "Custom Level");
+	global.currentLevelCreator = ini_read_string("gen", "creator", "");
+	
 	#region Tiles
 	
 	var _gridWidth = ceil(room_width / TILE_SIZE) - 2;

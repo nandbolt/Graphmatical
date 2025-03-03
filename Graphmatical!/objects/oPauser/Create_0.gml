@@ -44,6 +44,18 @@ quitGame = function()
 	game_end();
 }
 
+/// @func	onLevelNameEntered();
+onLevelNameEntered = function()
+{
+	global.currentLevelName = currentMenu.textfieldLevelName.value;
+}
+
+///	@func	onLevelCreatorEntered();
+onLevelCreatorEntered = function()
+{
+	global.currentLevelCreator = currentMenu.textfieldLevelCreator.value;
+}
+
 #endregion
 
 // Init first menu

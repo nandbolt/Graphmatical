@@ -4,6 +4,7 @@ event_inherited();
 // Custom index
 customIdx = 1;
 name = "Custom Level " + string(customIdx);
+creator = "";
 nextLevel = rEmptyLevel;
 altPromptString = "Edit";
 

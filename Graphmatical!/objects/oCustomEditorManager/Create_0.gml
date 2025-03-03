@@ -158,7 +158,11 @@ saveLevel = function()
 	// Open
 	ini_open(fileName);
 	
-	// Save level json string
+	// General info
+	ini_write_string("gen", "name", global.currentLevelName);
+	ini_write_string("gen", "creator", global.currentLevelCreator);
+	
+	// Save level json strings
 	ini_write_string("objs", "tiles", _tileDataString);
 	ini_write_string("objs", "graphs", _axesDataString);
 	ini_write_string("objs", "terminals", _terminalDataString);

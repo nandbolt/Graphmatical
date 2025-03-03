@@ -7,6 +7,8 @@ draw_set_valign(fa_middle);
 if (!fadeToNextRoom)
 {
 	draw_set_color(#E2E2E2);
-	draw_text_transformed(display_get_gui_width() * 0.5, display_get_gui_height() * 0.5, global.currentLevelName, 2, 2, 0);
+	var _x = display_get_gui_width() * 0.5, _y = display_get_gui_height() * 0.5;
+	draw_text_transformed(_x, _y, global.currentLevelName, 2, 2, 0);
+	if (global.currentLevelCreator != "") draw_text(_x, _y + 20, "by "+ global.currentLevelCreator);
 }
 draw_set_alpha(1);

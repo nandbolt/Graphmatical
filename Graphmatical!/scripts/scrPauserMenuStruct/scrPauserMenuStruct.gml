@@ -22,6 +22,16 @@ function PauserMenu() : Menu() constructor
 	buttonQuit.width = _width;
 	buttonQuit.height = _height;
 	
+	// Level name + creator
+	if (global.editMode)
+	{
+		_x -= 25;
+		_y = display_get_gui_height() * 0.5 - _height - _vspacing * 0.5 - (_height + _vspacing) * 2;
+		textfieldLevelName = new GuiTextfield("Level Name", _x, _y, global.currentLevelName, "Level name", other.onLevelNameEntered);
+		_y += _height + _vspacing;
+		textfieldLevelCreator = new GuiTextfield("Level Creator", _x, _y, global.currentLevelCreator, "Creator", other.onLevelCreatorEntered);
+	}
+	
 	/// @func	update();
 	static update = function()
 	{

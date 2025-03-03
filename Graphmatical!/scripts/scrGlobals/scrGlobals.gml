@@ -10,6 +10,7 @@
 
 // Level
 global.currentLevelName = "Hub";
+global.currentLevelCreator = "";
 global.previousHubPortalIdx = -1;
 global.editMode = false;
 global.customLevelIdx = -1;
