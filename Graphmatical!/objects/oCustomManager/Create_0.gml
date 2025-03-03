@@ -145,6 +145,34 @@ loadLevel = function()
 	
 	#endregion
 	
+	#region Signs
+	
+	// Get sign data string
+	var _signDataString = ini_read_string("objs", "signs", "");
+	if (_signDataString != "")
+	{
+		_signDataString = string_replace_all(_signDataString, "$", "\"");
+		var _signData = json_parse(_signDataString);
+		if (is_array(_signData))
+		{
+			// Init all axes
+			while (array_length(_signData) > 0)
+			{
+				var _sign = array_pop(_signData);
+				if (is_struct(_sign))
+				{
+					with (instance_create_layer(_sign.x, _sign.y, "Instances", oSign))
+					{
+						text = _sign.msg;
+						name = _sign.name;
+					}
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
 	// Close
 	ini_close();
 	

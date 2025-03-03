@@ -101,6 +101,25 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Signs
+	
+	var _signData = [];
+	with (oSign)
+	{
+		var _sign =
+		{
+			x : x,
+			y : y,
+			name : name,
+			msg : text,
+		}
+		array_push(_signData, _sign);
+	}
+	var _signDataString = json_stringify(_signData);
+	_signDataString = string_replace_all(_signDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -109,6 +128,7 @@ saveLevel = function()
 	ini_write_string("objs", "graphs", _axesDataString);
 	ini_write_string("objs", "terminals", _terminalDataString);
 	ini_write_string("objs", "flags", _flagDataString);
+	ini_write_string("objs", "signs", _signDataString);
 	
 	// Close
 	ini_close();

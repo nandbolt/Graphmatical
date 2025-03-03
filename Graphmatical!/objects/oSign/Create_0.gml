@@ -59,8 +59,8 @@ updateDisplayText = function()
 /// @func	interactPressed();
 interactPressed = function()
 {
-	// If holding shift
-	if (keyboard_check(vk_shift))
+	// If edit mode
+	if (global.editMode)
 	{
 		// Toggle sign edit
 		editting = !editting;
