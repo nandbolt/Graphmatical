@@ -123,14 +123,21 @@ function Equation(_axes) constructor
 		var _xCount = array_length(_xs), _yCount = array_length(_ys);
 		if (_xCount != _yCount) return;
 		
+		// Segment sprite info
+		var _subImg = 0;
+		if (_lineSprite == sLaser) _subImg = (floor(current_time * 0.016)) % 4;
+		
 		// Loop through values
 		for (var _i = 0; _i < _xCount - 1; _i++)
 		{
+			// Adjust subimage
+			//if (_lineSprite == sLaser && (_i % 4) == 3) _subImg = (_subImg + 1) % 4;
+			
 			// Draw line
 			var _x1 = _xs[_i], _y1 = _ys[_i], _x2 = _xs[_i+1], _y2 = _ys[_i+1];
 			var _dir = point_direction(_x1, _y1, _x2, _y2);
 			var _len = point_distance(_x1, _y1, _x2, _y2);
-			draw_sprite_ext(_lineSprite, 0, _x1, _y1, _len, 1, _dir, _color, _alpha);
+			draw_sprite_ext(_lineSprite, _subImg, _x1, _y1, _len, 1, _dir, _color, _alpha);
 			
 			// Style (for dotted lines)
 			if (_style != 0) _i++;
