@@ -20,8 +20,11 @@ initialEquations = [""];
 /// @func	interactPressed();
 interactPressed = function()
 {
+	// Init graph if no axes initialized
+	if (!instance_exists(axes)) initGraph();
+	
 	// Equation count
-	show_debug_message("eq count: " + string(array_length(axes.equations)));
+	//show_debug_message("eq count: " + string(array_length(axes.equations)));
 	
 	// Create graph editor
 	with(instance_create_layer(axesOriginX, axesOriginY, "Instances", oGrapher))
@@ -55,9 +58,19 @@ initGraph = function()
 	// Destroy axes if it exists
 	if (instance_exists(axes)) instance_destroy(axes);
 	
-	// Create axes
+	// Get axes origin
 	axesOriginX = x - x mod TILE_SIZE + TILE_SIZE * axesOffsetX;
 	axesOriginY = y - y mod TILE_SIZE + TILE_SIZE * axesOffsetY;
+	
+	// If there's axes already there, set that as the axes
+	var _nearestAxes = instance_nearest(axesOriginX, axesOriginY, oAxes);
+	if (point_distance(axesOriginX, axesOriginY, _nearestAxes.x, _nearestAxes.y) == 0)
+	{
+		axes = _nearestAxes;
+		return;
+	}
+	
+	// Create axes
 	axes = instance_create_layer(axesOriginX, axesOriginY, "Instances", oAxes);
 	with (axes)
 	{

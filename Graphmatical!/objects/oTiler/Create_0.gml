@@ -7,7 +7,7 @@ worldMap = layer_tilemap_get_id("WorldTiles");
 
 // Index
 currentIdx = 1;
-maxIdx = 8;
+maxIdx = 10;
 currentSprite = noone;
 previousTile = 0;
 
@@ -73,6 +73,8 @@ toggleTile = function()
 					_obj = oBall;
 					_layerName = "MiddleForegroundInstances";
 				}
+				else if (currentIdx == 9) _obj = oBallLauncher;
+				else if (currentIdx == 10) _obj = oTerminalGrapher;
 				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
@@ -111,6 +113,8 @@ cycleIdx = function(_idx)
 		else if (currentIdx == 6) currentSprite = sSpike;
 		else if (currentIdx == 7) currentSprite = sSign;
 		else if (currentIdx == 8) currentSprite = sBall;
+		else if (currentIdx == 9) currentSprite = sBallCannon;
+		else if (currentIdx == 10) currentSprite = sTerminal;
 	}
 	
 	// Cycle sound

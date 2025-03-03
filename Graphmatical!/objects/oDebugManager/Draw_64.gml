@@ -15,6 +15,8 @@ if (instance_exists(oPlayer))
 		draw_text(_x, _y, "FPS: " + string(fps_real));
 		_y -= 16;
 		draw_text(_x, _y, "State: " + string(oPlayer.currentAnimationStateName));
+		_y -= 16;
+		draw_text(_x, _y, "Instances: " + string(instance_count));
 	}
 }
 
