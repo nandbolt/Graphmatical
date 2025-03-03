@@ -64,7 +64,7 @@ initGraph = function()
 	
 	// If there's axes already there, set that as the axes
 	var _nearestAxes = instance_nearest(axesOriginX, axesOriginY, oAxes);
-	if (point_distance(axesOriginX, axesOriginY, _nearestAxes.x, _nearestAxes.y) == 0)
+	if (instance_exists(_nearestAxes) && point_distance(axesOriginX, axesOriginY, _nearestAxes.x, _nearestAxes.y) == 0)
 	{
 		axes = _nearestAxes;
 		return;
