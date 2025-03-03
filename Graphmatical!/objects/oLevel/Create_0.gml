@@ -52,11 +52,14 @@ completeLevel = function()
 		levelComplete = true;
 		endTime = current_time / 1000 - startTime;
 		
-		// Spawn hub portal
-		with(instance_create_layer(oGoalFlag.x, oGoalFlag.y, "Instances", oPortal))
+		// Create end menu
+		instance_create_layer(0, 0, "Instances", oEndMenu);
+		
+		// Destroy player
+		with (oPlayer)
 		{
-			name = "Hub";
-			nextLevel = rHubLevel;
+			emitBodyParticles();
+			instance_destroy();
 		}
 	}
 }

@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "oFlag",
   "spriteId": {
-    "name": "sCheckFlag",
-    "path": "sprites/sCheckFlag/sCheckFlag.yy",
+    "name": "sHoloBeam",
+    "path": "sprites/sHoloBeam/sHoloBeam.yy",
   },
   "solid": false,
   "visible": true,

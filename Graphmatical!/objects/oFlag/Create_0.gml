@@ -5,8 +5,8 @@ event_inherited();
 interactable = false;
 
 // Sprites
-spriteFlag = sCheckFlag;
-spritePole = sCheckPole;
+spriteFlag = sHoloBeam;
+spritePole = sHoloOrb;
 
 #region Functions
 
@@ -41,3 +41,6 @@ onPlayerNear = function()
 }
 
 #endregion
+
+// Alpha
+image_alpha = 0.9;
