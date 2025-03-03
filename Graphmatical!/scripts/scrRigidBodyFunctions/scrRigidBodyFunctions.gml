@@ -17,6 +17,10 @@ function rbInit()
 	normal = new Vector2();
 	spd = 0;
 	
+	// Circle rotations
+	circleRotations = false;
+	circleTorque = 0;
+	
 	// Gravity
 	gravityStrength = 0.1;
 	
@@ -320,6 +324,15 @@ function rbHandleSolidGraphCollision(_equation)
 	{
 		// Store collision
 		collisionVelocity.setVector(velocity);
+		
+		// Calculate circular torque if necessary
+		if (circleRotations)
+		{
+			var _r = new Vector2(x + velocity.x, bbox_bottom + velocity.y);
+			_r.normalize();
+			var _angle = _r.getAngleDegrees() - velocity.getAngleDegrees();
+			circleTorque = velocity.getLength() * bboxWidth * 0.5 * sign(_angle);
+		}
 					
 		// Choose side to check tile collision
 		var _bboxSide = bbox_left;
@@ -449,6 +462,22 @@ function rbHandleXTileCollisions()
 			collisionVelocity.x = velocity.x;
 			bounceVelocity.x = -velocity.x * bounciness;
 			
+			// Calculate circular torque if necessary
+			if (circleRotations)
+			{
+				circleTorque = velocity.dotWithVector(new Vector2(_bboxSide + velocity.x - x, _y - y));
+				show_debug_message(circleTorque);
+			}
+			
+			// Calculate circular torque if necessary
+			if (circleRotations)
+			{
+				var _r = new Vector2(_bboxSide + velocity.x - x, _y - y);
+				_r.normalize();
+				var _angle = _r.getAngleDegrees() - velocity.getAngleDegrees();
+				circleTorque = velocity.getLength() * bboxWidth * 0.5 * sign(_angle);
+			}
+			
 			// Loop until close enough to tile
 			while (abs(velocity.x) > collisionThreshold)
 			{
@@ -492,6 +521,15 @@ function rbHandleYTileCollisions()
 			
 			// Land if landed
 			if (!grounded && velocity.y > 0) rbLand();
+			
+			// Calculate circular torque if necessary
+			if (circleRotations)
+			{
+				var _r = new Vector2(_x - x, _bboxSide + velocity.y - y);
+				_r.normalize();
+				var _angle = _r.getAngleDegrees() - velocity.getAngleDegrees();
+				circleTorque = velocity.getLength() * bboxHeight * 0.5 * sign(_angle);
+			}
 			
 			// Loop until close enough to tile
 			while (abs(velocity.y) > collisionThreshold)

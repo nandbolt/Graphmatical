@@ -144,6 +144,7 @@
     {"id":{"name":"scrGrapherInitMenuStruct","path":"scripts/scrGrapherInitMenuStruct/scrGrapherInitMenuStruct.yy",},"order":2,},
     {"id":{"name":"oObstacle","path":"objects/oObstacle/oObstacle.yy",},"order":1,},
     {"id":{"name":"oBall","path":"objects/oBall/oBall.yy",},"order":0,},
+    {"id":{"name":"sBallCannonStand","path":"sprites/sBallCannonStand/sBallCannonStand.yy",},"order":2,},
     {"id":{"name":"oCustomManager","path":"objects/oCustomManager/oCustomManager.yy",},"order":0,},
     {"id":{"name":"scrGuiTextfieldStruct","path":"scripts/scrGuiTextfieldStruct/scrGuiTextfieldStruct.yy",},"order":1,},
     {"id":{"name":"oPauser","path":"objects/oPauser/oPauser.yy",},"order":0,},

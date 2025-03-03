@@ -12,6 +12,9 @@ onPlayerNear = function()
 {
 	updateSpawnPoint();
 	
+	// Return if editing
+	if (global.editMode) return;
+	
 	// Complete level
 	with (oLevel)
 	{

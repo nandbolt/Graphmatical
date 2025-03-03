@@ -194,6 +194,33 @@ loadLevel = function()
 	
 	#endregion
 	
+	#region Launchers
+	
+	// Get sign data string
+	var _launcherDataString = ini_read_string("objs", "launchers", "");
+	if (_launcherDataString != "")
+	{
+		_launcherDataString = string_replace_all(_launcherDataString, "$", "\"");
+		var _launcherData = json_parse(_launcherDataString);
+		if (is_array(_launcherData))
+		{
+			// Init all axes
+			while (array_length(_launcherData) > 0)
+			{
+				var _launcher = array_pop(_launcherData);
+				if (is_struct(_launcher))
+				{
+					with (instance_create_layer(_launcher.x, _launcher.y, "Instances", oBallLauncher))
+					{
+						image_angle = _launcher.angle;
+					}
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
 	// Close
 	ini_close();
 	

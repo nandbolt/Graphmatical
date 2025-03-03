@@ -14,3 +14,6 @@ else moveSpawnPoint(_sx, _sy);
 // Set state
 globalGraphing = false;
 globalTiling = false;
+
+// Set globals
+global.editMode = false;

@@ -4,6 +4,11 @@ event_inherited();
 // Rigid body
 rbInit();
 
+// Rotation
+rotates = true;				// To let parent know to draw using imageAngle rather than image_angle
+angularVelocity = 0;
+circleRotations = true;		// To let the physics system know to calculate torques
+
 // Bounce
 bounciness = 0.9;
 
@@ -53,6 +58,9 @@ onBounce = function()
 			part_particles_create(partSystem, other.bbox_right, other.bbox_bottom, partTypeDirt, 1);
 		}
 	}
+	
+	// Rotate
+	angularVelocity = 1;
 }
 
 /// @func	die();

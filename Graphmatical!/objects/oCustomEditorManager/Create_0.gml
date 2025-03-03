@@ -137,6 +137,24 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Ball Launcher
+	
+	var _launcherData = [];
+	with (oBallLauncher)
+	{
+		var _launcher =
+		{
+			x : x,
+			y : y,
+			angle : image_angle,
+		}
+		array_push(_launcherData, _launcher);
+	}
+	var _launcherDataString = json_stringify(_launcherData);
+	_launcherDataString = string_replace_all(_launcherDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -147,6 +165,7 @@ saveLevel = function()
 	ini_write_string("objs", "flags", _flagDataString);
 	ini_write_string("objs", "signs", _signDataString);
 	ini_write_string("objs", "spikes", _spikeDataString);
+	ini_write_string("objs", "launchers", _launcherDataString);
 	
 	// Close
 	ini_close();

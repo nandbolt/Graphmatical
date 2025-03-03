@@ -1,6 +1,7 @@
 // States
 interactable = true;
 playerNear = false;
+rotates = false;
 
 // Info
 name = "";
@@ -10,6 +11,9 @@ promptAlphaSpeed = 0.05;
 promptString = "Interact";
 altPromptString = "";
 
+// Sprite
+imageAngle = 0;
+
 #region Functions
 
 /// @func	interact();
@@ -17,6 +21,9 @@ interact = function(){}
 
 /// @func	interactPressed();
 interactPressed = function(){}
+
+/// @func	interactReleased();
+interactReleased = function(){}
 
 /// @func	onPlayerNear();
 onPlayerNear = function(){}
