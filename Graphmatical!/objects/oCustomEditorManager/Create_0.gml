@@ -56,12 +56,40 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Terminals
+	
+	var _terminalData = [];
+	with (oTerminalGrapher)
+	{
+		// Calculate origin position
+		var _offx = axesOffsetX, _offy = axesOffsetX;
+		if (instance_exists(axes))
+		{
+			// Get axes origin
+			_offx = (axes.x - x + x mod TILE_SIZE) / TILE_SIZE;
+			_offy = (axes.y - y + y mod TILE_SIZE) / TILE_SIZE;
+		}
+		var _terminal =
+		{
+			x : x,
+			y : y,
+			offx : _offx,
+			offy : _offy,
+		}
+		array_push(_terminalData, _terminal);
+	}
+	var _terminalDataString = json_stringify(_terminalData);
+	_terminalDataString = string_replace_all(_terminalDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
 	// Save level json string
 	ini_write_string("objs", "tiles", _tileDataString);
 	ini_write_string("objs", "graphs", _axesDataString);
+	ini_write_string("objs", "terminals", _terminalDataString);
 	
 	// Close
 	ini_close();

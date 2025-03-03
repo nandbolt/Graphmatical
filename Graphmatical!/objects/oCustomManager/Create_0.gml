@@ -81,6 +81,38 @@ loadLevel = function()
 	
 	#endregion
 	
+	#region Terminals
+	
+	// Get terminal data string
+	var _terminalDataString = ini_read_string("objs", "terminals", "");
+	if (_terminalDataString != "")
+	{
+		_terminalDataString = string_replace_all(_terminalDataString, "$", "\"");
+		var _terminalData = json_parse(_terminalDataString);
+		if (is_array(_terminalData))
+		{
+			// Init all axes
+			while (array_length(_terminalData) > 0)
+			{
+				var _terminal = array_pop(_terminalData);
+				if (is_struct(_terminal))
+				{
+					with (instance_create_layer(_terminal.x, _terminal.y, "Instances", oTerminalGrapher))
+					{
+						// Set origin
+						axesOffsetX = _terminal.offx;
+						axesOffsetY = _terminal.offy;
+						
+						// Init
+						initGraph();
+					}
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
 	// Close
 	ini_close();
 	
