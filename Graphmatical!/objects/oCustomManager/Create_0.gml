@@ -113,6 +113,38 @@ loadLevel = function()
 	
 	#endregion
 	
+	#region Flags
+	
+	// Get flag data string
+	var _flagDataString = ini_read_string("objs", "flags", "");
+	if (_flagDataString != "")
+	{
+		_flagDataString = string_replace_all(_flagDataString, "$", "\"");
+		var _flagData = json_parse(_flagDataString);
+		if (is_array(_flagData))
+		{
+			// Init all axes
+			while (array_length(_flagData) > 0)
+			{
+				var _flag = array_pop(_flagData);
+				if (is_struct(_flag))
+				{
+					if (_flag.obj == oSpawnFlag)
+					{
+						// Move spawn point
+						with (oLevel)
+						{
+							moveSpawnPoint(_flag.x, _flag.y);
+						}
+					}
+					else instance_create_layer(_flag.x, _flag.y, "Instances", _flag.obj)
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
 	// Close
 	ini_close();
 	

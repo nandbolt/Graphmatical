@@ -21,3 +21,18 @@ onPlayerNear = function()
 }
 
 #endregion
+
+// Destroy other spawn flags
+with (oSpawnFlag)
+{
+	if (id != other.id) instance_destroy();
+}
+
+// Show flag visible if editing level
+if (instance_exists(oCustomEditorManager))
+{
+	with (oLevel)
+	{
+		moveSpawnPoint(other.x, other.y);
+	}
+}

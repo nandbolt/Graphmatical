@@ -83,6 +83,24 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Flags
+	
+	var _flagData = [];
+	with (oFlag)
+	{
+		var _flag =
+		{
+			x : x,
+			y : y,
+			obj : object_index,
+		}
+		array_push(_flagData, _flag);
+	}
+	var _flagDataString = json_stringify(_flagData);
+	_flagDataString = string_replace_all(_flagDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -90,6 +108,7 @@ saveLevel = function()
 	ini_write_string("objs", "tiles", _tileDataString);
 	ini_write_string("objs", "graphs", _axesDataString);
 	ini_write_string("objs", "terminals", _terminalDataString);
+	ini_write_string("objs", "flags", _flagDataString);
 	
 	// Close
 	ini_close();
