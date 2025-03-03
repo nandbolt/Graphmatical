@@ -1,9 +1,14 @@
 // Calculate custom index
-var _customIdx = 1;
+var _customIdx = 1, _amnt = 1;
+if (os_browser != browser_not_a_browser)
+{
+	_customIdx = instance_number(oPortalCustom);
+	_amnt = -1;
+}
 with (oPortalCustom)
 {
 	if (id == other.id) other.customIdx = _customIdx;
-	_customIdx++;
+	_customIdx += _amnt;
 }
 
 // Load name
