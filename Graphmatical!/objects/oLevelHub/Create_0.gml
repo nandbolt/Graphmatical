@@ -17,3 +17,4 @@ globalTiling = false;
 
 // Set globals
 global.editMode = false;
+global.currentLevelCreator = "";
