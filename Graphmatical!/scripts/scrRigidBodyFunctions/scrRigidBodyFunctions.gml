@@ -225,7 +225,7 @@ function rbUpdateGroundedState()
 		// Tile check
 		for (var _i = 0; _i < 2; _i++)
 		{
-			if (tilemap_get_at_pixel(collisionMap, bbox_left + _i * bboxWidth, bbox_bottom + 1) == 1)
+			if (tilemap_get_at_pixel(collisionMap, bbox_left + _i * bboxWidth, bbox_bottom + 1) > 0)
 			{
 				grounded = true;
 				return;
@@ -456,8 +456,32 @@ function rbHandleXTileCollisions()
 		// Check for x collision on moving side
 		var _y = bbox_top + _j * bboxHeight;
 		var _tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-		if (_tile == 1)
+		if (_tile > 0)
 		{
+			// Get actual index (to account for rotations)
+			var _tileIdx = tile_get_index(_tile);
+			
+			// Check slanted tiles
+			if (_tileIdx == 2)
+			{
+				// Get tile orientation
+				var _flipped = tile_get_flip(_tile);	// Up/Down
+				var _mirrored = tile_get_mirror(_tile);	// Right/Left
+				
+				// Get position in tile
+				var _tx = floor((_bboxSide + velocity.x) / TILE_SIZE) * TILE_SIZE, _ty = floor(_y / TILE_SIZE) * TILE_SIZE;
+				var _rx = _bboxSide + velocity.x - _tx, _ry = _y - _ty;
+				
+				// |\
+				if ((!_flipped && !_mirrored) && _ry < _rx) continue;
+				// \|
+				else if ((_flipped && _mirrored) && _ry > _rx) continue;
+				// |/
+				else if ((!_flipped && _mirrored) && _ry < (-_rx + TILE_SIZE)) continue;
+				// /|
+				else if ((_flipped && !_mirrored) && _ry > (-_rx + TILE_SIZE)) continue;
+			}
+			
 			// Store collision velocity
 			collisionVelocity.x = velocity.x;
 			bounceVelocity.x = -velocity.x * bounciness;
@@ -486,7 +510,7 @@ function rbHandleXTileCollisions()
 				
 				// Move if no collision
 				_tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-				if (_tile != 1)
+				if (_tile == 0)
 				{
 					_bboxSide += velocity.x;
 					x += velocity.x;
@@ -510,8 +534,32 @@ function rbHandleYTileCollisions()
 		// Check for y collision on moving side
 		var _x = bbox_left + _i * bboxWidth;
 		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-		if (_tile == 1)
+		if (_tile > 0)
 		{
+			// Get actual index (to account for rotations)
+			var _tileIdx = tile_get_index(_tile);
+			
+			// Check slanted tiles
+			if (_tileIdx == 2)
+			{
+				// Get tile orientation
+				var _flipped = tile_get_flip(_tile);	// Up/Down
+				var _mirrored = tile_get_mirror(_tile);	// Right/Left
+				
+				// Get position in tile
+				var _tx = floor(_x / TILE_SIZE) * TILE_SIZE, _ty = floor((_bboxSide + velocity.y) / TILE_SIZE) * TILE_SIZE;
+				var _rx = _x - _tx, _ry = _bboxSide + velocity.y - _ty;
+				
+				// |\
+				if ((!_flipped && !_mirrored) && _ry < _rx) continue;
+				// \|
+				else if ((_flipped && _mirrored) && _ry > _rx) continue;
+				// |/
+				else if ((!_flipped && _mirrored) && _ry < (-_rx + TILE_SIZE)) continue;
+				// /|
+				else if ((_flipped && !_mirrored) && _ry > (-_rx + TILE_SIZE)) continue;
+			}
+			
 			// Store collision velocity
 			collisionVelocity.y = velocity.y;
 			bounceVelocity.y = -velocity.y * bounciness;
@@ -539,7 +587,7 @@ function rbHandleYTileCollisions()
 				
 				// Move if no collision
 				_tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-				if (_tile != 1)
+				if (_tile == 0)
 				{
 					_bboxSide += velocity.y;
 					y += velocity.y;

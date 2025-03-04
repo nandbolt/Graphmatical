@@ -11,14 +11,14 @@
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
   "bbox_left": 16,
-  "bbox_right": 47,
+  "bbox_right": 111,
   "bbox_top": 0,
   "bbox_bottom": 15,
   "HTile": false,
   "VTile": false,
   "For3D": false,
   "DynamicTexturePage": false,
-  "width": 48,
+  "width": 112,
   "height": 16,
   "textureGroupId": {
     "name": "Default",
@@ -64,6 +64,7 @@
     "eventStubScript": null,
   },
   "layers": [
+    {"resourceType":"GMImageLayer","resourceVersion":"1.0","name":"78e056eb-0e80-4404-80f4-2c273e914260","visible":true,"isLocked":false,"blendMode":0,"opacity":40.0,"displayName":"collision lines",},
     {"resourceType":"GMImageLayer","resourceVersion":"1.0","name":"1ca9815c-2e7a-47f6-aafe-b2509afee8fb","visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default",},
   ],
   "nineSlice": {
