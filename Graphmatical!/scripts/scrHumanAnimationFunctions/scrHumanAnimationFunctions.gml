@@ -104,7 +104,7 @@ function ikhDraw()
 	var _bodyLength = point_distance(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
 	var _bodyAngle = point_direction(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
 	//draw_sprite_ext(sSquare, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.5, 0.5, _bodyAngle, #dae0ea, 1);
-	draw_sprite_ext(sSquareRound, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.125, 0.125, _bodyAngle, #dae0ea, 1);
+	draw_sprite_ext(sSquareRound1, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.125, 0.125, _bodyAngle, #dae0ea, 1);
 	
 	// If looking right
 	if (image_xscale > 0)

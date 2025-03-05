@@ -110,9 +110,9 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	{
 		// Arm 
 		//draw_sprite_ext(sSquare, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.5, 0.5, rootAngle, color, 1);
-		draw_sprite_ext(sSquareRound, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.125, 0.125, rootAngle, color, 1);
+		draw_sprite_ext(sSquareRound2, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.125, 0.125, rootAngle, color, 1);
 		//draw_sprite_ext(sSquare, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.5, 0.5, rootAngle + elbowAngle, color, 1);
-		draw_sprite_ext(sSquareRound, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.125, 0.125, rootAngle + elbowAngle, color, 1);
+		draw_sprite_ext(sSquareRound2, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.125, 0.125, rootAngle + elbowAngle, color, 1);
 	}
 	
 	/// @func	drawDebug();
