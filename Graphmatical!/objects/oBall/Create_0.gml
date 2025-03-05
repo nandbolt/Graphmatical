@@ -28,8 +28,13 @@ interact = function()
 kick = function()
 {
 	// Kick velocity
+	if (oPlayer.inputMove.y < 0) velocity.add(0, -3);
+	else if (oPlayer.inputMove.y > 0) velocity.add(oPlayer.image_xscale * 3, 0);
+	else if (oPlayer.inputMove.x == 0) velocity.add(oPlayer.image_xscale * 2, -2);
+	else velocity.add(oPlayer.inputMove.x * 2, -2);
+	
+	// Add player velocity
 	velocity.addVector(oPlayer.velocity);
-	velocity.add(oPlayer.image_xscale * 2, -2);
 	
 	// Set state
 	kicked = true;
