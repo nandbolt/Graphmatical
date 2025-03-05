@@ -79,7 +79,8 @@ function ikhUpdate()
 function ikhDraw()
 {
 	// Head
-	draw_sprite(sHumanHead, 0, neckPosition.x, neckPosition.y);
+	//draw_sprite(sHumanHead, 0, neckPosition.x, neckPosition.y);
+	draw_sprite_ext(sHumanHeadRound, 0, neckPosition.x, neckPosition.y, 0.25, 0.25, 0, c_white, 1);
 	
 	// If looking right
 	if (image_xscale > 0)
@@ -102,7 +103,8 @@ function ikhDraw()
 	// Body
 	var _bodyLength = point_distance(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
 	var _bodyAngle = point_direction(neckPosition.x, neckPosition.y, hipPosition.x, hipPosition.y);
-	draw_sprite_ext(sSquare, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.5, 0.5, _bodyAngle, #dae0ea, 1);
+	//draw_sprite_ext(sSquare, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.5, 0.5, _bodyAngle, #dae0ea, 1);
+	draw_sprite_ext(sSquareRound, 0, neckPosition.x, neckPosition.y, _bodyLength * 0.125, 0.125, _bodyAngle, #dae0ea, 1);
 	
 	// If looking right
 	if (image_xscale > 0)

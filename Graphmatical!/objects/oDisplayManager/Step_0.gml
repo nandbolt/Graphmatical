@@ -1,7 +1,22 @@
 // Fullscreen
 if (keyboard_check_pressed(vk_f11))
 {
-	window_set_fullscreen(!window_get_fullscreen());
+	if (window_get_fullscreen())
+	{
+		// Untoggle fullscreen
+		window_set_fullscreen(false);
+		worleyWidth = baseCanvasWidth * 0.75;
+		worleyHeight = baseCanvasHeight * 0.75;
+		surface_resize(application_surface, baseCanvasWidth, baseCanvasHeight);
+	}
+	else
+	{
+		// Toggle fullscreen
+		window_set_fullscreen(true);
+		worleyWidth = display_get_width() * 0.75;
+		worleyHeight = display_get_height() * 0.75;
+		surface_resize(application_surface, display_get_width(), display_get_height());
+	}
 }
 
 // If using a browser

@@ -1,0 +1,25 @@
+/// @desc Debug
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+var _x = 0, _y = 0;
+draw_text(_x, _y, "Display");
+_y += 16;
+draw_text(_x, _y, "display width: " + string(display_get_width()));
+_y += 16;
+draw_text(_x, _y, "display height: " + string(display_get_height()));
+_y += 16;
+draw_text(_x, _y, "window width: " + string(window_get_width()));
+_y += 16;
+draw_text(_x, _y, "window height: " + string(window_get_height()));
+_y += 16;
+draw_text(_x, _y, "surface width: " + string(surface_get_width(application_surface)));
+_y += 16;
+draw_text(_x, _y, "surface height: " + string(surface_get_height(application_surface)));
+_y += 16;
+draw_text(_x, _y, "gui width: " + string(display_get_gui_width()));
+_y += 16;
+draw_text(_x, _y, "gui height: " + string(display_get_gui_height()));
+_y += 16;
+draw_text(_x, _y, "camera width: " + string(camera_get_view_width(view_camera[0])));
+_y += 16;
+draw_text(_x, _y, "camera height: " + string(camera_get_view_height(view_camera[0])));

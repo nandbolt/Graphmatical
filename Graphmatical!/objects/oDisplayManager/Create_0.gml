@@ -13,6 +13,10 @@ canvasHeight = baseCanvasHeight;
 baseCamWidth = 320;
 baseCamHeight = 180;
 
+// Worley Noise
+worleyWidth = baseCanvasWidth * 0.75;
+worleyHeight = baseCanvasHeight * 0.75;
+
 #region Functions
 
 /// @func	browserScaleCanvas({int} baseWidth, {int} baseHeight, {int} currentWidth, {int} currentHeight, {bool} center);
