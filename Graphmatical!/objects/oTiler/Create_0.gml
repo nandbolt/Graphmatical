@@ -7,9 +7,11 @@ worldMap = layer_tilemap_get_id("WorldTiles");
 
 // Index
 currentIdx = 1;
-maxIdx = 10;
 currentSprite = noone;
 previousTile = 0;
+lastTileIdx = 6;
+objectCount = 8;
+maxIdx = lastTileIdx + objectCount;
 
 #region Functions
 
@@ -25,7 +27,7 @@ move = function(_dx, _dy)
 	
 	// Replace previous tile and set tile
 	previousTile = tilemap_get_at_pixel(worldMap, x, y);
-	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
+	if (currentIdx <= lastTileIdx) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 	else tilemap_set_at_pixel(worldMap, 0, x, y);
 	
 	// Move sound
@@ -55,26 +57,26 @@ toggleTile = function()
 		else
 		{
 			// If trying to place something other than a tile
-			if (currentIdx > 2)
+			if (currentIdx > lastTileIdx)
 			{
 				// Place it
 				var _obj = noone, _layerName = "Instances";
-				if (currentIdx == 3) _obj = oSpawnFlag;
-				else if (currentIdx == 4) _obj = oCheckFlag;
-				else if (currentIdx == 5) _obj = oGoalFlag;
-				else if (currentIdx == 6)
+				if (currentIdx == (lastTileIdx + 1)) _obj = oSpawnFlag;
+				else if (currentIdx == (lastTileIdx + 2)) _obj = oCheckFlag;
+				else if (currentIdx == (lastTileIdx + 3)) _obj = oGoalFlag;
+				else if (currentIdx == (lastTileIdx + 4))
 				{
 					_obj = oSpike;
 					_layerName = "MiddleBackgroundInstances";
 				}
-				else if (currentIdx == 7) _obj = oSign;
-				else if (currentIdx == 8)
+				else if (currentIdx == (lastTileIdx + 5)) _obj = oSign;
+				else if (currentIdx == (lastTileIdx + 6))
 				{
 					_obj = oBall;
 					_layerName = "MiddleForegroundInstances";
 				}
-				else if (currentIdx == 9) _obj = oBallLauncher;
-				else if (currentIdx == 10) _obj = oTerminalGrapher;
+				else if (currentIdx == (lastTileIdx + 7)) _obj = oBallLauncher;
+				else if (currentIdx == (lastTileIdx + 8)) _obj = oTerminalGrapher;
 				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
@@ -82,6 +84,15 @@ toggleTile = function()
 				// Set current tile
 				tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 				if (currentIdx == 1) tilemap_set_at_pixel(collisionMap, currentIdx, x, y);
+				else if (currentIdx > 2 && currentIdx < 7)
+				{
+					// Sloped tile
+					tilemap_set_at_pixel(collisionMap, 2, x, y);
+					var _data = tilemap_get_at_pixel(collisionMap, x, y);
+					if (currentIdx == 4 || currentIdx == 5) _data = tile_set_flip(_data, true);
+					if (currentIdx == 4 || currentIdx == 6) _data = tile_set_mirror(_data, true);
+					tilemap_set_at_pixel(collisionMap, _data, x, y);
+				}
 				previousTile = currentIdx;
 			}
 		}
@@ -100,21 +111,21 @@ cycleIdx = function(_idx)
 	else currentIdx = _idx;
 	
 	// Set tile if tile
-	if (currentIdx < 3) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
+	if (currentIdx <= lastTileIdx) tilemap_set_at_pixel(worldMap, currentIdx, x, y);
 	else
 	{
 		// Remove tile if previous was 0
 		if (previousTile == 0) tilemap_set_at_pixel(worldMap, 0, x, y);
 		
 		// Set sprite
-		if (currentIdx == 3) currentSprite = sSpawnFlag;
-		else if (currentIdx == 4) currentSprite = sCheckFlag;
-		else if (currentIdx == 5) currentSprite = sGoalFlag;
-		else if (currentIdx == 6) currentSprite = sSpike;
-		else if (currentIdx == 7) currentSprite = sSign;
-		else if (currentIdx == 8) currentSprite = sBall;
-		else if (currentIdx == 9) currentSprite = sBallCannon;
-		else if (currentIdx == 10) currentSprite = sTerminal;
+		if (currentIdx == (lastTileIdx + 1)) currentSprite = sSpawnFlag;
+		else if (currentIdx == (lastTileIdx + 2)) currentSprite = sCheckFlag;
+		else if (currentIdx == (lastTileIdx + 3)) currentSprite = sGoalFlag;
+		else if (currentIdx == (lastTileIdx + 4)) currentSprite = sSpike;
+		else if (currentIdx == (lastTileIdx + 5)) currentSprite = sSign;
+		else if (currentIdx == (lastTileIdx + 6)) currentSprite = sBall;
+		else if (currentIdx == (lastTileIdx + 7)) currentSprite = sBallCannon;
+		else if (currentIdx == (lastTileIdx + 8)) currentSprite = sTerminal;
 	}
 	
 	// Cycle sound

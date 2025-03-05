@@ -38,6 +38,15 @@ loadLevel = function()
 					var _x = _i * TILE_SIZE + TILE_SIZE, _y = _j * TILE_SIZE + TILE_SIZE;
 					tilemap_set_at_pixel(worldMap, _tileData[_idx], _x, _y);
 					if (_tileData[_idx] == 1) tilemap_set_at_pixel(collisionMap, _tileData[_idx], _x, _y);
+					else if (_tileData[_idx] > 2 && _tileData[_idx] < 7)
+					{
+						// Sloped tile
+						tilemap_set_at_pixel(collisionMap, 2, _x, _y);
+						var _data = tilemap_get_at_pixel(collisionMap, _x, _y);
+						if (_tileData[_idx] == 4 || _tileData[_idx] == 5) _data = tile_set_flip(_data, true);
+						if (_tileData[_idx] == 4 || _tileData[_idx] == 6) _data = tile_set_mirror(_data, true);
+						tilemap_set_at_pixel(collisionMap, _data, _x, _y);
+					}
 				}
 			}
 		}
