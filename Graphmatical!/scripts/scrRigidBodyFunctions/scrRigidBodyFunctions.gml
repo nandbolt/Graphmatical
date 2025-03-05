@@ -47,6 +47,10 @@ function rbInit()
 	onBounce = function(){}
 	bounceThreshold = 0.1;
 	
+	// Tile slopes
+	slopePosition = new Vector2();	// Where the slope was detected
+	slopeVelocity = new Vector2();	// What the velocity across the slope is
+	
 	// Sfx
 	landSfx = sfxLand;
 	
@@ -75,6 +79,7 @@ function rbUpdate()
 {
 	// Reset collision variables
 	collisionVelocity.set();
+	slopeVelocity.set();
 	
 	// Update grounded state
 	rbUpdateGroundedState();
@@ -102,6 +107,19 @@ function rbUpdate()
 	
 	// Update y
 	y += velocity.y;
+	
+	// Add slope velocity if no subsequent collisions
+	if (slopeVelocity.x != 0 || slopeVelocity.y != 0)
+	{
+		var _x = slopePosition.x + slopeVelocity.x, _y = slopePosition.y + slopeVelocity.y;
+		if (rbTileCollisionAtPoint(_x, _y) == -1)
+		{
+			velocity.x = slopeVelocity.x;
+			velocity.y = slopeVelocity.y
+			x += velocity.x;
+			y += velocity.y;
+		}
+	}
 	
 	// Move graph detector
 	graphDetector.x = x;
@@ -225,7 +243,7 @@ function rbUpdateGroundedState()
 		// Tile check
 		for (var _i = 0; _i < 2; _i++)
 		{
-			if (tilemap_get_at_pixel(collisionMap, bbox_left + _i * bboxWidth, bbox_bottom + 1) > 0)
+			if (rbTileCollisionAtPoint(bbox_left + _i * bboxWidth, bbox_bottom + 1) != -1)
 			{
 				grounded = true;
 				return;
@@ -455,8 +473,8 @@ function rbHandleXTileCollisions()
 	{
 		// Check for x collision on moving side
 		var _y = bbox_top + _j * bboxHeight;
-		var _tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-		if (_tile > 0)
+		var _tile = rbTileCollisionAtPoint(_bboxSide + velocity.x, _y);
+		if (_tile != -1)
 		{
 			// Get actual index (to account for rotations)
 			var _tileIdx = tile_get_index(_tile);
@@ -464,34 +482,25 @@ function rbHandleXTileCollisions()
 			// Check slanted tiles
 			if (_tileIdx == 2)
 			{
-				// Get tile orientation
-				var _flipped = tile_get_flip(_tile);	// Up/Down
-				var _mirrored = tile_get_mirror(_tile);	// Right/Left
-				
-				// Get position in tile
-				var _tx = floor((_bboxSide + velocity.x) / TILE_SIZE) * TILE_SIZE, _ty = floor(_y / TILE_SIZE) * TILE_SIZE;
-				var _rx = _bboxSide + velocity.x - _tx, _ry = _y - _ty;
-				
-				// |\
-				if ((!_flipped && !_mirrored) && _ry < _rx) continue;
-				// \|
-				else if ((_flipped && _mirrored) && _ry > _rx) continue;
-				// |/
-				else if ((!_flipped && _mirrored) && _ry < (-_rx + TILE_SIZE)) continue;
-				// /|
-				else if ((_flipped && !_mirrored) && _ry > (-_rx + TILE_SIZE)) continue;
+				// If slant normal is defined
+				var _normal = rbGetTileSlopeNormal(_tile, _bboxSide, _y, _bboxSide + velocity.x, _y);
+				if (is_struct(_normal))
+				{
+					// Rotate normal
+					var _angle = velocity.getAngleDegrees() - _normal.getAngleDegrees();
+					if (_angle > 0) _normal.rotateDegrees(90);
+					else _normal.rotateDegrees(-90);
+					
+					// Calculate slope velocity
+					var _dot = _normal.dotWithVector(velocity);
+					slopeVelocity.x = _normal.x * _dot;
+					slopeVelocity.y = _normal.y * _dot;
+				}
 			}
 			
 			// Store collision velocity
 			collisionVelocity.x = velocity.x;
 			bounceVelocity.x = -velocity.x * bounciness;
-			
-			// Calculate circular torque if necessary
-			if (circleRotations)
-			{
-				circleTorque = velocity.dotWithVector(new Vector2(_bboxSide + velocity.x - x, _y - y));
-				show_debug_message(circleTorque);
-			}
 			
 			// Calculate circular torque if necessary
 			if (circleRotations)
@@ -509,12 +518,19 @@ function rbHandleXTileCollisions()
 				velocity.x *= 0.5;
 				
 				// Move if no collision
-				_tile = tilemap_get_at_pixel(collisionMap, _bboxSide + velocity.x, _y);
-				if (_tile == 0)
+				_tile = rbTileCollisionAtPoint(_bboxSide + velocity.x, _y);
+				if (_tile == -1)
 				{
 					_bboxSide += velocity.x;
 					x += velocity.x;
 				}
+			}
+			
+			// Update slope position
+			if (_tileIdx == 2)
+			{
+				slopePosition.x = _bboxSide;
+				slopePosition.y = _y;
 			}
 			
 			// X collision
@@ -533,31 +549,32 @@ function rbHandleYTileCollisions()
 	{
 		// Check for y collision on moving side
 		var _x = bbox_left + _i * bboxWidth;
-		var _tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-		if (_tile > 0)
+		var _tile = rbTileCollisionAtPoint(_x, _bboxSide + velocity.y);
+		if (_tile != -1)
 		{
 			// Get actual index (to account for rotations)
 			var _tileIdx = tile_get_index(_tile);
 			
 			// Check slanted tiles
-			if (_tileIdx == 2)
+			var _newSlope = false;
+			if (_tileIdx == 2 && slopeVelocity.getLength() == 0)
 			{
-				// Get tile orientation
-				var _flipped = tile_get_flip(_tile);	// Up/Down
-				var _mirrored = tile_get_mirror(_tile);	// Right/Left
-				
-				// Get position in tile
-				var _tx = floor(_x / TILE_SIZE) * TILE_SIZE, _ty = floor((_bboxSide + velocity.y) / TILE_SIZE) * TILE_SIZE;
-				var _rx = _x - _tx, _ry = _bboxSide + velocity.y - _ty;
-				
-				// |\
-				if ((!_flipped && !_mirrored) && _ry < _rx) continue;
-				// \|
-				else if ((_flipped && _mirrored) && _ry > _rx) continue;
-				// |/
-				else if ((!_flipped && _mirrored) && _ry < (-_rx + TILE_SIZE)) continue;
-				// /|
-				else if ((_flipped && !_mirrored) && _ry > (-_rx + TILE_SIZE)) continue;
+				// If slant normal is defined
+				var _normal = rbGetTileSlopeNormal(_tile, _x, _bboxSide, _x, _bboxSide + velocity.y);
+				if (is_struct(_normal))
+				{
+					_newSlope = true;
+					
+					// Rotate normal
+					var _angle = velocity.getAngleDegrees() - _normal.getAngleDegrees();
+					if (_angle > 0) _normal.rotateDegrees(90);
+					else _normal.rotateDegrees(-90);
+					
+					// Calculate slope velocity
+					var _dot = _normal.dotWithVector(velocity);
+					slopeVelocity.x = _normal.x * _dot;
+					slopeVelocity.y = _normal.y * _dot;
+				}
 			}
 			
 			// Store collision velocity
@@ -586,12 +603,19 @@ function rbHandleYTileCollisions()
 				velocity.y *= 0.5;
 				
 				// Move if no collision
-				_tile = tilemap_get_at_pixel(collisionMap, _x, _bboxSide + velocity.y);
-				if (_tile == 0)
+				_tile = rbTileCollisionAtPoint(_x, _bboxSide + velocity.y);
+				if (_tile == -1)
 				{
 					_bboxSide += velocity.y;
 					y += velocity.y;
 				}
+			}
+			
+			// Update slope position
+			if (_newSlope)
+			{
+				slopePosition.x = _x;
+				slopePosition.y = _bboxSide;
 			}
 			
 			// Y collision
@@ -609,4 +633,92 @@ function rbLand()
 	
 	// Land sfx
 	audio_play_sound(landSfx, 2, false);
+}
+
+/// @func	rbTileCollisionAtPoint(x, y);
+///	@param	{real}	x	The x-coordinate to check.
+///	@param	{real}	y	The y-coordinate to check.
+///	@desc	Checks if there's a tile collision at the point. If so, returns tile data. If not, returns -1.
+///	@return	{TileData}
+function rbTileCollisionAtPoint(_x, _y)
+{
+	// Get tile data
+	var _tileData = tilemap_get_at_pixel(collisionMap, _x, _y);
+	
+	// Square tile
+	if (_tileData == 1) return _tileData;
+	
+	// Get actual index (to account for rotations)
+	var _tileIdx = tile_get_index(_tileData);
+	
+	// Slanted tile
+	if (_tileIdx == 2)
+	{
+		// Get tile orientation
+		var _flipped = tile_get_flip(_tileData);	// Up/Down
+		var _mirrored = tile_get_mirror(_tileData);	// Right/Left
+				
+		// Get position in tile
+		var _tx = floor(_x / TILE_SIZE) * TILE_SIZE, _ty = floor(_y / TILE_SIZE) * TILE_SIZE;
+		var _rx = _x - _tx, _ry = _y - _ty;
+				
+		// |\
+		if (!_flipped && !_mirrored && _ry > _rx) return _tileData;
+		// \|
+		else if (_flipped && _mirrored && _ry < _rx) return _tileData;
+		// |/
+		else if (!_flipped && _mirrored && _ry > (-_rx + TILE_SIZE)) return _tileData;
+		// /|
+		else if (_flipped && !_mirrored && _ry < (-_rx + TILE_SIZE)) return _tileData
+	}
+	
+	// No collision
+	return -1;
+}
+
+/// @func	rbGetTileSlopeNormal(tileData, x1, y1, x2, y2);
+///	@param	{TileData}	tileData	The sloped tile data.
+///	@param	{real}		x1			The starting x-coordinate.
+///	@param	{real}		y1			The starting y-coordinate.
+///	@param	{real}		x2			The ending x-coordinate.
+///	@param	{real}		y2			The ending y-coordinate.
+///	@desc	Checks if there's a slope between the points. If so, returns the normal. If not, returns undefined.
+///	@return	{Struct.Vector2}
+function rbGetTileSlopeNormal(_tileData, _x1, _y1, _x2, _y2)
+{
+	// Get tile orientation
+	var _flipped = tile_get_flip(_tileData);	// Up/Down
+	var _mirrored = tile_get_mirror(_tileData);	// Right/Left
+				
+	// Get position in tile
+	var _tx = floor(_x2 / TILE_SIZE) * TILE_SIZE, _ty = floor(_y2 / TILE_SIZE) * TILE_SIZE;
+	var _vx = _x2 - _x1, _vy = _y2 - _y1;
+				
+	// |\
+	if (!_flipped && !_mirrored)
+	{
+		// Slope collision if NE
+		if (_x1 > _tx && _y1 < (_ty + TILE_SIZE)) return new Vector2(SQRT_2BY2, -SQRT_2BY2);
+	}
+	// \|
+	else if (_flipped && _mirrored)
+	{
+		// Slope collision if SW
+		if (_x1 < (_tx + TILE_SIZE) && _y1 > _ty) return new Vector2(-SQRT_2BY2, SQRT_2BY2);
+	}
+	// |/
+	else if (_flipped && !_mirrored)
+	{
+		// Slope collision if SE
+		if (_x1 > _tx && _y1 > _ty) return new Vector2(SQRT_2BY2, SQRT_2BY2);
+	}
+	// /|
+	else if (!_flipped && _mirrored)
+	{
+		// Slope collision if NW
+		if (_x1 < (_tx + TILE_SIZE) && _y1 < (_ty + TILE_SIZE)) return new Vector2(-SQRT_2BY2, -SQRT_2BY2);
+	}
+	
+	// No collision
+	return undefined;
 }
