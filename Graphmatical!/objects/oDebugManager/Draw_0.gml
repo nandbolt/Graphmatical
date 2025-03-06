@@ -7,16 +7,6 @@ if (instance_exists(oAxes))
 	}
 }
 
-// Player
-if (instance_exists(oPlayer))
-{
-	with (oPlayer)
-	{
-		// Rigid body
-		rbDraw();
-	}
-}
-
 // Obstacle
 if (instance_exists(oObstacle))
 {

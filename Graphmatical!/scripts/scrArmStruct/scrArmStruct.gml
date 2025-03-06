@@ -28,6 +28,10 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	// Color
 	color = c_white;
 	
+	// Sprite
+	armSprite = sSquareRound2;
+	armScale = 0.125;
+	
 	/// @func	moveRoot({real} x, {real} y);
 	static moveRoot = function(_x, _y)
 	{
@@ -110,9 +114,9 @@ function Arm(_rootx, _rooty, _rootArmLength, _elbowArmLength, _rootAngle, _elbow
 	{
 		// Arm 
 		//draw_sprite_ext(sSquare, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.5, 0.5, rootAngle, color, 1);
-		draw_sprite_ext(sSquareRound2, 0, rootJoint.x, rootJoint.y, rootArmLength * 0.125, 0.125, rootAngle, color, 1);
+		draw_sprite_ext(armSprite, 0, rootJoint.x, rootJoint.y, rootArmLength * armScale, armScale, rootAngle, color, 1);
 		//draw_sprite_ext(sSquare, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.5, 0.5, rootAngle + elbowAngle, color, 1);
-		draw_sprite_ext(sSquareRound2, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * 0.125, 0.125, rootAngle + elbowAngle, color, 1);
+		draw_sprite_ext(armSprite, 0, elbowJoint.x, elbowJoint.y, elbowArmLength * armScale, armScale, rootAngle + elbowAngle, color, 1);
 	}
 	
 	/// @func	drawDebug();

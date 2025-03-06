@@ -632,7 +632,7 @@ function rbLand()
 	grounded = true;
 	
 	// Land sfx
-	audio_play_sound(landSfx, 2, false);
+	if (visibleToCamera(other.id)) audio_play_sound(landSfx, 2, false);
 }
 
 /// @func	rbTileCollisionAtPoint(x, y);

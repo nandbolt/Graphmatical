@@ -1,2 +1,2 @@
 // Spin
-image_angle -= 10;
+imageAngle -= 10;

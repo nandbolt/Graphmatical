@@ -1,2 +1,2 @@
 // IKH
-ikhDraw();
+if (isVisible) ikhDraw();

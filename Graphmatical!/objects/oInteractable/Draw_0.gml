@@ -10,7 +10,7 @@ if (promptAlpha > 0)
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_bottom);
 	draw_set_alpha(promptAlpha);
-	var _y = y - sprite_height * 0.5 - 4;
+	var _y = bbox_top - 4;
 	if (altPromptString != "")
 	{
 		draw_text_transformed(x, _y, "Shift + E: " + altPromptString, 0.5, 0.5, 0);

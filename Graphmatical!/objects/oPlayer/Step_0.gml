@@ -109,7 +109,8 @@ else if (!grounded && !inputJump && velocity.y < 0) velocity.y += smallJumpStren
 rbUpdate();
 
 // Update ikh animations based on resulting rigid body
-ikhUpdate();
+isVisible = visibleToCamera(self.id);
+if (isVisible) ikhUpdate();
 
 // Slide sound
 if (grounded && inputCrouch && abs(velocity.x) > 0.05 && !audio_is_playing(sfxSlide))

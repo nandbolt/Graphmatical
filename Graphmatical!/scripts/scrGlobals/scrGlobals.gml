@@ -30,6 +30,13 @@ enum HumanAnimationState
 	JUMP,
 }
 
+enum WalkerAnimationState
+{
+	IDLE,
+	CRAWL,
+	FALL,
+}
+
 enum GraphingError
 {
 	NONE,

@@ -1,6 +1,9 @@
 // Inherit the parent event
 event_inherited();
 
+// Rotation
+rotates = true;
+
 // Level
 nextLevel = rHubLevel;
 promptString = "Enter";

@@ -1,0 +1,2 @@
+// IKH
+if (isVisible) ikhWalkerDraw();
