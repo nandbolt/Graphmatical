@@ -1,22 +1,19 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "oSpawnFlag",
+  "name": "oBallSpawnPoint",
   "spriteId": {
-    "name": "sNoFlag",
-    "path": "sprites/sNoFlag/sNoFlag.yy",
+    "name": "sBall",
+    "path": "sprites/sBall/sBall.yy",
   },
   "solid": false,
   "visible": true,
   "managed": true,
-  "spriteMaskId": {
-    "name": "sSpawnPole",
-    "path": "sprites/sSpawnPole/sSpawnPole.yy",
-  },
+  "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "oFlag",
-    "path": "objects/oFlag/oFlag.yy",
+    "name": "oSpawnPoint",
+    "path": "objects/oSpawnPoint/oSpawnPoint.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
@@ -30,13 +27,11 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,},
-  ],
+  "eventList": [],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Flags",
-    "path": "folders/Objects/Level/Interactables/Flags.yy",
+    "name": "Ball",
+    "path": "folders/Objects/Level/Interactables/Ball.yy",
   },
 }

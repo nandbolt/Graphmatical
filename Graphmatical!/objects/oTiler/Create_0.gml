@@ -50,10 +50,12 @@ toggleTile = function()
 		// Get instance collisions
 		var _interactable = instance_place(x, y, oInteractable);
 		var _obstacle = instance_place(x, y, oObstacle);
+		var _spawnPoint = instance_place(x, y, oSpawnPoint);
 		
 		// If collision
 		if (_interactable != noone) instance_destroy(_interactable);
 		else if (_obstacle != noone) instance_destroy(_obstacle);
+		else if (_spawnPoint != noone) instance_destroy(_spawnPoint);
 		else
 		{
 			// If trying to place something other than a tile
@@ -72,7 +74,7 @@ toggleTile = function()
 				else if (currentIdx == (lastTileIdx + 5)) _obj = oSign;
 				else if (currentIdx == (lastTileIdx + 6))
 				{
-					_obj = oBall;
+					_obj = oBallSpawnPoint;
 					_layerName = "MiddleForegroundInstances";
 				}
 				else if (currentIdx == (lastTileIdx + 7)) _obj = oBallLauncher;

@@ -140,9 +140,22 @@ loadLevel = function()
 			while (array_length(_flagData) > 0)
 			{
 				var _flag = array_pop(_flagData);
-				if (is_struct(_flag) && object_exists(_flag.obj))
+				if (is_struct(_flag))
 				{
-					if (_flag.obj == oSpawnFlag)
+					// Get flag object from type index
+					var _obj = oCheckFlag;
+					switch (_flag.type)
+					{
+						case 0:
+							_obj = oSpawnFlag;
+							break;
+						case 2:
+							_obj = oGoalFlag;
+							break;
+					}
+					
+					// Spawn/move flag
+					if (_obj == oSpawnFlag)
 					{
 						// Move spawn point
 						with (oLevel)
@@ -150,7 +163,7 @@ loadLevel = function()
 							moveSpawnPoint(_flag.x, _flag.y);
 						}
 					}
-					else instance_create_layer(_flag.x, _flag.y, "Instances", _flag.obj);
+					else instance_create_layer(_flag.x, _flag.y, "Instances", _obj);
 				}
 			}
 		}
@@ -226,6 +239,38 @@ loadLevel = function()
 					with (instance_create_layer(_launcher.x, _launcher.y, "Instances", oBallLauncher))
 					{
 						image_angle = _launcher.angle;
+					}
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
+	#region Spawn Points
+	
+	// Get sign data string
+	var _spawnDataString = ini_read_string("objs", "spawns", "");
+	if (_spawnDataString != "")
+	{
+		_spawnDataString = string_replace_all(_spawnDataString, "$", "\"");
+		var _spawnData = json_parse(_spawnDataString);
+		if (is_array(_spawnData))
+		{
+			// Init all axes
+			while (array_length(_spawnData) > 0)
+			{
+				var _sp = array_pop(_spawnData);
+				if (is_struct(_sp))
+				{
+					var _obj = oBall;
+					if (object_index == oCustomEditorManager)
+					{
+						_obj = oBallSpawnPoint;
+					}
+					with (instance_create_layer(_sp.x, _sp.y, "Instances", _obj))
+					{
+						image_angle = _sp.angle;
 					}
 				}
 			}

@@ -88,11 +88,21 @@ saveLevel = function()
 	var _flagData = [];
 	with (oFlag)
 	{
+		var _idx = 0;
+		switch (object_index)
+		{
+			case oCheckFlag:
+				_idx = 1;
+				break;
+			case oGoalFlag:
+				_idx = 2;
+				break;
+		}
 		var _flag =
 		{
 			x : x,
 			y : y,
-			obj : object_index,
+			type : _idx,
 		}
 		array_push(_flagData, _flag);
 	}
@@ -155,6 +165,26 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Spawn Points
+	
+	var _spawnData = [];
+	with (oSpawnPoint)
+	{
+		var _type = 0;
+		var _sp =
+		{
+			x : x,
+			y : y,
+			type : _type,
+			angle : image_angle,
+		}
+		array_push(_spawnData, _sp);
+	}
+	var _spawnDataString = json_stringify(_spawnData);
+	_spawnDataString = string_replace_all(_spawnDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -170,6 +200,7 @@ saveLevel = function()
 	ini_write_string("objs", "signs", _signDataString);
 	ini_write_string("objs", "spikes", _spikeDataString);
 	ini_write_string("objs", "launchers", _launcherDataString);
+	ini_write_string("objs", "spawns", _spawnDataString);
 	
 	// Close
 	ini_close();

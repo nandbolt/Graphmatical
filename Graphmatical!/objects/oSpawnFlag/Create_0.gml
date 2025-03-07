@@ -29,4 +29,5 @@ if (instance_exists(oCustomEditorManager))
 	{
 		moveSpawnPoint(other.x, other.y);
 	}
+	if (instance_number(oSpawnFlag) > 1) instance_destroy();
 }
