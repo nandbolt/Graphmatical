@@ -1,16 +1,75 @@
 // Update walls
 rightWall = false;
 leftWall = false;
-if (inputDirection.x > 0) rightWall = rbTileCollisionAtPoint(bbox_right+1, y) != -1;
-else leftWall = rbTileCollisionAtPoint(bbox_left-1, y) != -1;
+if (inputDirection.x > 0)
+{
+	rightWall = rbTileCollisionAtPoint(bbox_right+1, bbox_top) != -1;
+	if (!rightWall) rightWall = rbTileCollisionAtPoint(bbox_right+1, bbox_bottom) != -1;
+}
+else
+{
+	leftWall = rbTileCollisionAtPoint(bbox_left-1, bbox_top) != -1;
+	if (!leftWall) leftWall = rbTileCollisionAtPoint(bbox_left-1, bbox_bottom) != -1;
+}
+
+// Update input based off wall locations
+if (rightWall) inputDirection.x = -1;
+else if (leftWall) inputDirection.x = 1;
+
+// Get graph colliding with
+touchingGraph = false;
+if (!grounded && instance_exists(oAxes))
+{
+	// Check if graph 
+	var _axes = noone;
+	with (graphDetector)
+	{
+		// Grab touching axes
+		_axes = instance_place(x + other.velocity.x, y + other.velocity.y, oAxes);
+	}
+		
+	// Get axes collided with
+	if (instance_exists(_axes))
+	{
+		// Go through equations
+		for (var _i = 0; _i < array_length(_axes.equations); _i++)
+		{
+			// If touching an equation
+			if (graphTouching(_axes.equations[_i], self.id))
+			{
+				// Get goal y
+				var _groundX = x + inputDirection.x * crawlSpeed;
+				var _groundAxisY = _axes.equations[_i].evaluate(xToAxisX(_axes, _groundX));
+				if (!is_string(_groundAxisY))
+				{
+					// Calculate goal ground position
+					var _groundY = axisYtoY(_axes, _groundAxisY);
+					
+					// If not in a tile
+					if (rbTileCollisionAtPoint(_groundX, _groundY) == -1)
+					{
+						// Calculate velocity
+						velocity.x = _groundX - x;
+						velocity.y = _groundY - y;
+						velocity.normalize();
+						velocity.scale(crawlSpeed);
+					
+						// On graph bool
+						touchingGraph = true;
+					}
+				}
+				
+				// Stop checking equations
+				break;
+			}
+		}
+	}
+}
 
 // Ground walking
 updateNearGround();
-if (grounded || nearGround)
+if (!touchingGraph && (grounded || nearGround))
 {
-	// Turn off gravity
-	gravityStrength = 0;
-	
 	// Lerp body to ground walk position
 	groundY = floor((bbox_bottom + TILE_SIZE) / TILE_SIZE) * TILE_SIZE;
 	nearGroundGoalYMax = groundY - HALF_TILE_SIZE + 2;
@@ -19,14 +78,12 @@ if (grounded || nearGround)
 	else if (y < nearGroundGoalYMin) velocity.y = lerp(velocity.y, 0.5, 0.02);
 	else velocity.y = lerp(velocity.y, 0, 0.02);
 	
-	// Update input based off wall locations
-	if (rightWall) inputDirection.x = -1;
-	else if (leftWall) inputDirection.x = 1;
-	
 	// Apply input
 	velocity.x = inputDirection.x * crawlSpeed;
 }
-// Turn on gravity
+
+// Gravity
+if (touchingGraph || grounded || nearGround) gravityStrength = 0;
 else gravityStrength = normalGravityStrength;
 
 // Update rigid body movements

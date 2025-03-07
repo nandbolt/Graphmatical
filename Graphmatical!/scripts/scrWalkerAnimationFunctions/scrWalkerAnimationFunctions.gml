@@ -44,7 +44,7 @@ function ikhWalkerInit()
 	rightLeg.armSprite = sRectRound1;
 	
 	// Arm lerps
-	armLerpSpeed = 0.02;
+	armLerpSpeed = 0.04;
 	leftArmPrevOffset = new Vector2();
 	leftArmGoalOffset = new Vector2();
 	leftArmLerpAmnt = 0;

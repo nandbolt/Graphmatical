@@ -19,6 +19,7 @@ rotationSpeed = 0.05;
 
 // Graphs
 ignoreGraphs = true;
+touchingGraph = false;
 
 // Gravity
 normalGravityStrength = 0.05;
