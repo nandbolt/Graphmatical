@@ -121,12 +121,26 @@ switch (currentState)
 		// If you have a ride
 		if (instance_exists(ride))
 		{
-			// Move to ride
+			// Reset velocity
 			velocity.x = 0;
 			velocity.y = 0;
+			
+			// Check if you wanna rock the boat
+			with (ride)
+			{
+				if (touchingGraph || grounded || nearGround)
+				{
+					if (other.inputMove.x != 0) inputDirection.x = other.inputMove.x;
+					velocity.x += other.inputMove.x * 0.5;
+					velocity.y += other.inputMove.y * 0.05;
+				}
+			}
+			
+			// Move to ride
 			x = ride.x;
 			y = ride.y;
 		}
+		else toggleRide(noone);
 		break;
 	case HumanState.FLY:
 		#region Apply Move Input

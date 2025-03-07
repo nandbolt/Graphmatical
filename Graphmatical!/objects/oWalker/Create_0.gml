@@ -39,6 +39,15 @@ isVisible = true;
 
 #region Functions
 
+/// @func	interactPressed();
+interactPressed = function()
+{
+	with (oPlayer)
+	{
+		toggleRide(other.id);
+	}
+}
+
 ///	@func	updateNearGround();
 updateNearGround = function()
 {

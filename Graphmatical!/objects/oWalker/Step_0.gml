@@ -49,10 +49,10 @@ if (!grounded && instance_exists(oAxes))
 					if (rbTileCollisionAtPoint(_groundX, _groundY) == -1)
 					{
 						// Calculate velocity
-						velocity.x = _groundX - x;
-						velocity.y = _groundY - y;
-						velocity.normalize();
-						velocity.scale(crawlSpeed);
+						var _v = new Vector2(_groundX - x, _groundY - y);
+						_v.normalize();
+						_v.scale(crawlSpeed);
+						velocity.set(lerp(velocity.x, _v.x, 0.5), lerp(velocity.y, _v.y, 0.5));
 					
 						// On graph bool
 						touchingGraph = true;
@@ -79,7 +79,7 @@ if (!touchingGraph && (grounded || nearGround))
 	else velocity.y = lerp(velocity.y, 0, 0.02);
 	
 	// Apply input
-	velocity.x = inputDirection.x * crawlSpeed;
+	velocity.x = lerp(velocity.x, inputDirection.x * crawlSpeed, 0.5);
 }
 
 // Gravity
@@ -96,3 +96,5 @@ if (isVisible) ikhWalkerUpdate();
 // Rotate
 var _diff = angle_difference(velocity.getAngleDegrees(), imageAngle);
 imageAngle += _diff * rotationSpeed;
+if (imageAngle > 180) imageAngle -= 360;
+else if (imageAngle < -180) imageAngle += 360;

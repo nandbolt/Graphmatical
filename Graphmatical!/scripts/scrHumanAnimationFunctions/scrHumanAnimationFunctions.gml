@@ -88,6 +88,11 @@ function ikhDraw()
 		// Left side is back
 		leftArm.color = #b3b9d1;
 		leftLeg.color = #b3b9d1;
+		if (currentState == HumanState.RIDE)
+		{
+			leftArm.color = c_white;
+			leftLeg.color = c_white;
+		}
 		leftArm.draw();
 		leftLeg.draw();
 	}
@@ -96,6 +101,11 @@ function ikhDraw()
 		// Right side is back
 		rightArm.color = #b3b9d1;
 		rightLeg.color = #b3b9d1;
+		if (currentState == HumanState.RIDE)
+		{
+			rightArm.color = c_white;
+			rightLeg.color = c_white;
+		}
 		rightArm.draw();
 		rightLeg.draw();
 	}
@@ -139,7 +149,16 @@ function ikhDrawDebug()
 /// @desc	Updates the current animation state.
 function ikhUpdateAnimState()
 {
-	if (grounded)
+	if (currentState == HumanState.RIDE)
+	{
+		// On entering ride
+		if (currentAnimationState != HumanAnimationState.RIDE) currentAnimationStateName = "Ride";
+				
+		// Ride
+		currentAnimationState = HumanAnimationState.RIDE;
+		currentAnimationFunc = ikhAnimRide;
+	}
+	else if (grounded)
 	{
 		if (velocity.isZero())
 		{
@@ -585,4 +604,55 @@ function ikhAnimFall()
 	neckPosition.y = lerp(neckPosition.y, y - 4, 0.75);
 	hipPosition.x = x;
 	hipPosition.y = lerp(hipPosition.y, y, 0.75);
+}
+
+/// @func	ikhAnimRide();
+/// @desc	Runs the riding animation (on a walker).
+function ikhAnimRide()
+{
+	// Exit if no ride
+	if (!instance_exists(ride)) return;
+	
+	// Y drag
+	var _yDrag = clamp(ride.velocity.y, 0, 1);
+	var _xDrag = clamp(ride.velocity.x, 0, 1);
+		
+	// Facing direction
+	if (ride.sprite_index == sWalker)
+	{
+		// Orientation
+		rightArm.flippedArm = false;
+		leftArm.flippedArm = true;
+		rightLeg.flippedArm = true;
+		leftLeg.flippedArm = false;
+	}
+	else if (ride.imageAngle > -90 && ride.imageAngle < 90)
+	{
+		// Orientation
+		rightArm.flippedArm = false;
+		leftArm.flippedArm = false;
+		rightLeg.flippedArm = true;
+		leftLeg.flippedArm = true;
+	}
+	else
+	{
+		// Orientation
+		rightArm.flippedArm = true;
+		leftArm.flippedArm = true;
+		rightLeg.flippedArm = false;
+		leftLeg.flippedArm = false;
+	}
+	
+	// Arm targets
+	rightArm.moveTarget(ride.rightArmPos.x, ride.rightArmPos.y);
+	leftArm.moveTarget(ride.leftArmPos.x, ride.leftArmPos.y);
+	rightLeg.moveTarget(ride.rightLegPos.x, ride.rightLegPos.y);
+	leftLeg.moveTarget(ride.leftLegPos.x, ride.leftLegPos.y);
+			
+	// Neck + hip
+	var _rideDX = lengthdir_x(2, ride.imageAngle), _rideDY = lengthdir_y(2, ride.imageAngle);
+	neckPosition.x = lerp(neckPosition.x, ride.x + _rideDX - _xDrag, 0.75);
+	neckPosition.y = lerp(neckPosition.y, ride.y + _rideDY - _yDrag, 0.75);
+	hipPosition.x = lerp(hipPosition.x, ride.x - _rideDX - _xDrag, 0.75);
+	hipPosition.y = lerp(hipPosition.y, ride.y - _rideDY - _yDrag, 0.75);
 }

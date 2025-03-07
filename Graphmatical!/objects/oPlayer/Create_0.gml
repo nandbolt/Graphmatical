@@ -109,4 +109,25 @@ emitBodyParticles = function()
 	}
 }
 
+///	@func	toggleRide(ride);
+///	@param	{Inst.Id}	ride	Your potential new ride.
+///	@desc	Transitions the player to the riding state.
+toggleRide = function(_ride)
+{
+	if (currentState == HumanState.RIDE)
+	{
+		// Get off ride
+		currentState = HumanState.NORMAL;
+		ride = noone;
+		gravityStrength = normalGravity;
+	}
+	else
+	{
+		// Get on ride
+		currentState = HumanState.RIDE;
+		ride = _ride;
+		gravityStrength = 0;
+	}
+}
+
 #endregion
