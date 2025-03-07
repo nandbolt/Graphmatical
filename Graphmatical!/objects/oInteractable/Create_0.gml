@@ -2,6 +2,7 @@
 interactable = true;
 playerNear = false;
 rotates = false;
+glitched = false;
 
 // Info
 name = "";

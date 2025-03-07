@@ -44,6 +44,7 @@
     {"id":{"name":"oSign","path":"objects/oSign/oSign.yy",},"order":2,},
     {"id":{"name":"oInteractable","path":"objects/oInteractable/oInteractable.yy",},"order":2,},
     {"id":{"name":"oGoalFlag","path":"objects/oGoalFlag/oGoalFlag.yy",},"order":2,},
+    {"id":{"name":"sBallSpike","path":"sprites/sBallSpike/sBallSpike.yy",},"order":3,},
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},"order":0,},
     {"id":{"name":"scrGrapherChooseMenuStruct","path":"scripts/scrGrapherChooseMenuStruct/scrGrapherChooseMenuStruct.yy",},"order":0,},
     {"id":{"name":"sTerminal","path":"sprites/sTerminal/sTerminal.yy",},"order":0,},
@@ -75,6 +76,7 @@
     {"id":{"name":"oSpawnFlag","path":"objects/oSpawnFlag/oSpawnFlag.yy",},"order":1,},
     {"id":{"name":"scrBinaryTreeNodeStruct","path":"scripts/scrBinaryTreeNodeStruct/scrBinaryTreeNodeStruct.yy",},"order":1,},
     {"id":{"name":"sBall","path":"sprites/sBall/sBall.yy",},"order":0,},
+    {"id":{"name":"oBallSpike","path":"objects/oBallSpike/oBallSpike.yy",},"order":0,},
     {"id":{"name":"oLevelEmpty","path":"objects/oLevelEmpty/oLevelEmpty.yy",},"order":4,},
     {"id":{"name":"rEmptyLevel","path":"rooms/rEmptyLevel/rEmptyLevel.yy",},"order":3,},
     {"id":{"name":"be_scrFloorContactGenStruct","path":"scripts/be_scrFloorContactGenStruct/be_scrFloorContactGenStruct.yy",},"order":1,},
@@ -292,6 +294,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"BoxPusher","folderPath":"folders/Tile Sets/BE/Demos/BoxPusher.yy","order":1,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Platformer","folderPath":"folders/Tile Sets/BE/Demos/Platformer.yy","order":2,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy","order":8,},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Balls","folderPath":"folders/Objects/Level/Interactables/Ball/Balls.yy","order":4,},
   ],
   "AudioGroups": [
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
