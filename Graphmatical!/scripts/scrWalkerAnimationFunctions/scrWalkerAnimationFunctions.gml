@@ -123,6 +123,13 @@ function ikhWalkerDraw()
 		rightLeg.flippedArm = false;
 		leftArm.draw();
 		leftLeg.draw();
+		if (sprite_index == sWalker)
+		{
+			rightArm.color = #757C93;
+			rightLeg.color = #757C93;
+			rightArm.draw();
+			rightLeg.draw();
+		}
 	}
 	else
 	{
@@ -135,25 +142,35 @@ function ikhWalkerDraw()
 		rightLeg.flippedArm = true;
 		rightArm.draw();
 		rightLeg.draw();
+		if (sprite_index == sWalker)
+		{
+			leftArm.color = #757C93;
+			leftLeg.color = #757C93;
+			leftArm.draw();
+			leftLeg.draw();
+		}
 	}
 	
 	// Inherit the parent event
 	event_inherited();
 	
 	// Front limbs
-	if (imageAngle > -90 && imageAngle < 90)
+	if (sprite_index == sWalkerSide)
 	{
-		rightArm.color = #8B93AF;
-		rightLeg.color = #8B93AF;
-		rightArm.draw();
-		rightLeg.draw();
-	}
-	else
-	{
-		leftArm.color = #8B93AF;
-		leftLeg.color = #8B93AF;
-		leftArm.draw();
-		leftLeg.draw();
+		if (imageAngle > -90 && imageAngle < 90)
+		{
+			rightArm.color = #8B93AF;
+			rightLeg.color = #8B93AF;
+			rightArm.draw();
+			rightLeg.draw();
+		}
+		else
+		{
+			leftArm.color = #8B93AF;
+			leftLeg.color = #8B93AF;
+			leftArm.draw();
+			leftLeg.draw();
+		}
 	}
 }
 
@@ -176,7 +193,7 @@ function ikhWalkerDrawDebug()
 /// @desc	Updates the current animation state.
 function ikhWalkerUpdateAnimState()
 {
-	if (nearGround)
+	if (nearGround || touchingGraph)
 	{
 		// On entering crawl
 		if (currentAnimationState != WalkerAnimationState.CRAWL) currentAnimationStateName = "Crawl";
@@ -251,8 +268,16 @@ function ikhWalkerAnimCrawl()
 		if (rightArm.getTargetDistance() > rightArm.rootArmLength + rightArm.elbowArmLength)
 		{
 			rightArmPrevOffset.set(rightArm.handPosition.x - rightArm.rootJoint.x, rightArm.handPosition.y - rightArm.rootJoint.y);
-			if (imageAngle > -90 && imageAngle < 90) rightArmGoalOffset.set(bbox_right + 12 - rightArm.rootJoint.x, groundY - rightArm.rootJoint.y);
-			else rightArmGoalOffset.set(bbox_left - 12 - rightArm.rootJoint.x, groundY - rightArm.rootJoint.y);
+			var _groundX = bbox_right + 12, _groundY = groundY;
+			if (touchingGraph)
+			{
+				if (imageAngle > -90 && imageAngle < 90) _groundX = bbox_right + 8;
+				else _groundX = bbox_left - 8;
+				var _groundAxisY = groundEquation.evaluate(xToAxisX(groundAxes, _groundX));
+				if (!is_string(_groundAxisY)) _groundY = axisYtoY(groundAxes, _groundAxisY);
+			}
+			else if (!(imageAngle > -90 && imageAngle < 90)) _groundX = bbox_left - 12;
+			rightArmGoalOffset.set(_groundX - rightArm.rootJoint.x, _groundY - rightArm.rootJoint.y);
 			rightArmLerpAmnt = 0;
 		}
 	}
@@ -271,8 +296,16 @@ function ikhWalkerAnimCrawl()
 		if (leftArm.getTargetDistance() > leftArm.rootArmLength + leftArm.elbowArmLength)
 		{
 			leftArmPrevOffset.set(leftArm.handPosition.x - leftArm.rootJoint.x, leftArm.handPosition.y - leftArm.rootJoint.y);
-			if (imageAngle > -90 && imageAngle < 90) leftArmGoalOffset.set(bbox_right + 12 - leftArm.rootJoint.x, groundY - leftArm.rootJoint.y);
-			else leftArmGoalOffset.set(bbox_left - 12 - leftArm.rootJoint.x, groundY - leftArm.rootJoint.y);
+			var _groundX = bbox_right + 12, _groundY = groundY;
+			if (touchingGraph)
+			{
+				if (imageAngle > -90 && imageAngle < 90) _groundX = bbox_right + 8;
+				else _groundX = bbox_left - 8;
+				var _groundAxisY = groundEquation.evaluate(xToAxisX(groundAxes, _groundX));
+				if (!is_string(_groundAxisY)) _groundY = axisYtoY(groundAxes, _groundAxisY);
+			}
+			else if (!(imageAngle > -90 && imageAngle < 90)) _groundX = bbox_left - 12;
+			leftArmGoalOffset.set(_groundX - leftArm.rootJoint.x, _groundY - leftArm.rootJoint.y);
 			leftArmLerpAmnt = 0;
 		}
 	}
@@ -291,8 +324,16 @@ function ikhWalkerAnimCrawl()
 		if (rightLeg.getTargetDistance() > rightLeg.rootArmLength + rightLeg.elbowArmLength)
 		{
 			rightLegPrevOffset.set(rightLeg.handPosition.x - rightLeg.rootJoint.x, rightLeg.handPosition.y - rightLeg.rootJoint.y);
-			if (imageAngle > -90 && imageAngle < 90) rightLegGoalOffset.set(bbox_left + 12 - rightLeg.rootJoint.x, groundY - rightLeg.rootJoint.y);
-			else rightLegGoalOffset.set(bbox_right - 12 - rightLeg.rootJoint.x, groundY - rightLeg.rootJoint.y);
+			var _groundX = bbox_left + 12, _groundY = groundY;
+			if (touchingGraph)
+			{
+				if (imageAngle > -90 && imageAngle < 90) _groundX = bbox_left + 8;
+				else _groundX = bbox_right - 8;
+				var _groundAxisY = groundEquation.evaluate(xToAxisX(groundAxes, _groundX));
+				if (!is_string(_groundAxisY)) _groundY = axisYtoY(groundAxes, _groundAxisY);
+			}
+			else if (!(imageAngle > -90 && imageAngle < 90)) _groundX = bbox_right - 12;
+			rightLegGoalOffset.set(_groundX - rightLeg.rootJoint.x, _groundY - rightLeg.rootJoint.y);
 			rightLegLerpAmnt = 0;
 		}
 	}
@@ -311,8 +352,16 @@ function ikhWalkerAnimCrawl()
 		if (leftLeg.getTargetDistance() > leftLeg.rootArmLength + leftLeg.elbowArmLength)
 		{
 			leftLegPrevOffset.set(leftLeg.handPosition.x - leftLeg.rootJoint.x, leftLeg.handPosition.y - leftLeg.rootJoint.y);
-			if (imageAngle > -90 && imageAngle < 90) leftLegGoalOffset.set(bbox_left + 12 - leftLeg.rootJoint.x, groundY - leftLeg.rootJoint.y);
-			else leftLegGoalOffset.set(bbox_right - 12 - leftLeg.rootJoint.x, groundY - leftLeg.rootJoint.y);
+			var _groundX = bbox_left + 12, _groundY = groundY;
+			if (touchingGraph)
+			{
+				if (imageAngle > -90 && imageAngle < 90) _groundX = bbox_left + 8;
+				else _groundX = bbox_right - 8;
+				var _groundAxisY = groundEquation.evaluate(xToAxisX(groundAxes, _groundX));
+				if (!is_string(_groundAxisY)) _groundY = axisYtoY(groundAxes, _groundAxisY);
+			}
+			else if (!(imageAngle > -90 && imageAngle < 90)) _groundX = bbox_right - 12;
+			leftLegGoalOffset.set(_groundX - leftLeg.rootJoint.x, _groundY - leftLeg.rootJoint.y);
 			leftLegLerpAmnt = 0;
 		}
 	}

@@ -29,6 +29,8 @@ nearGround = false;
 groundY = 0;
 nearGroundGoalYMin = 0;
 nearGroundGoalYMax = 0;
+groundAxes = noone;
+groundEquation = undefined;
 
 // Walls
 rightWall = false;

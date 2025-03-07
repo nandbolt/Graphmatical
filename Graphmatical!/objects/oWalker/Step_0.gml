@@ -18,6 +18,8 @@ else if (leftWall) inputDirection.x = 1;
 
 // Get graph colliding with
 touchingGraph = false;
+groundAxes = noone;
+groundEquation = undefined;
 if (!grounded && instance_exists(oAxes))
 {
 	// Check if graph 
@@ -56,6 +58,8 @@ if (!grounded && instance_exists(oAxes))
 					
 						// On graph bool
 						touchingGraph = true;
+						groundAxes = _axes;
+						groundEquation = _axes.equations[_i];
 					}
 				}
 				
