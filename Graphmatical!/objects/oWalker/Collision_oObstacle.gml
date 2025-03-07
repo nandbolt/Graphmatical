@@ -1,0 +1,2 @@
+// Dead state
+dead = true;

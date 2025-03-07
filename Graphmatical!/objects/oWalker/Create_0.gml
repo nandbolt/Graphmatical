@@ -56,4 +56,20 @@ updateNearGround = function()
 	nearGround = rbTileCollisionAtPoint(x, bbox_bottom + HALF_TILE_SIZE) != -1;
 }
 
+/// @func	die();
+die = function()
+{
+	// Death
+	for (var _i = 0; _i < 9; _i++)
+	{
+		var _x = irandom_range(x - 8, x + 8), _y = irandom_range(y - 8, y + 8);
+		with (oParticleManager)
+		{
+			part_particles_create_color(partSystem, _x, _y, partTypeDust, #8B93AF, 1);
+		}
+	}
+	audio_play_sound(sfxHurt, 2, false);
+	instance_destroy();
+}
+
 #endregion
