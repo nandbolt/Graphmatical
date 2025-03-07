@@ -1,2 +1,2 @@
 // Glitched
-if (other.glitched) dead = true;
+if (!glitched && other.glitched) dead = true;

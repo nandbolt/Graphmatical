@@ -9,6 +9,12 @@ function ikhWalkerInit()
 	animationCounter = 0;
 	animationSpeed = 0.1;
 	
+	// Sprites
+	topSprite = sWalker;
+	sideSprite = sWalkerSide;
+	backLimbColor = #757C93;
+	frontLimbColor = #8B93AF;
+	
 	// Arms (general)
 	armOffsetTop = 6;
 	armOffsetSide = armOffsetTop * dcos(45);
@@ -115,18 +121,18 @@ function ikhWalkerDraw()
 	if (imageAngle > -90 && imageAngle < 90)
 	{
 		image_yscale = 1;
-		leftArm.color = #757C93;
-		leftLeg.color = #757C93;
+		leftArm.color = backLimbColor;
+		leftLeg.color = backLimbColor;
 		leftArm.flippedArm = true;
 		leftLeg.flippedArm = false;
 		rightArm.flippedArm = true;
 		rightLeg.flippedArm = false;
 		leftArm.draw();
 		leftLeg.draw();
-		if (sprite_index == sWalker)
+		if (sprite_index == topSprite)
 		{
-			rightArm.color = #757C93;
-			rightLeg.color = #757C93;
+			rightArm.color = backLimbColor;
+			rightLeg.color = backLimbColor;
 			rightArm.draw();
 			rightLeg.draw();
 		}
@@ -134,18 +140,18 @@ function ikhWalkerDraw()
 	else
 	{
 		image_yscale = -1;
-		rightArm.color = #757C93;
-		rightLeg.color = #757C93;
+		rightArm.color = backLimbColor;
+		rightLeg.color = backLimbColor;
 		leftArm.flippedArm = false;
 		leftLeg.flippedArm = true;
 		rightArm.flippedArm = false;
 		rightLeg.flippedArm = true;
 		rightArm.draw();
 		rightLeg.draw();
-		if (sprite_index == sWalker)
+		if (sprite_index == topSprite)
 		{
-			leftArm.color = #757C93;
-			leftLeg.color = #757C93;
+			leftArm.color = backLimbColor;
+			leftLeg.color = backLimbColor;
 			leftArm.draw();
 			leftLeg.draw();
 		}
@@ -155,19 +161,19 @@ function ikhWalkerDraw()
 	event_inherited();
 	
 	// Front limbs
-	if (sprite_index == sWalkerSide)
+	if (sprite_index == sideSprite)
 	{
 		if (imageAngle > -90 && imageAngle < 90)
 		{
-			rightArm.color = #8B93AF;
-			rightLeg.color = #8B93AF;
+			rightArm.color = frontLimbColor;
+			rightLeg.color = frontLimbColor;
 			rightArm.draw();
 			rightLeg.draw();
 		}
 		else
 		{
-			leftArm.color = #8B93AF;
-			leftLeg.color = #8B93AF;
+			leftArm.color = frontLimbColor;
+			leftLeg.color = frontLimbColor;
 			leftArm.draw();
 			leftLeg.draw();
 		}
@@ -230,7 +236,7 @@ function ikhWalkerAnimCrawl()
 	if (nearGround)
 	{
 		// Side view
-		sprite_index = sWalkerSide;
+		sprite_index = sideSprite;
 		_leftArmAngle = imageAngle;
 		_rightArmAngle = imageAngle;
 		_leftLegAngle = imageAngle + 180;
@@ -240,7 +246,7 @@ function ikhWalkerAnimCrawl()
 	else
 	{
 		// Top view
-		sprite_index = sWalker;
+		sprite_index = topSprite;
 		_leftArmAngle = imageAngle + 45;
 		_rightArmAngle = imageAngle - 45;
 		_leftLegAngle = imageAngle + 135;
@@ -390,7 +396,7 @@ function ikhWalkerAnimFall()
 	#region Arm Offsets
 	
 	// Top view
-	sprite_index = sWalker;
+	sprite_index = topSprite;
 	
 	// Set offset
 	leftArmOffset.set(lerp(leftArmOffset.x, lengthdir_x(armOffsetTop, imageAngle + 45), 0.1),

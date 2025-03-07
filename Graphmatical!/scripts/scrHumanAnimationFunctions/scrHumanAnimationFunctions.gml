@@ -618,7 +618,7 @@ function ikhAnimRide()
 	var _xDrag = clamp(ride.velocity.x, 0, 1);
 		
 	// Facing direction
-	if (ride.sprite_index == sWalker)
+	if (ride.sprite_index == ride.topSprite)
 	{
 		// Orientation
 		rightArm.flippedArm = false;
