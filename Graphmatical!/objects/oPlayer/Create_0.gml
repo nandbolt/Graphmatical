@@ -2,6 +2,7 @@
 
 // States
 canMove = true;
+currentState = HumanState.NORMAL;
 
 // Rigid body
 rbInit();
@@ -27,6 +28,7 @@ jumpBufferCounter = 0;
 coyoteBuffer = 10;
 coyoteBufferCounter = 0;
 smallJumpStrength = 0.1;
+normalGravity = gravityStrength;
 
 // Resistances
 runGroundConstant = 0.1;
@@ -35,6 +37,9 @@ slideGroundConstant = 0.02;
 // Editor
 inputEditorPressed = false;
 currentEditor = oPauser;
+
+// Riding
+ride = noone;
 
 #region Functions
 

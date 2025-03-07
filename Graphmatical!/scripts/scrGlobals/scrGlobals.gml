@@ -20,6 +20,13 @@ global.customLevelIdx = -1;
 
 #region Enums
 
+enum HumanState
+{
+	NORMAL,
+	RIDE,
+	FLY,
+}
+
 enum HumanAnimationState
 {
 	IDLE,
@@ -28,6 +35,8 @@ enum HumanAnimationState
 	SLIDE,
 	FALL,
 	JUMP,
+	FLY,
+	RIDE,
 }
 
 enum WalkerAnimationState

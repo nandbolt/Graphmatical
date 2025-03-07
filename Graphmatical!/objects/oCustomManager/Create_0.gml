@@ -140,7 +140,7 @@ loadLevel = function()
 			while (array_length(_flagData) > 0)
 			{
 				var _flag = array_pop(_flagData);
-				if (is_struct(_flag))
+				if (is_struct(_flag) && object_exists(_flag.obj))
 				{
 					if (_flag.obj == oSpawnFlag)
 					{

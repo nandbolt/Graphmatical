@@ -5,4 +5,6 @@ draw_set_color(c_white);
 var _x = 8, _y = display_get_gui_height() - 20;
 draw_text(_x, _y, "save level: ctrl + s");
 _y -= 16;
+draw_text(_x, _y, "fly: shift + space");
+_y -= 16;
 draw_text(_x, _y, "edit mode");

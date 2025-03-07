@@ -69,41 +69,91 @@ if (inputEditorPressed)
 	}
 }
 
-// Ignore graphs
-if (inputCrouch && inputJump) ignoreGraphs = true;
-else ignoreGraphs = false;
+// State logic
+switch (currentState)
+{
+	case HumanState.NORMAL:
+		// Ignore graphs
+		if (inputCrouch && inputJump) ignoreGraphs = true;
+		else ignoreGraphs = false;
 
-#region Apply Move Input
+		#region Apply Move Input
 
-// Calculate strengths
-var _moveStrength = runStrength;
-if (inputCrouch) _moveStrength = 0;
-if (!grounded) _moveStrength = driftStrength;
+		// Calculate strengths
+		var _moveStrength = runStrength;
+		if (inputCrouch) _moveStrength = 0;
+		if (!grounded) _moveStrength = driftStrength;
 
-// Apply input
-velocity.x += inputMove.x * _moveStrength;
+		// Apply input
+		velocity.x += inputMove.x * _moveStrength;
 
-#endregion
+		#endregion
 
-// Resistances
-if (inputCrouch) groundConstant = slideGroundConstant;
-else groundConstant = runGroundConstant;
+		// Resistances
+		if (inputCrouch) groundConstant = slideGroundConstant;
+		else groundConstant = runGroundConstant;
 
-#region Jump
+		#region Jump
 
-// Set coyote jump
-if (!grounded) coyoteBufferCounter = clamp(coyoteBufferCounter-1, 0, coyoteBuffer);
-else coyoteBufferCounter = coyoteBuffer;
+		// Set coyote jump
+		if (!grounded) coyoteBufferCounter = clamp(coyoteBufferCounter-1, 0, coyoteBuffer);
+		else coyoteBufferCounter = coyoteBuffer;
 
-// Set jump buffer
-if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
-else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
+		// Set jump buffer
+		if (inputJumpPressed && !inputCrouch) jumpBufferCounter = jumpBuffer;
+		else jumpBufferCounter = clamp(jumpBufferCounter-1, 0, jumpBuffer);
 
-// Jump if initiated
-if (jumpBufferCounter > 0 && (grounded || coyoteBufferCounter > 0)) jump();
-else if (!grounded && !inputJump && velocity.y < 0) velocity.y += smallJumpStrength;
+		// Jump if initiated
+		if (jumpBufferCounter > 0 && (grounded || coyoteBufferCounter > 0)) jump();
+		else if (!grounded && !inputJump && velocity.y < 0) velocity.y += smallJumpStrength;
 
-#endregion
+		#endregion
+		
+		// NORMAL -> FLY
+		if (inputJumpPressed && keyboard_check(vk_shift) && global.editMode)
+		{
+			currentState = HumanState.FLY;
+			ignoreGraphs = true;
+			gravityStrength = 0;
+		}
+		break;
+	case HumanState.RIDE:
+		// If you have a ride
+		if (instance_exists(ride))
+		{
+			// Move to ride
+			velocity.x = 0;
+			velocity.y = 0;
+			x = ride.x;
+			y = ride.y;
+		}
+		break;
+	case HumanState.FLY:
+		#region Apply Move Input
+		
+		// Apply input
+		if (inputMove.getLength() > 0)
+		{
+			velocity.x += inputMove.x * runStrength;
+			velocity.y += inputMove.y * runStrength;
+		}
+		else
+		{
+			velocity.x = lerp(velocity.x, 0, 0.1);
+			velocity.y = lerp(velocity.y, 0, 0.1);
+		}
+
+		#endregion
+		
+		// FLY -> NORMAL
+		if (inputJumpPressed && keyboard_check(vk_space))
+		{
+			currentState = HumanState.NORMAL;
+			ignoreGraphs = false;
+			gravityStrength = normalGravity;
+		}
+		break;
+}
 
 // Update rigid body movements
 rbUpdate();
