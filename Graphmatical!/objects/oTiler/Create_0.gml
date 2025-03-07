@@ -10,7 +10,7 @@ currentIdx = 1;
 currentSprite = noone;
 previousTile = 0;
 lastTileIdx = 6;
-objectCount = 8;
+objectCount = 9;
 maxIdx = lastTileIdx + objectCount;
 
 #region Functions
@@ -50,12 +50,10 @@ toggleTile = function()
 		// Get instance collisions
 		var _interactable = instance_place(x, y, oInteractable);
 		var _obstacle = instance_place(x, y, oObstacle);
-		var _spawnPoint = instance_place(x, y, oSpawnPoint);
 		
 		// If collision
 		if (_interactable != noone) instance_destroy(_interactable);
 		else if (_obstacle != noone) instance_destroy(_obstacle);
-		else if (_spawnPoint != noone) instance_destroy(_spawnPoint);
 		else
 		{
 			// If trying to place something other than a tile
@@ -79,6 +77,7 @@ toggleTile = function()
 				}
 				else if (currentIdx == (lastTileIdx + 7)) _obj = oBallLauncher;
 				else if (currentIdx == (lastTileIdx + 8)) _obj = oTerminalGrapher;
+				else if (currentIdx == (lastTileIdx + 9)) _obj = oWalkerSpawnPoint;
 				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
@@ -128,6 +127,7 @@ cycleIdx = function(_idx)
 		else if (currentIdx == (lastTileIdx + 6)) currentSprite = sBall;
 		else if (currentIdx == (lastTileIdx + 7)) currentSprite = sBallCannon;
 		else if (currentIdx == (lastTileIdx + 8)) currentSprite = sTerminal;
+		else if (currentIdx == (lastTileIdx + 9)) currentSprite = sWalker;
 	}
 	
 	// Cycle sound

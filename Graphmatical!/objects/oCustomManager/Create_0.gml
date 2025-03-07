@@ -266,11 +266,28 @@ loadLevel = function()
 					var _obj = oBall;
 					if (object_index == oCustomEditorManager)
 					{
+						// Spawn point
 						_obj = oBallSpawnPoint;
+						switch (_sp.type)
+						{
+							case 1:
+								_obj = oWalkerSpawnPoint;
+								break;
+						}
+					}
+					else
+					{
+						// Actual object
+						switch (_sp.type)
+						{
+							case 1:
+								_obj = oWalker;
+								break;
+						}
 					}
 					with (instance_create_layer(_sp.x, _sp.y, "Instances", _obj))
 					{
-						image_angle = _sp.angle;
+						imageAngle = _sp.angle;
 					}
 				}
 			}

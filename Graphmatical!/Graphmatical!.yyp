@@ -36,6 +36,7 @@
     {"id":{"name":"scrWalkerAnimationFunctions","path":"scripts/scrWalkerAnimationFunctions/scrWalkerAnimationFunctions.yy",},"order":2,},
     {"id":{"name":"be_scrContactStruct","path":"scripts/be_scrContactStruct/be_scrContactStruct.yy",},"order":6,},
     {"id":{"name":"scrMenuStruct","path":"scripts/scrMenuStruct/scrMenuStruct.yy",},"order":3,},
+    {"id":{"name":"oWalkerSpawnPoint","path":"objects/oWalkerSpawnPoint/oWalkerSpawnPoint.yy",},"order":1,},
     {"id":{"name":"oPortal","path":"objects/oPortal/oPortal.yy",},"order":0,},
     {"id":{"name":"scrTilerMenuStruct","path":"scripts/scrTilerMenuStruct/scrTilerMenuStruct.yy",},"order":0,},
     {"id":{"name":"be_scrBoxStruct","path":"scripts/be_scrBoxStruct/be_scrBoxStruct.yy",},"order":3,},

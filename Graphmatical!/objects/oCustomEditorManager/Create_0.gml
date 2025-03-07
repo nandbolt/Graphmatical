@@ -171,6 +171,12 @@ saveLevel = function()
 	with (oSpawnPoint)
 	{
 		var _type = 0;
+		switch (object_index)
+		{
+			case oWalkerSpawnPoint:
+				_type = 1;
+				break;
+		}
 		var _sp =
 		{
 			x : x,
