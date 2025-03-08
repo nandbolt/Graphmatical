@@ -1,3 +1,6 @@
+// Aspect
+aspect = 9 / 16;
+
 // GUI
 baseGuiWidth = 640;
 baseGuiHeight = 360;

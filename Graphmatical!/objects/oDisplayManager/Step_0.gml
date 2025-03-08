@@ -13,9 +13,10 @@ if (keyboard_check_pressed(vk_f11))
 	{
 		// Toggle fullscreen
 		window_set_fullscreen(true);
+		var _w = display_get_width(), _h = display_get_width() * aspect;
 		worleyWidth = display_get_width() * 0.75;
 		worleyHeight = display_get_height() * 0.75;
-		surface_resize(application_surface, display_get_width(), display_get_height());
+		surface_resize(application_surface, _w, _h);
 	}
 }
 
