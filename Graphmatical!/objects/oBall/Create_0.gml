@@ -84,3 +84,6 @@ die = function()
 
 // Hide name
 showName = false;
+
+// Set interactable alarm
+alarm[2] = 30;

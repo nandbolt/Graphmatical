@@ -1,2 +1,2 @@
 // Glitched
-if (other.glitched) dead = true;
+if (alarm[0] == -1 && other.glitched && currentState != HumanState.FLY) dead = true;

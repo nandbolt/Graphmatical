@@ -131,3 +131,6 @@ toggleRide = function(_ride)
 }
 
 #endregion
+
+// Start spawn timer
+alarm[0] = 60;
