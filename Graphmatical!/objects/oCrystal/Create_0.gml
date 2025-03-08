@@ -8,11 +8,11 @@ active = true;
 residualPowerTime = 20;
 powerSource = noone;
 potentialSources = [oSpike, oBallSpike, oWalkerSpike];
-powerCheckFrequency = 5;
+powerCheckFrequency = 10;
 powerRadius = 16;
 
-///	@func	togglePower(on);
-togglePower = function(_on)
+///	@func	togglePower(on, source);
+togglePower = function(_on, _source=noone)
 {
 	if (sprite_index == sCrystal && _on)
 	{
@@ -30,6 +30,12 @@ togglePower = function(_on)
 		// Off audio
 		if (visibleToCamera(self.id)) audio_play_sound(sfxHurt, 10, false);
 	}
+	
+	// Source
+	powerSource = _source;
+	
+	// Alarm
+	alarm[1] = residualPowerTime;
 }
 
 ///	@func	interactPressed();

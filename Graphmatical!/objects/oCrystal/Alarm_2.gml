@@ -19,12 +19,25 @@ if (active)
 			}
 		}
 	}
-	if (instance_exists(_source) && _min <= powerRadius)
+	if (instance_exists(_source) && _min <= powerRadius) togglePower(true, _source);
+	else
 	{
-		// Found power source
-		powerSource = _source;
-		togglePower(true);
-		alarm[1] = residualPowerTime;
+		// Check graphs
+		if (place_meeting(x, y, oAxes))
+		{
+			var _axes = instance_place(x, y, oAxes);
+			if (_axes.material == GraphType.LASER)
+			{
+				for (var _i = 0; _i < array_length(_axes.equations); _i++)
+				{
+					if (graphTouching(_axes.equations[_i], self.id))
+					{
+						togglePower(true);
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 
