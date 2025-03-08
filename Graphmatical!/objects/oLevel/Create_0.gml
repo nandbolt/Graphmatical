@@ -23,6 +23,10 @@ endTime = 0;
 // Physics
 boxEngine = noone;
 
+// Cubes
+cubesCollected = 0;
+totalCubes = 0;
+
 #region Functions
 
 /// @func	moveSpawnPoint({real} x, {real} y);
