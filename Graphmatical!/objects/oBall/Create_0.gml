@@ -77,6 +77,7 @@ die = function()
 		part_particles_create(partSystem, other.x, other.y, partTypeDust, 3);
 	}
 	audio_play_sound(sfxHurt, 2, false);
+	oLevel.ballsDestroyed++;
 	instance_destroy();
 }
 

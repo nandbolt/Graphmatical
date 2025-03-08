@@ -23,6 +23,10 @@ endTime = 0;
 // Physics
 boxEngine = noone;
 
+// Balls
+ballsDestroyed = 0;
+totalBalls = 0;
+
 // Cubes
 cubesCollected = 0;
 totalCubes = 0;

@@ -182,6 +182,9 @@ saveLevel = function()
 			case oWalkerSpikeSpawnPoint:
 				_type = 3;
 				break;
+			case oCubeSpawnPoint:
+				_type = 4;
+				break;
 		}
 		var _sp =
 		{

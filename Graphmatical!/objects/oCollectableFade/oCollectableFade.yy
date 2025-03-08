@@ -33,6 +33,6 @@
   "overriddenProperties": [],
   "parent": {
     "name": "Collectables",
-    "path": "folders/Objects/Collectables.yy",
+    "path": "folders/Objects/Level/Collectables.yy",
   },
 }

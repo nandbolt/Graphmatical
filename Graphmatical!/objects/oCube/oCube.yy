@@ -33,7 +33,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Collectables",
-    "path": "folders/Objects/Collectables.yy",
+    "name": "Cube",
+    "path": "folders/Objects/Level/Collectables/Cube.yy",
   },
 }

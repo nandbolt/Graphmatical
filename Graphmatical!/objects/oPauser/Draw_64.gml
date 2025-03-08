@@ -10,7 +10,10 @@ draw_text(_x, _y, "Graphmatical!");
 draw_set_halign(fa_right);
 draw_set_valign(fa_top);
 draw_set_color(c_white);
-draw_text(display_get_gui_width() - 8, 4, "Cubes: " + string(oLevel.cubesCollected) + "/" + string(oLevel.totalCubes));
+_x = display_get_gui_width() - 16;
+draw_text(_x, _y, "Cubes collected: " + string(oLevel.cubesCollected) + "/" + string(oLevel.totalCubes));
+_y += 16;
+draw_text(_x, _y, "Balls destroyed: " + string(oLevel.ballsDestroyed) + "/" + string(oLevel.totalBalls));
 
 // Menu
 if (currentMenu != undefined) currentMenu.drawGui();

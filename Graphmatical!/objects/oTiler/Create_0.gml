@@ -10,7 +10,7 @@ currentIdx = 1;
 currentSprite = noone;
 previousTile = 0;
 lastTileIdx = 6;
-objectCount = 11;
+objectCount = 12;
 maxIdx = lastTileIdx + objectCount;
 
 #region Functions
@@ -80,6 +80,7 @@ toggleTile = function()
 				else if (currentIdx == (lastTileIdx + 9)) _obj = oWalkerSpawnPoint;
 				else if (currentIdx == (lastTileIdx + 10)) _obj = oBallSpikeSpawnPoint;
 				else if (currentIdx == (lastTileIdx + 11)) _obj = oWalkerSpikeSpawnPoint;
+				else if (currentIdx == (lastTileIdx + 12)) _obj = oCubeSpawnPoint;
 				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
@@ -132,6 +133,7 @@ cycleIdx = function(_idx)
 		else if (currentIdx == (lastTileIdx + 9)) currentSprite = sWalker;
 		else if (currentIdx == (lastTileIdx + 10)) currentSprite = sBallSpike;
 		else if (currentIdx == (lastTileIdx + 11)) currentSprite = sWalkerSpike;
+		else if (currentIdx == (lastTileIdx + 12)) currentSprite = sCube;
 	}
 	
 	// Cycle sound
