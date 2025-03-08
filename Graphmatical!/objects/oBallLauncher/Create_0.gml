@@ -19,7 +19,24 @@ loadOffset = new Vector2(loadOffsetLength, 0);
 interact = function()
 {
 	// Return if not loaded
-	if (loadedSprite == -1) return;
+	if (loadedSprite == -1)
+	{
+		// Load player
+		loadedSprite = sNoFlag;
+		sprite_index = sBallCannonLoaded;
+		if (instance_exists(oPlayer))
+		{
+			with (oPlayer)
+			{
+				currentState = HumanState.LOADED;
+				launcher = other.id;
+				gravityStrength = 0;
+			}
+		}
+		
+		// Load sfx
+		audio_play_sound(sfxButtonPressed, 5, false);
+	}
 	
 	// Charge
 	charging = true;
@@ -55,10 +72,27 @@ interactReleased = function()
 	
 	// Spawn ball
 	var _launchStrength = lerp(minLaunchStrength, maxLaunchStrength, charge / maxCharge);
-	with (instance_create_layer(x + loadOffset.x, y + loadOffset.y, "MiddleForegroundInstances", _obj))
+	if (loadedSprite != sNoFlag)
 	{
-		velocity.x = other.loadOffset.x * _launchStrength / other.loadOffsetLength;
-		velocity.y = other.loadOffset.y * _launchStrength / other.loadOffsetLength;
+		with (instance_create_layer(x + loadOffset.x, y + loadOffset.y, "MiddleForegroundInstances", _obj))
+		{
+			velocity.x = other.loadOffset.x * _launchStrength / other.loadOffsetLength;
+			velocity.y = other.loadOffset.y * _launchStrength / other.loadOffsetLength;
+		}
+	}
+	else
+	{
+		// Player launch
+		if (instance_exists(oPlayer))
+		{
+			with (oPlayer)
+			{
+				currentState = HumanState.NORMAL;
+				velocity.x = other.loadOffset.x * _launchStrength / other.loadOffsetLength * 2;
+				velocity.y = other.loadOffset.y * _launchStrength / other.loadOffsetLength * 2;
+				gravityStrength = normalGravity;
+			}
+		}
 	}
 	
 	// Ball launch sfx

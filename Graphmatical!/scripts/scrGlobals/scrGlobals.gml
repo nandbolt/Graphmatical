@@ -25,6 +25,7 @@ enum HumanState
 	NORMAL,
 	RIDE,
 	FLY,
+	LOADED,
 }
 
 enum HumanAnimationState
@@ -37,6 +38,7 @@ enum HumanAnimationState
 	JUMP,
 	FLY,
 	RIDE,
+	LOADED,
 }
 
 enum WalkerAnimationState

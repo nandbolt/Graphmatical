@@ -1,4 +1,11 @@
 // Load
+if (loadedSprite == sNoFlag && instance_exists(oPlayer))
+{
+	with (oPlayer)
+	{
+		ikhDraw();
+	}
+}
 if (loadedSprite != -1) draw_sprite_ext(loadedSprite, 0, x + loadOffset.x, y + loadOffset.y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 
 // Inherit the parent event

@@ -41,6 +41,9 @@ currentEditor = oPauser;
 // Riding
 ride = noone;
 
+// Launcher
+launcher = noone;
+
 #region Functions
 
 /// @func	jump();

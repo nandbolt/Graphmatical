@@ -149,7 +149,16 @@ function ikhDrawDebug()
 /// @desc	Updates the current animation state.
 function ikhUpdateAnimState()
 {
-	if (currentState == HumanState.RIDE)
+	if (currentState == HumanState.LOADED)
+	{
+		// On entering load
+		if (currentAnimationState != HumanAnimationState.LOADED) currentAnimationStateName = "Loaded";
+				
+		// Load
+		currentAnimationState = HumanAnimationState.LOADED;
+		currentAnimationFunc = ikhAnimLoaded;
+	}
+	else if (currentState == HumanState.RIDE)
 	{
 		// On entering ride
 		if (currentAnimationState != HumanAnimationState.RIDE) currentAnimationStateName = "Ride";
@@ -655,4 +664,44 @@ function ikhAnimRide()
 	neckPosition.y = lerp(neckPosition.y, ride.y + _rideDY - _yDrag, 0.75);
 	hipPosition.x = lerp(hipPosition.x, ride.x - _rideDX - _xDrag, 0.75);
 	hipPosition.y = lerp(hipPosition.y, ride.y - _rideDY - _yDrag, 0.75);
+}
+
+/// @func	ikhAnimLoaded();
+/// @desc	Runs the loaded animation (in a cannon).
+function ikhAnimLoaded()
+{
+	// Exit if no cannon
+	if (!instance_exists(launcher)) return;
+		
+	// Facing direction
+	var _cross = new Vector2(launcher.loadOffset.x * 0.5, launcher.loadOffset.y * 0.5);
+	_cross.rotateDegrees(90);
+	if (launcher.image_angle < 90 || launcher.image_angle > 270)
+	{
+		// Orientation
+		rightArm.flippedArm = true;
+		leftArm.flippedArm = false;
+		rightLeg.flippedArm = true;
+		leftLeg.flippedArm = true;
+	}
+	else
+	{
+		// Orientation
+		rightArm.flippedArm = true;
+		leftArm.flippedArm = false;
+		rightLeg.flippedArm = false;
+		leftLeg.flippedArm = false;
+	}
+	
+	// Arm targets
+	rightArm.moveTarget(launcher.x + launcher.loadOffset.x + _cross.x, launcher.y + launcher.loadOffset.y + _cross.y);
+	leftArm.moveTarget(launcher.x + launcher.loadOffset.x - _cross.x, launcher.y + launcher.loadOffset.y - _cross.y);
+	rightLeg.moveTarget(launcher.x, launcher.y);
+	leftLeg.moveTarget(launcher.x, launcher.y);
+			
+	// Neck + hip
+	neckPosition.x = launcher.x + launcher.loadOffset.x;
+	neckPosition.y = launcher.y + launcher.loadOffset.y;
+	hipPosition.x = launcher.x;
+	hipPosition.y = launcher.y;
 }

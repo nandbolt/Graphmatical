@@ -10,4 +10,14 @@ if (playerNear)
 		image_angle = clamp(image_angle - _rotation, -20, 200);
 		loadOffset.set(lengthdir_x(loadOffsetLength, image_angle), lengthdir_y(loadOffsetLength, image_angle));
 	}
+	
+	// Check move player for rotation
+	if (loadedSprite == sNoFlag && instance_exists(oPlayer))
+	{
+		with (oPlayer)
+		{
+			x = other.x + other.loadOffset.x;
+			y = other.y + other.loadOffset.y;
+		}
+	}
 }
