@@ -68,6 +68,7 @@ enum GraphType
 	NORMAL,
 	LASER,
 	BOUNCY,
+	DOTTED,
 }
 
 #endregion

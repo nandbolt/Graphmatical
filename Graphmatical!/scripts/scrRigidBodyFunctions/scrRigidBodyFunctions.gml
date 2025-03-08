@@ -337,6 +337,9 @@ function rbHandleSolidGraphCollision(_equation)
 	// Get axes
 	var _axes = _equation.axes;
 	
+	// Return if dotted axes
+	if (_axes.material == GraphType.DOTTED) return;
+	
 	// If x graph collisions
 	if (graphVectorGroundCollision(_equation, x, bbox_bottom, x + velocity.x, bbox_bottom + velocity.y))
 	{

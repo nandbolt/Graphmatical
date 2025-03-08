@@ -36,7 +36,7 @@ function GrapherEditMenu() : Menu() constructor
 	_width = 64;
 	if (!instance_exists(oGrapher.currentTerminal))
 	{
-		dropdownMaterial = new GuiDropdown("Material", _x, _y, ["Normal", "Laser", "Bouncy"], oGrapher.currentAxes.material, other.changeMaterial);
+		dropdownMaterial = new GuiDropdown("Material", _x, _y, ["Normal", "Laser", "Bouncy", "Dotted"], oGrapher.currentAxes.material, other.changeMaterial);
 		dropdownMaterial.width = _width;
 		dropdownMaterial.height = _height;
 	}

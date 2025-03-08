@@ -90,6 +90,12 @@ function Equation(_axes) constructor
 			_sprite = sLaser;
 		}
 		else if (axes.material == GraphType.BOUNCY) _color = #bc4a9b;
+		else if (axes.material == GraphType.DOTTED)
+		{
+			_color = c_white;
+			_alpha = 0.5;
+			_style = 1;
+		}
 		
 		// Loop through paths
 		var _pathCount = array_length(xGraphPaths);
