@@ -78,6 +78,7 @@ interactReleased = function()
 		{
 			velocity.x = other.loadOffset.x * _launchStrength / other.loadOffsetLength;
 			velocity.y = other.loadOffset.y * _launchStrength / other.loadOffsetLength;
+			if (_obj == oWalker || _obj == oWalkerSpike) inputDirection.x = (velocity.x > 0) ? 1 : -1;
 		}
 	}
 	else
