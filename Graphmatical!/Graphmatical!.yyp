@@ -168,6 +168,7 @@
     {"id":{"name":"sWorldTiles","path":"sprites/sWorldTiles/sWorldTiles.yy",},"order":1,},
     {"id":{"name":"sBorder1","path":"sprites/sBorder1/sBorder1.yy",},"order":0,},
     {"id":{"name":"oCheckFlag","path":"objects/oCheckFlag/oCheckFlag.yy",},"order":3,},
+    {"id":{"name":"oWalkerSpikeSpawnPoint","path":"objects/oWalkerSpikeSpawnPoint/oWalkerSpikeSpawnPoint.yy",},"order":1,},
     {"id":{"name":"be_scrTileContactGenStruct","path":"scripts/be_scrTileContactGenStruct/be_scrTileContactGenStruct.yy",},"order":2,},
     {"id":{"name":"rTutorialLevel","path":"rooms/rTutorialLevel/rTutorialLevel.yy",},"order":0,},
     {"id":{"name":"sPortal","path":"sprites/sPortal/sPortal.yy",},"order":0,},

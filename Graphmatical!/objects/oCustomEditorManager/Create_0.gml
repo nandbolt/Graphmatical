@@ -179,6 +179,9 @@ saveLevel = function()
 			case oBallSpikeSpawnPoint:
 				_type = 2;
 				break;
+			case oWalkerSpikeSpawnPoint:
+				_type = 3;
+				break;
 		}
 		var _sp =
 		{

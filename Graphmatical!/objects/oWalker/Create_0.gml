@@ -73,3 +73,6 @@ die = function()
 }
 
 #endregion
+
+// Set interactable alarm
+alarm[2] = 30;

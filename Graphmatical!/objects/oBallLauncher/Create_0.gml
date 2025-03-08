@@ -39,6 +39,18 @@ interactReleased = function()
 		case sBallSpike:
 			_obj = oBallSpike;
 			break;
+		case sWalker:
+			_obj = oWalker;
+			break;
+		case sWalkerSide:
+			_obj = oWalker;
+			break;
+		case sWalkerSpike:
+			_obj = oWalkerSpike;
+			break;
+		case sWalkerSpikeSide:
+			_obj = oWalkerSpike;
+			break;
 	}
 	
 	// Spawn ball
@@ -62,6 +74,9 @@ interactReleased = function()
 ///	@func	loadCannon(inst);
 loadCannon = function(_inst)
 {
+	// Return if already loaded
+	if (loadedSprite != -1) return;
+	
 	// Set loaded sprite
 	loadedSprite = _inst.sprite_index;
 	sprite_index = sBallCannonLoaded;

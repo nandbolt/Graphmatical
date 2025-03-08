@@ -276,6 +276,9 @@ loadLevel = function()
 							case 2:
 								_obj = oBallSpikeSpawnPoint;
 								break;
+							case 3:
+								_obj = oWalkerSpikeSpawnPoint;
+								break;
 						}
 					}
 					else
@@ -288,6 +291,9 @@ loadLevel = function()
 								break;
 							case 2:
 								_obj = oBallSpike;
+								break;
+							case 3:
+								_obj = oWalkerSpike;
 								break;
 						}
 					}

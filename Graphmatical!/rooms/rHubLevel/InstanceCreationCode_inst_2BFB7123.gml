@@ -1,1 +1,0 @@
-imageAngle = 180;
