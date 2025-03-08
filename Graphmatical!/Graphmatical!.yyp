@@ -6,6 +6,7 @@
     {"id":{"name":"scrGuiControllerStruct","path":"scripts/scrGuiControllerStruct/scrGuiControllerStruct.yy",},"order":1,},
     {"id":{"name":"sWalker","path":"sprites/sWalker/sWalker.yy",},"order":0,},
     {"id":{"name":"oCollectableFade","path":"objects/oCollectableFade/oCollectableFade.yy",},"order":1,},
+    {"id":{"name":"sTube","path":"sprites/sTube/sTube.yy",},"order":2,},
     {"id":{"name":"be_sBPPlayer","path":"sprites/be_sBPPlayer/be_sBPPlayer.yy",},"order":4,},
     {"id":{"name":"rLaserLevel","path":"rooms/rLaserLevel/rLaserLevel.yy",},"order":1,},
     {"id":{"name":"tsWorld","path":"tilesets/tsWorld/tsWorld.yy",},"order":1,},

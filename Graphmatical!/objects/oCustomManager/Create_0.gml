@@ -314,6 +314,33 @@ loadLevel = function()
 	
 	#endregion
 	
+	#region Crystals
+	
+	// Get sign data string
+	var _crystalDataString = ini_read_string("objs", "crystals", "");
+	if (_crystalDataString != "")
+	{
+		_crystalDataString = string_replace_all(_crystalDataString, "$", "\"");
+		var _crystalData = json_parse(_crystalDataString);
+		if (is_array(_crystalData))
+		{
+			// Init all axes
+			while (array_length(_crystalData) > 0)
+			{
+				var _crystal = array_pop(_crystalData);
+				if (is_struct(_crystal))
+				{
+					with (instance_create_layer(_crystal.x, _crystal.y, "Instances", oCrystal))
+					{
+						active = _crystal.active;
+					}
+				}
+			}
+		}
+	}
+	
+	#endregion
+	
 	// Close
 	ini_close();
 	

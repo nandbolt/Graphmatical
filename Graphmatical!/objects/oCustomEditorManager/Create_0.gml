@@ -200,6 +200,24 @@ saveLevel = function()
 	
 	#endregion
 	
+	#region Crystals
+	
+	var _crystalData = [];
+	with (oCrystal)
+	{
+		var _crystal =
+		{
+			x : x,
+			y : y,
+			active : active,
+		}
+		array_push(_crystalData, _crystal);
+	}
+	var _crystalDataString = json_stringify(_crystalData);
+	_crystalDataString = string_replace_all(_crystalDataString, "\"", "$");
+	
+	#endregion
+	
 	// Open
 	ini_open(fileName);
 	
@@ -216,6 +234,7 @@ saveLevel = function()
 	ini_write_string("objs", "spikes", _spikeDataString);
 	ini_write_string("objs", "launchers", _launcherDataString);
 	ini_write_string("objs", "spawns", _spawnDataString);
+	ini_write_string("objs", "crystals", _crystalDataString);
 	
 	// Close
 	ini_close();
