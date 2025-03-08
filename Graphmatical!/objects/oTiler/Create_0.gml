@@ -10,7 +10,7 @@ currentIdx = 1;
 currentSprite = noone;
 previousTile = 0;
 lastTileIdx = 6;
-objectCount = 13;
+objectCount = 14;
 maxIdx = lastTileIdx + objectCount;
 
 #region Functions
@@ -82,6 +82,11 @@ toggleTile = function()
 				else if (currentIdx == (lastTileIdx + 11)) _obj = oWalkerSpikeSpawnPoint;
 				else if (currentIdx == (lastTileIdx + 12)) _obj = oCubeSpawnPoint;
 				else if (currentIdx == (lastTileIdx + 13)) _obj = oCrystal;
+				else if (currentIdx == (lastTileIdx + 14))
+				{
+					_obj = oSpikeGrid;
+					_layerName = "MiddleBackgroundInstances";
+				}
 				if (_obj != noone) instance_create_layer(x, y, _layerName, _obj);
 			}
 			else
@@ -136,6 +141,7 @@ cycleIdx = function(_idx)
 		else if (currentIdx == (lastTileIdx + 11)) currentSprite = sWalkerSpike;
 		else if (currentIdx == (lastTileIdx + 12)) currentSprite = sCube;
 		else if (currentIdx == (lastTileIdx + 13)) currentSprite = sCrystal;
+		else if (currentIdx == (lastTileIdx + 14)) currentSprite = sSpikeGridUnpowered;
 	}
 	
 	// Cycle sound

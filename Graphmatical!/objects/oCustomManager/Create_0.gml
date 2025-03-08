@@ -213,7 +213,12 @@ loadLevel = function()
 			while (array_length(_spikeData) > 0)
 			{
 				var _spike = array_pop(_spikeData);
-				if (is_struct(_spike)) instance_create_layer(_spike.x, _spike.y, "BackgroundInstances", oSpike);
+				if (is_struct(_spike))
+				{
+					var _obj = oSpike;
+					if (variable_struct_exists(_spike, "type") && _spike.type == 1) _obj = oSpikeGrid;
+					instance_create_layer(_spike.x, _spike.y, "BackgroundInstances", _obj);
+				}
 			}
 		}
 	}

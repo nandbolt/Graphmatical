@@ -2,4 +2,4 @@
 event_inherited();
 
 // Blend
-image_blend = #FFFC40;
+image_blend = #CDF7E2;

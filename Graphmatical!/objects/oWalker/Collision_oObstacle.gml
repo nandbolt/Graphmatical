@@ -1,2 +1,2 @@
 // Dead state
-if (other.active) dead = true;
+if (!glitched && other.active) dead = true;

@@ -139,6 +139,17 @@ saveLevel = function()
 		{
 			x : x,
 			y : y,
+			type : 0,
+		}
+		array_push(_spikeData, _spike);
+	}
+	with (oSpikeGrid)
+	{
+		var _spike =
+		{
+			x : x,
+			y : y,
+			type : 1,
 		}
 		array_push(_spikeData, _spike);
 	}
