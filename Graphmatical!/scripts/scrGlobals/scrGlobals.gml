@@ -69,6 +69,10 @@ enum GraphType
 	LASER,
 	BOUNCY,
 	DOTTED,
+	TUBE,
+	DOTTED_TUBE,
+	TUBE_POWERED,
+	DOTTED_TUBE_POWERED,
 }
 
 #endregion

@@ -14,6 +14,9 @@ upperRange = 5;
 // Material
 material = GraphType.NORMAL;
 
+// Power
+residualPowerTime = 30;
+
 #region Functions
 
 /// @func	setAxesSize({int} tileWidth, {int} tileHeight);
@@ -44,6 +47,22 @@ regraphEquations = function()
 			set(expressionString);
 		}
 	}
+}
+
+///	@func	togglePower(on);
+togglePower = function(_on)
+{
+	if (_on)
+	{
+		if (material == GraphType.TUBE) material = GraphType.TUBE_POWERED;
+		else if (material == GraphType.DOTTED_TUBE) material = GraphType.DOTTED_TUBE_POWERED;
+	}
+	else
+	{
+		if (material == GraphType.TUBE_POWERED) material = GraphType.TUBE;
+		else if (material == GraphType.DOTTED_TUBE_POWERED) material = GraphType.DOTTED_TUBE;
+	}
+	alarm[1] = residualPowerTime;
 }
 
 #endregion

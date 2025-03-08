@@ -92,7 +92,20 @@ function Equation(_axes) constructor
 		else if (axes.material == GraphType.BOUNCY) _color = #bc4a9b;
 		else if (axes.material == GraphType.DOTTED)
 		{
-			_color = c_white;
+			_alpha = 0.5;
+			_style = 1;
+		}
+		else if (axes.material == GraphType.TUBE) _sprite = sTube;
+		else if (axes.material == GraphType.DOTTED_TUBE)
+		{
+			_sprite = sTube;
+			_alpha = 0.5;
+			_style = 1;
+		}
+		else if (axes.material == GraphType.TUBE_POWERED) _sprite = sTubePowered;
+		else if (axes.material == GraphType.DOTTED_TUBE_POWERED)
+		{
+			_sprite = sTubePowered;
 			_alpha = 0.5;
 			_style = 1;
 		}
@@ -131,7 +144,7 @@ function Equation(_axes) constructor
 		
 		// Segment sprite info
 		var _subImg = 0;
-		if (_lineSprite == sLaser) _subImg = (floor(current_time * 0.016)) % 4;
+		if (_lineSprite == sLaser || _lineSprite == sTubePowered) _subImg = (floor(current_time * 0.016)) % 4;
 		
 		// Loop through values
 		for (var _i = 0; _i < _xCount - 1; _i++)

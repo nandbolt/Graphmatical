@@ -39,6 +39,34 @@ if (active)
 			}
 		}
 	}
+	
+	// If powered
+	if (isPowered())
+	{
+		// Check powerlines
+		var _axesList = ds_list_create();
+		var _axesCount = instance_place_list(x, y, oAxes, _axesList, false);
+		for (var _i = 0; _i < _axesCount; _i++)
+		{
+			var _axes = _axesList[| _i];
+			if (_axes.material == GraphType.TUBE || _axes.material == GraphType.DOTTED_TUBE)
+			{
+				for (var _j = 0; _j < array_length(_axes.equations); _j++)
+				{
+					if (graphTouching(_axes.equations[_j], self.id))
+					{
+						// Power on graph
+						with (_axes)
+						{
+							togglePower(true);
+						}
+						break;
+					}
+				}
+			}
+		}
+		ds_list_destroy(_axesList);
+	}
 }
 
 // Reset alarm
