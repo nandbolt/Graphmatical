@@ -35,7 +35,7 @@ togglePower = function(_on, _source=noone)
 	powerSource = _source;
 	
 	// Alarm
-	alarm[1] = residualPowerTime;
+	if (_on) alarm[1] = residualPowerTime;
 }
 
 ///	@func	interactPressed();
@@ -48,6 +48,12 @@ interactPressed = function()
 	
 	// Toggle sfx
 	audio_play_sound(sfxButtonPressed, 2, false);
+}
+
+///	@func	isPowered();
+isPowered = function()
+{
+	return alarm[1] != -1;
 }
 
 // Start check alarm

@@ -1,2 +1,2 @@
 // Dead state
-dead = true;
+if (other.active) dead = true;

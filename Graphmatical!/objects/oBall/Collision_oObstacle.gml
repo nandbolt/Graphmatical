@@ -1,2 +1,2 @@
 // Death
-die();
+if (other.active) die();
