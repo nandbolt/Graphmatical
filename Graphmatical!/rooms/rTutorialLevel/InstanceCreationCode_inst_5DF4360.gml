@@ -1,7 +1,7 @@
 // Init graph
-axesOffsetX = -30;
+axesOffsetX = -34;
 axesOffsetY = -1;
-axesWidth = 8;
+axesWidth = 12;
 axesHeight = 10;
 initialEquations = [""];
 initGraph();

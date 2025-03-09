@@ -1,2 +1,2 @@
-text = "To pass through a thin platform, hold down and press jump. If you're moving while holding down you can slide!";
+text = "Hold down and press jump to pass through a thin platforms. If you're moving while holding down you can slide!";
 name = "Thin platforms"

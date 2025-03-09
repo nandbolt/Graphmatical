@@ -1,2 +1,2 @@
-text = "Graphing terminals allow you to graph equations! Just interact, choose an equation slot, type a valid equation and press enter to graph! Try changing the equation to y = 0.";
+text = "Graphing terminals allow you to graph equations! Just interact, choose an equation slot (with the mouse), type a valid equation and press enter to graph! Try changing the equation to y = 0.";
 name = "Graphing terminals";

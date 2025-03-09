@@ -12,6 +12,22 @@ if (visibleToCamera(self))
 	
 		// Origin
 		draw_sprite(sDot, 0, x, y);
+		
+		// X + Y
+		draw_set_halign(fa_left);
+		draw_set_valign(fa_middle);
+		draw_text_transformed(bbox_right + 4, y, "x", 0.5, 0.5, 0);
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_bottom);
+		draw_text_transformed(x, bbox_top - 4, "y", 0.5, 0.5, 0);
+		
+		// Numbers
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
+		draw_text_transformed(x + TILE_SIZE, y - 4, "1", 0.5, 0.5, 0);
+		draw_text_transformed(x - TILE_SIZE, y - 4, "-1", 0.5, 0.5, 0);
+		draw_text_transformed(x - 6, y - TILE_SIZE, "1", 0.5, 0.5, 0);
+		draw_text_transformed(x - 6, y + TILE_SIZE, "-1", 0.5, 0.5, 0);
 	}
 
 	// Graphs

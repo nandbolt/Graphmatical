@@ -67,6 +67,8 @@ function PauserMenu() : Menu() constructor
 		_y += 16;
 		if (oLevel.globalTiling) draw_text(_x, _y, "Tiling enabled (<-)");
 		else draw_text(_x, _y, "Tiling disabled");
+		_y += 32;
+		draw_text(_x, _y, "fullscreen: f11");
 		
 		// Switch editor
 		draw_set_halign(fa_right);
