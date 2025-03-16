@@ -19,6 +19,12 @@ if (keyboard_check_pressed(vk_f11))
 		surface_resize(application_surface, _w, _h);
 	}
 }
+else if (keyboard_check_pressed(vk_f10) && os_browser == browser_not_a_browser)
+{
+	// Save a screenshot
+	screen_save(working_directory + "screenshots/sc_" + string(screenshotIdx) + ".png");
+	screenshotIdx++;
+}
 
 // If using a browser
 if (os_browser != browser_not_a_browser)

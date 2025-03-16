@@ -20,6 +20,9 @@ baseCamHeight = 180;
 worleyWidth = baseCanvasWidth * 0.75;
 worleyHeight = baseCanvasHeight * 0.75;
 
+// Screenshot
+screenshotIdx = 0;
+
 #region Functions
 
 /// @func	browserScaleCanvas({int} baseWidth, {int} baseHeight, {int} currentWidth, {int} currentHeight, {bool} center);
